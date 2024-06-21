@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:new_blogger/core/theme/app_pallete.dart';
+import 'package:new_blogger/core/theme/appbar_theme.dart';
+import 'package:new_blogger/core/theme/bottomsheet_theme.dart';
+import 'package:new_blogger/core/theme/elevated_button.dart';
+import 'package:new_blogger/core/theme/outlined_button.dart';
+import 'package:new_blogger/core/theme/text_theme.dart';
+import 'package:new_blogger/core/theme/textinput_fields.dart';
 
 class AppTheme {
   static final lightThemeMode = ThemeData.light().copyWith(
@@ -9,31 +15,19 @@ class AppTheme {
       primary: AppPallete.gradient1,
       secondary: AppPallete.gradient2,
     ),
-    appBarTheme: const AppBarTheme(
-      color: AppPallete.gradient1,
-      iconTheme: IconThemeData(color: AppPallete.whiteColor),
-    ),
-    inputDecorationTheme: InputDecorationTheme(
-      contentPadding: const EdgeInsets.all(27),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        borderSide: const BorderSide(color: AppPallete.borderColor,width: 3),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12.0),
-        borderSide: const BorderSide(color: AppPallete.gradient1),
-      ),
-    ),
+    appBarTheme: AppBarThemes.lightAppBarTheme,
+    bottomSheetTheme: FBottomsheetThemes.lightBottomSheetTheme,
+    inputDecorationTheme: FTextFieldTheme.lightInputDecorationTheme,
+    outlinedButtonTheme: FOutlineButtonTheme.lightOutlineButtonTheme,
+    elevatedButtonTheme: FElevatedButtonTheme.lightElevatedButtonTheme,
     buttonTheme: ButtonThemeData(
       buttonColor: AppPallete.gradient1,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
       ),
     ),
-    textTheme: const TextTheme(
-      bodyLarge: TextStyle(color: AppPallete.greyColor),
-      bodyMedium: TextStyle(color: AppPallete.greyColor),
-    ),
+    textTheme: FTextTheme.lightTextTheme,
+    
   );
 
   static final darkThemeMode = ThemeData.dark().copyWith(
@@ -43,30 +37,19 @@ class AppTheme {
       primary: AppPallete.gradient2,
       secondary: AppPallete.gradient3,
     ),
-    appBarTheme: const AppBarTheme(
-      color: AppPallete.backgroundColor,
-      iconTheme: IconThemeData(color: AppPallete.whiteColor),
-    ),
-    inputDecorationTheme: InputDecorationTheme(
-      contentPadding: const EdgeInsets.all(27),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        borderSide: const BorderSide(color: AppPallete.borderColor,width: 3),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12.0),
-        borderSide: const BorderSide(color: AppPallete.gradient2),
-      ),
-    ),
+    appBarTheme: AppBarThemes.darkAppBarTheme,
+    bottomSheetTheme: FBottomsheetThemes.darkBottomSheetTheme,
+    inputDecorationTheme: FTextFieldTheme.darkInputDecorationTheme,
+    outlinedButtonTheme: FOutlineButtonTheme.darkOutlineButtonTheme,
+    elevatedButtonTheme: FElevatedButtonTheme.darkElevatedButtonTheme,
+    
+    
     buttonTheme: ButtonThemeData(
       buttonColor: AppPallete.gradient2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
       ),
     ),
-    textTheme: const TextTheme(
-      bodyLarge: TextStyle(color: AppPallete.whiteColor),
-      bodyMedium: TextStyle(color: AppPallete.whiteColor),
-    ),
+    textTheme: FTextTheme.darkTextTheme
   );
 }
