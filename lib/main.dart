@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_blogger/app.dart';
+import 'package:new_blogger/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:new_blogger/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:new_blogger/init_dependecies.dart';
 
@@ -9,6 +10,9 @@ void main() async {
   await initDependencies();
   runApp(MultiBlocProvider(
     providers: [
+      BlocProvider(
+        create: (_) => serviceLocator<AppUserCubit>(),
+      ),
       BlocProvider(
         create: (_) => serviceLocator<AuthBloc>(),
       ),
