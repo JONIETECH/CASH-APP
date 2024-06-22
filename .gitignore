@@ -30,6 +30,11 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+# Additional Flutter/Dart related files
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-version
 
 # Symbolication related
 app.*.symbols
@@ -41,3 +46,43 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# iOS related
+ios/Pods/
+ios/Flutter/Flutter.framework/
+ios/Flutter/Flutter.podspec
+ios/Flutter/.symlinks
+ios/Flutter/engine/
+ios/Flutter/flutter_assets/
+ios/ServiceDefinitions.json
+ios/Runner/GeneratedPluginRegistrant.*
+
+# Android related
+android/local.properties
+android/.gradle/
+android/.idea/
+android/build/
+android/app/app.iml
+android/app/src/debug/
+android/app/src/profile/
+android/app/src/release/
+
+# Web related
+web/.dart_tool/
+web/build/
+
+# macOS related
+macos/.dart_tool/
+macos/build/
+
+# Windows related
+windows/.dart_tool/
+windows/build/
+
+# Linux related
+linux/.dart_tool/
+linux/build/
+
+# Plugin related
+plugin/.dart_tool/
+plugin/build/
