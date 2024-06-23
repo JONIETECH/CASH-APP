@@ -1,3 +1,4 @@
+import 'package:finance_tracker/core/theme/chiptheme.dart';
 import 'package:flutter/material.dart';
 import 'package:finance_tracker/core/theme/app_pallete.dart';
 import 'package:finance_tracker/core/theme/appbar_theme.dart';
@@ -27,6 +28,7 @@ class AppTheme {
       ),
     ),
     textTheme: FTextTheme.lightTextTheme,
+    chipTheme : FChipTheme.lightChipTheme,
   );
 
   static final darkThemeMode = ThemeData.dark().copyWith(
@@ -47,5 +49,8 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12.0),
         ),
       ),
-      textTheme: FTextTheme.darkTextTheme);
+      textTheme: FTextTheme.darkTextTheme,
+      chipTheme : FChipTheme.darkChipTheme,
+      
+  );
 }
