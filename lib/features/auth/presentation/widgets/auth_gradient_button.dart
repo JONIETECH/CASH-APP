@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:new_blogger/core/theme/app_pallete.dart';
+import 'package:finance_tracker/core/theme/app_pallete.dart';
 
 class AuthGradientButton extends StatelessWidget {
   final String buttonText;

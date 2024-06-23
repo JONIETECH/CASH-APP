@@ -16,11 +16,6 @@ migrate_working_dir/
 *.iws
 .idea/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
-
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
@@ -86,3 +81,60 @@ linux/build/
 # Plugin related
 plugin/.dart_tool/
 plugin/build/
+
+# Visual Studio Code specific files
+.vscode/
+*.code-workspace
+
+# Temporary files
+*.temp
+
+# Editor backup files
+*~
+
+# Test coverage reports (if applicable)
+coverage/
+
+# System and hidden files
+.DS_Store
+Thumbs.db
+
+# Gradle specific
+.gradle/
+/captures/
+/lint/
+
+# CocoaPods generated files
+Podfile.lock
+Pods/
+*.xcodeproj/
+*.xcworkspace/
+
+# Custom cache directories
+/cache/
+/generated/
+
+# Node.js specific
+node_modules/
+npm-debug.log
+
+# Package manager lock files
+yarn.lock
+package-lock.json
+
+# IDE specific configurations
+.settings/
+.metadata/
+
+# IDE specific cache
+.caches/
+
+# Visual Studio build artifacts
+*.suo
+*.user
+*.sln.docstates
+*.sln.cache
+
+# Temporary directories
+/backup/
+/tmp/

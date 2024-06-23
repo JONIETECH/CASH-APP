@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_blogger/core/common/cubits/app_user/app_user_cubit.dart';
-import 'package:new_blogger/core/theme/theme.dart';
-import 'package:new_blogger/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:new_blogger/features/auth/presentation/pages/login_page.dart';
+import 'package:finance_tracker/core/common/cubits/app_user/app_user_cubit.dart';
+import 'package:finance_tracker/core/theme/theme.dart';
+import 'package:finance_tracker/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:finance_tracker/features/auth/presentation/pages/login_page.dart';
 
 class MainApp extends StatefulWidget {
   const MainApp({super.key});

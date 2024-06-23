@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_blogger/core/common/entities/user.dart';
+import 'package:finance_tracker/core/common/entities/user.dart';
 
 part 'app_user_state.dart';
 

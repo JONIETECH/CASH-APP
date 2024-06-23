@@ -1,13 +1,13 @@
 import 'package:get_it/get_it.dart';
-import 'package:new_blogger/core/common/cubits/app_user/app_user_cubit.dart';
-import 'package:new_blogger/core/secrets/app_secrets.dart';
-import 'package:new_blogger/features/auth/data/datasources/auth_remote_data_source.dart';
-import 'package:new_blogger/features/auth/data/repositories/auth_repository_impl.dart';
-import 'package:new_blogger/features/auth/domain/repository/auth_repository.dart';
-import 'package:new_blogger/features/auth/domain/usecases/current_user.dart';
-import 'package:new_blogger/features/auth/domain/usecases/user_login.dart';
-import 'package:new_blogger/features/auth/domain/usecases/user_sign_up.dart';
-import 'package:new_blogger/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:finance_tracker/core/common/cubits/app_user/app_user_cubit.dart';
+import 'package:finance_tracker/core/secrets/app_secrets.dart';
+import 'package:finance_tracker/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:finance_tracker/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:finance_tracker/features/auth/domain/repository/auth_repository.dart';
+import 'package:finance_tracker/features/auth/domain/usecases/current_user.dart';
+import 'package:finance_tracker/features/auth/domain/usecases/user_login.dart';
+import 'package:finance_tracker/features/auth/domain/usecases/user_sign_up.dart';
+import 'package:finance_tracker/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final serviceLocator = GetIt.instance;

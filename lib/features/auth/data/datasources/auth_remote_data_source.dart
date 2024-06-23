@@ -1,5 +1,5 @@
-import 'package:new_blogger/core/error/exceptions.dart';
-import 'package:new_blogger/features/auth/data/models/user_model.dart';
+import 'package:finance_tracker/core/error/exceptions.dart';
+import 'package:finance_tracker/features/auth/data/models/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class AuthRemoteDataSource {
@@ -35,8 +35,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw const ServerException("User is null");
       }
       return UserModel.fromJson(response.user!.toJson()).copyWith(
-          email: currentUserSession!.user.email,
-        );
+        email: currentUserSession!.user.email,
+      );
     } catch (e) {
       throw ServerException(e.toString());
     }
@@ -60,8 +60,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw const ServerException("User is null");
       }
       return UserModel.fromJson(response.user!.toJson()).copyWith(
-          email: currentUserSession!.user.email,
-        );
+        email: currentUserSession!.user.email,
+      );
     } catch (e) {
       throw ServerException(e.toString());
     }

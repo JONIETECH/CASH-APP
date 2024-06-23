@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:new_blogger/core/theme/app_pallete.dart';
-import 'package:new_blogger/core/theme/appbar_theme.dart';
-import 'package:new_blogger/core/theme/bottomsheet_theme.dart';
-import 'package:new_blogger/core/theme/elevated_button.dart';
-import 'package:new_blogger/core/theme/outlined_button.dart';
-import 'package:new_blogger/core/theme/text_theme.dart';
-import 'package:new_blogger/core/theme/textinput_fields.dart';
+import 'package:finance_tracker/core/theme/app_pallete.dart';
+import 'package:finance_tracker/core/theme/appbar_theme.dart';
+import 'package:finance_tracker/core/theme/bottomsheet_theme.dart';
+import 'package:finance_tracker/core/theme/elevated_button.dart';
+import 'package:finance_tracker/core/theme/outlined_button.dart';
+import 'package:finance_tracker/core/theme/text_theme.dart';
+import 'package:finance_tracker/core/theme/textinput_fields.dart';
 
 class AppTheme {
   static final lightThemeMode = ThemeData.light().copyWith(
@@ -27,29 +27,25 @@ class AppTheme {
       ),
     ),
     textTheme: FTextTheme.lightTextTheme,
-    
   );
 
   static final darkThemeMode = ThemeData.dark().copyWith(
-    scaffoldBackgroundColor: AppPallete.backgroundColor,
-    primaryColor: AppPallete.gradient2,
-    colorScheme: const ColorScheme.dark(
-      primary: AppPallete.gradient2,
-      secondary: AppPallete.gradient3,
-    ),
-    appBarTheme: AppBarThemes.darkAppBarTheme,
-    bottomSheetTheme: FBottomsheetThemes.darkBottomSheetTheme,
-    inputDecorationTheme: FTextFieldTheme.darkInputDecorationTheme,
-    outlinedButtonTheme: FOutlineButtonTheme.darkOutlineButtonTheme,
-    elevatedButtonTheme: FElevatedButtonTheme.darkElevatedButtonTheme,
-    
-    
-    buttonTheme: ButtonThemeData(
-      buttonColor: AppPallete.gradient2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
+      scaffoldBackgroundColor: AppPallete.backgroundColor,
+      primaryColor: AppPallete.gradient2,
+      colorScheme: const ColorScheme.dark(
+        primary: AppPallete.gradient2,
+        secondary: AppPallete.gradient3,
       ),
-    ),
-    textTheme: FTextTheme.darkTextTheme
-  );
+      appBarTheme: AppBarThemes.darkAppBarTheme,
+      bottomSheetTheme: FBottomsheetThemes.darkBottomSheetTheme,
+      inputDecorationTheme: FTextFieldTheme.darkInputDecorationTheme,
+      outlinedButtonTheme: FOutlineButtonTheme.darkOutlineButtonTheme,
+      elevatedButtonTheme: FElevatedButtonTheme.darkElevatedButtonTheme,
+      buttonTheme: ButtonThemeData(
+        buttonColor: AppPallete.gradient2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+      ),
+      textTheme: FTextTheme.darkTextTheme);
 }

@@ -1,9 +1,9 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:new_blogger/core/error/exceptions.dart';
-import 'package:new_blogger/core/error/failure.dart';
-import 'package:new_blogger/features/auth/data/datasources/auth_remote_data_source.dart';
-import 'package:new_blogger/core/common/entities/user.dart';
-import 'package:new_blogger/features/auth/domain/repository/auth_repository.dart';
+import 'package:finance_tracker/core/error/exceptions.dart';
+import 'package:finance_tracker/core/error/failure.dart';
+import 'package:finance_tracker/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:finance_tracker/core/common/entities/user.dart';
+import 'package:finance_tracker/features/auth/domain/repository/auth_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 class AuthRepositoryImpl implements AuthRepository {
