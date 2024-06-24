@@ -1,6 +1,8 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:new_blogger/core/error/failure.dart';
+import 'package:finance_tracker/core/error/failure.dart';
 
-abstract interface class UseCase<SuccessType,Params> {
+abstract interface class UseCase<SuccessType, Params> {
   Future<Either<Failure, SuccessType>> call(Params params);
 }
+
+class NoParams {}

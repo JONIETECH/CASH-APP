@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_blogger/core/theme/app_pallete.dart';
-import 'package:new_blogger/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:new_blogger/features/auth/presentation/pages/login_page.dart';
-import 'package:new_blogger/features/auth/presentation/widgets/auth_field.dart';
-import 'package:new_blogger/features/auth/presentation/widgets/auth_gradient_button.dart';
+import 'package:finance_tracker/core/common/widgets/loader.dart';
+import 'package:finance_tracker/core/theme/app_pallete.dart';
+import 'package:finance_tracker/core/utils/show_snackbar.dart';
+import 'package:finance_tracker/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:finance_tracker/features/auth/presentation/pages/login_page.dart';
+import 'package:finance_tracker/features/auth/presentation/widgets/auth_field.dart';
+import 'package:finance_tracker/features/auth/presentation/widgets/auth_gradient_button.dart';
 
 class SignupPage extends StatefulWidget {
   static route() => MaterialPageRoute(
@@ -40,12 +42,15 @@ class _SignupPageState extends State<SignupPage> {
           padding: const EdgeInsets.all(15.0),
           child: BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
-              // TODO: implement listener
+              if (state is AuthFailure) {
+                showSnackBar(context, state.message);
+              }
             },
             builder: (context, state) {
-              if(state is AuthLoading) {
-                
+              if (state is AuthLoading) {
+                return const Loader();
               }
+
               return Form(
                 key: formKey,
                 child: Column(

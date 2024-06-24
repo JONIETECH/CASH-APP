@@ -16,11 +16,6 @@ migrate_working_dir/
 *.iws
 .idea/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
-
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
@@ -30,6 +25,11 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+# Additional Flutter/Dart related files
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-version
 
 # Symbolication related
 app.*.symbols
@@ -41,3 +41,100 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# iOS related
+ios/Pods/
+ios/Flutter/Flutter.framework/
+ios/Flutter/Flutter.podspec
+ios/Flutter/.symlinks
+ios/Flutter/engine/
+ios/Flutter/flutter_assets/
+ios/ServiceDefinitions.json
+ios/Runner/GeneratedPluginRegistrant.*
+
+# Android related
+android/local.properties
+android/.gradle/
+android/.idea/
+android/build/
+android/app/app.iml
+android/app/src/debug/
+android/app/src/profile/
+android/app/src/release/
+
+# Web related
+web/.dart_tool/
+web/build/
+
+# macOS related
+macos/.dart_tool/
+macos/build/
+
+# Windows related
+windows/.dart_tool/
+windows/build/
+
+# Linux related
+linux/.dart_tool/
+linux/build/
+
+# Plugin related
+plugin/.dart_tool/
+plugin/build/
+
+# Visual Studio Code specific files
+.vscode/
+*.code-workspace
+
+# Temporary files
+*.temp
+
+# Editor backup files
+*~
+
+# Test coverage reports (if applicable)
+coverage/
+
+# System and hidden files
+.DS_Store
+Thumbs.db
+
+# Gradle specific
+.gradle/
+/captures/
+/lint/
+
+# CocoaPods generated files
+Podfile.lock
+Pods/
+*.xcodeproj/
+*.xcworkspace/
+
+# Custom cache directories
+/cache/
+/generated/
+
+# Node.js specific
+node_modules/
+npm-debug.log
+
+# Package manager lock files
+yarn.lock
+package-lock.json
+
+# IDE specific configurations
+.settings/
+.metadata/
+
+# IDE specific cache
+.caches/
+
+# Visual Studio build artifacts
+*.suo
+*.user
+*.sln.docstates
+*.sln.cache
+
+# Temporary directories
+/backup/
+/tmp/
