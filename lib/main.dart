@@ -5,6 +5,7 @@ import 'package:finance_tracker/core/common/cubits/app_user/app_user_cubit.dart'
 import 'package:finance_tracker/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:finance_tracker/init_dependecies.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initDependencies();
@@ -19,4 +20,5 @@ void main() async {
     ],
     child: const MainApp(),
   ));
+  
 }
