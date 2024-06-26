@@ -110,7 +110,7 @@ class _SettingsPageState extends State<SettingsPage> {
         ],
       ),
       body: Container(
-        color: Colors.grey[200],
+        //color: Colors.grey[200],
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
