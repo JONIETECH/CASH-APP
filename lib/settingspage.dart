@@ -36,23 +36,13 @@ class _SettingsPageState extends State<SettingsPage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       // Handle the save action
-      print('Settings saved');
-      print('Username: $_username');
-      print('Email: $_email');
-      print('Password: $_password');
-      print('Notifications: $_notifications');
-      print('Dark Mode: $_darkMode');
-      print('Theme: $_theme');
-      print('Language: $_language');
-      print('Location Access: $_locationAccess');
-      print('Profile Picture URL: $_profilePictureUrl');
-      print('Currency Format: $_currencyFormat');
+     
     }
   }
 
   void _logout() {
     // Implement the logic to log out the user
-    print('User logged out');
+    
   }
 
   void _showHelp() {
@@ -228,41 +218,41 @@ class _SettingsPageState extends State<SettingsPage> {
                     child: Text('Reset'),
                   ),
                 ),
-                Divider(),
+                const Divider(),
                 ListTile(
-                  leading: Icon(Icons.password),
-                  title: Text('Change Password'),
+                  leading: const Icon(Icons.password),
+                  title: const Text('Change Password'),
                   trailing: ElevatedButton(
                     onPressed: _changePassword,
-                    child: Text('Change'),
+                    child: const Text('Change'),
                   ),
                 ),
                 ListTile(
-                  leading: Icon(Icons.pin),
-                  title: Text('Change PIN'),
+                  leading: const Icon(Icons.pin),
+                  title: const Text('Change PIN'),
                   trailing: ElevatedButton(
                     onPressed: _changePin,
-                    child: Text('Change'),
+                    child: const Text('Change'),
                   ),
                 ),
                 ListTile(
-                  leading: Icon(Icons.fingerprint),
-                  title: Text('Setup Biometric Login'),
+                  leading: const Icon(Icons.fingerprint),
+                  title: const Text('Setup Biometric Login'),
                   trailing: ElevatedButton(
                     onPressed: _setupBiometricLogin,
-                    child: Text('Setup'),
+                    child: const Text('Setup'),
                   ),
                 ),
-                Divider(),
+                const Divider(),
                 ListTile(
-                  leading: Icon(Icons.delete_forever),
-                  title: Text('Delete Account'),
+                  leading: const Icon(Icons.delete_forever),
+                  title: const Text('Delete Account'),
                   trailing: ElevatedButton(
                     onPressed: _deleteAccount,
-                    child: Text('Delete'),
+                    child: const Text('Delete'),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: _saveSettings,
                   child: const Text(
@@ -270,7 +260,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Center(
                   child: Text(
                     '© 2024 Finance Tracker. All rights reserved.',
