@@ -1,6 +1,11 @@
+
+import 'package:finance_tracker/features/settings/presentation/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 
 class AppDrawer extends StatelessWidget {
+  static route() => MaterialPageRoute(
+        builder: (context) => const AppDrawer(),
+      );
   const AppDrawer({super.key});
 
   @override
@@ -81,7 +86,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.settings),
             title: const Text('Settings'),
             onTap: () {
-              // Implement settings
+              Navigator.push(context, SettingsPage.route());
             },
           ),
           ListTile(
