@@ -17,7 +17,7 @@ class _TrackBudgetsState extends State<TrackBudgets> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Track budgets",style: TextStyle(
+        title: const Text("Track budgets",style: TextStyle(
           fontWeight: FontWeight.bold,
         ),),
       ),
