@@ -24,12 +24,12 @@ class AuthGradientButton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
             fixedSize: const Size(395, 55),
-            backgroundColor: AppPallete.transparentColor,
+            //backgroundColor: AppPallete.transparentColor,
             shadowColor: AppPallete.transparentColor),
         child: Text(
           buttonText,
           style: const TextStyle(
-              fontSize: 17, fontWeight: FontWeight.w600, color: Colors.black),
+              fontSize: 17, fontWeight: FontWeight.w600,),
         ),
       ),
     );

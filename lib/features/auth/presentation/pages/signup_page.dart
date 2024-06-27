@@ -36,7 +36,9 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     //_formKey.currentState!.validate();
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.blueGrey,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(15.0),
@@ -56,12 +58,20 @@ class _SignupPageState extends State<SignupPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 100),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Image.asset('assets/images/logos/light.jpg',
+                      width: 200,
+                      height: 200,
+                      fit: BoxFit.cover
+                      )
+                    ),
+                    const SizedBox(height: 50),
                     // To ensure content is centered
                     const Text(
-                      'Sign Up:',
+                      'Enter your details',
                       style:
-                          TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 30,
@@ -112,10 +122,11 @@ class _SignupPageState extends State<SignupPage> {
                       child: RichText(
                         text: TextSpan(
                           text: "Already have an account? ",
+                          
                           style: Theme.of(context).textTheme.titleMedium,
                           children: [
                             TextSpan(
-                              text: "Sign in:",
+                              text: " Login In",
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium

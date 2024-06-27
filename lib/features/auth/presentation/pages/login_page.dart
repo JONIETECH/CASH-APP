@@ -1,3 +1,4 @@
+import 'package:finance_tracker/features/auth/presentation/pages/forgot.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:finance_tracker/core/common/widgets/loader.dart';
@@ -35,100 +36,159 @@ class _SignupPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     //_formKey.currentState!.validate();
     return Scaffold(
-      appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: BlocConsumer<AuthBloc, AuthState>(
-            listener: (context, state) {
-              if (state is AuthFailure) {
-                showSnackBar(context, state.message);
-              }
-            },
-            builder: (context, state) {
-              if (state is AuthLoading) {
-                return const Loader();
-              }
-              return Form(
-                key: formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                        height: 100), // To ensure content is centered
-                    const Text(
-                      'Sign In:',
-                      style:
-                          TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
+        //backgroundColor: Colors.white,
+        appBar: AppBar(     
+          backgroundColor: Colors.blueGrey,
+        ),
+        body: Container(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: BlocConsumer<AuthBloc, AuthState>(
+                listener: (context, state) {
+                  if (state is AuthFailure) {
+                    showSnackBar(context, state.message);
+                  }
+                },
+                builder: (context, state) {
+                  if (state is AuthLoading) {
+                    return const Loader();
+                  }
+                  ;
+                  return Form(
+                    key: formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Image.asset(
+                              'assets/images/logos/light.jpg',
+                              width: 200,
+                              height: 200,
+                              fit: BoxFit.cover,
+                            )),
+                        const SizedBox(
+                            height: 25), // To ensure content is centered
+                        const Text(
+                          'Welcome back',
+                          style: TextStyle(
+                            fontSize: 40,
+                            //color: Colors.white,
+                          ),
+                        ),
 
-                    AuthField(
-                      hintText: "Email",
-                      controller: emailController,
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    AuthField(
-                      hintText: "Password",
-                      controller: passwordController,
-                      isObscureText: true,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    AuthGradientButton(
-                      buttonText: 'Sign In',
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          context.read<AuthBloc>().add(
-                                AuthLogin(
-                                    email: emailController.text.trim(),
-                                    password: passwordController.text.trim()),
-                              );
-                        }
-                      },
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          SignupPage.route(),
-                        );
-                      },
-                      child: RichText(
-                        text: TextSpan(
-                          text: "Don't have an account? ",
-                          style: Theme.of(context).textTheme.titleMedium,
+                        const SizedBox(
+                          height: 20,
+                        ),
+
+                        AuthField(
+                          hintText: "Email",
+                          controller: emailController,
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        AuthField(
+                          hintText: "Password",
+                          controller: passwordController,
+                          isObscureText: true,
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context, ForgotPassword.route());
+                                },
+                                child: Text('Forgot Password?',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                              )
+                            ]),
+                        const SizedBox(
+                          height: 20,
+                        ),
+
+                        AuthGradientButton(
+                          buttonText: 'Sign In',
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              context.read<AuthBloc>().add(
+                                    AuthLogin(
+                                        email: emailController.text.trim(),
+                                        password:
+                                            passwordController.text.trim()),
+                                  );
+                            }
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            TextSpan(
-                              text: "Sign Up",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.copyWith(
-                                      color: AppPallete.gradient2,
-                                      fontWeight: FontWeight.bold),
-                            ),
+                            Text('Or continue with',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ))
                           ],
                         ),
-                      ),
+                        const SizedBox(height: 30),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.network(
+                                "assets/images/logos/google.png",
+                                width: 120,
+                              ),
+                              Image.network(
+                                "assets/images/logos/facebook.png",
+                                width: 70,
+                              ),
+                            ]),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              SignupPage.route(),
+                            );
+                          },
+                          child: RichText(
+                            text: TextSpan(
+                              text: "Don't have an account? ",
+                              style: Theme.of(context).textTheme.titleMedium,
+                              children: [
+                                TextSpan(
+                                  text: "Sign Up",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium
+                                      ?.copyWith(
+                                          color: const Color.fromARGB(
+                                              255, 35, 21, 27),
+                                          fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                            height: 100), // To ensure content is centered
+                      ],
                     ),
-                    const SizedBox(
-                        height: 100), // To ensure content is centered
-                  ],
-                ),
-              );
-            },
+                  );
+                },
+              ),
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }
