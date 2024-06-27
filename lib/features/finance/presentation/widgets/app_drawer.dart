@@ -1,7 +1,9 @@
 
-import 'package:finance_tracker/features/finance/presentation/pages/about/main_about.dart';
+import 'package:finance_tracker/features/budget_management/presentation/pages/track_budgets.dart';
 import 'package:finance_tracker/features/settings/presentation/pages/settings_page.dart';
 import 'package:flutter/material.dart';
+
+import '../pages/about/main_about.dart';
 
 class AppDrawer extends StatelessWidget {
   static route() => MaterialPageRoute(
@@ -80,7 +82,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.attach_money_rounded),
             title: const Text('Budget'),
             onTap: () {
-              // Implement budget
+              Navigator.push(context, TrackBudgets.route());
             },
           ),
           ListTile(
