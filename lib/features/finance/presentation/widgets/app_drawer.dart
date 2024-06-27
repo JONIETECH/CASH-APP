@@ -3,6 +3,8 @@ import 'package:finance_tracker/features/budget_management/presentation/pages/tr
 import 'package:finance_tracker/features/settings/presentation/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 
+import '../pages/about/main_about.dart';
+
 class AppDrawer extends StatelessWidget {
   static route() => MaterialPageRoute(
         builder: (context) => const AppDrawer(),
@@ -94,7 +96,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.report),
             title: const Text('About'),
             onTap: () {
-              // Implement about
+              Navigator.push(context, MainAbout.route());
             },
           ),
           ListTile(
