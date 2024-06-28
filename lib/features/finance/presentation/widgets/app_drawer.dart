@@ -1,5 +1,5 @@
-
 import 'package:finance_tracker/features/budget_management/presentation/pages/track_budgets.dart';
+import 'package:finance_tracker/features/profile_management/presentation/pages/profilepic.dart';
 import 'package:finance_tracker/features/settings/presentation/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 
@@ -54,7 +54,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.account_circle),
             title: const Text('Profile'),
             onTap: () {
-              // Implement profile functionality
+              Navigator.push(context, ProfilepicSection.route());
             },
           ),
           ListTile(

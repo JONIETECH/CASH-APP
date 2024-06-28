@@ -22,26 +22,14 @@ class _DashboardPageState extends State<DashboardPage> {
 
   bool _ascending = false;
   bool _descending = false;
-  bool _darktheme = false;
 
   void _showOptionsMenu(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    builder: (BuildContext context) {
-      return Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: _darktheme ? Colors.grey[900] : Colors.white,
-          // Adjust other properties if needed
-        ),
-        child: OptionsMenu(
-          darktheme: _darktheme,
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return OptionsMenu(
           ascending: _ascending,
           descending: _descending,
-          onThemeChanged: (value) {
-            setState(() {
-              _darktheme = value;
-            });
-          },
           onAscendingChanged: (value) {
             setState(() {
               _ascending = value;
@@ -52,12 +40,10 @@ class _DashboardPageState extends State<DashboardPage> {
               _descending = value;
             });
           },
-        ),
-      );
-    },
-  );
-}
-
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

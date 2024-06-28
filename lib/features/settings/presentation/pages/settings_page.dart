@@ -117,43 +117,7 @@ class _SettingsPageState extends State<SettingsPage> {
             key: _formKey,
             child: ListView(
               children: [
-                ProfilePictureSection(
-                  profilePictureUrl: _profilePictureUrl,
-                ),
-                SizedBox(height: 20),
-                CustomTextFormField(
-                  label: 'Username',
-                  onSaved: (value) => _username = value!,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a username';
-                    }
-                    return null;
-                  },
-                ),
-                CustomTextFormField(
-                  label: 'Email',
-                  keyboardType: TextInputType.emailAddress,
-                  onSaved: (value) => _email = value!,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter an email';
-                    }
-                    return null;
-                  },
-                ),
-                CustomTextFormField(
-                  label: 'Password',
-                  obscureText: true,
-                  onSaved: (value) => _password = value!,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a password';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 20),
+               
                 CustomSwitchListTile(
                   title: 'Enable Notifications',
                   value: _notifications,

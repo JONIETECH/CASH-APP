@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 
 class OptionsMenu extends StatelessWidget {
-  final bool darktheme;
   final bool ascending;
   final bool descending;
-  final ValueChanged<bool> onThemeChanged;
   final ValueChanged<bool> onAscendingChanged;
   final ValueChanged<bool> onDescendingChanged;
 
   const OptionsMenu({
     super.key,
-    required this.darktheme,
     required this.ascending,
     required this.descending,
-    required this.onThemeChanged,
     required this.onAscendingChanged,
     required this.onDescendingChanged,
   });
@@ -27,7 +23,7 @@ class OptionsMenu extends StatelessWidget {
           leading: const Icon(Icons.download),
           title: const Text('Print'),
           onTap: () {
-            // Implement settings functionality
+            // Implement print functionality
           },
         ),
         ListTile(
@@ -35,13 +31,6 @@ class OptionsMenu extends StatelessWidget {
           title: const Text('Help'),
           onTap: () {
             // Implement help functionality
-          },
-        ),
-        CheckboxListTile(
-          title: const Text('Dark Theme'),
-          value: darktheme,
-          onChanged: (bool? value) {
-            onThemeChanged(value!);
           },
         ),
         const Divider(),
