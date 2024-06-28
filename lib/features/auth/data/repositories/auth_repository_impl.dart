@@ -1,3 +1,4 @@
+import 'package:finance_tracker/core/network/network_connection_checker.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:finance_tracker/core/error/exceptions.dart';
 import 'package:finance_tracker/core/error/failure.dart';
@@ -8,7 +9,8 @@ import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
-  const AuthRepositoryImpl(this.remoteDataSource);
+  final ConnectionChecker connectionChecker;
+  const AuthRepositoryImpl(this.remoteDataSource,this.connectionChecker);
   @override
   Future<Either<Failure, User>> currentUser() async {
     try {
@@ -53,7 +55,11 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, User>> _getUser(
     Future<User> Function() fn,
   ) async {
+
     try {
+      if(!await(connectionChecker.isConnected)) {
+
+      }
       final user = await fn();
 
       return right(user);
