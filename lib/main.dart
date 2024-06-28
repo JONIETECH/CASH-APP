@@ -15,7 +15,9 @@ void main() async {
       ),
       BlocProvider(
         create: (_) => serviceLocator<AuthBloc>(),
+      
       ),
+       
     ],
     child: const MainApp(),
   ));
