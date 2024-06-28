@@ -1,3 +1,4 @@
+import 'package:finance_tracker/features/finance/presentation/pages/dashboardpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:finance_tracker/core/common/cubits/app_user/app_user_cubit.dart';
@@ -33,9 +34,7 @@ class _MainAppState extends State<MainApp> {
         },
         builder: (context, isLoggedIn) {
           if (isLoggedIn) {
-            return const Scaffold(
-              body: Center(child: Text('Logged in')),
-            );
+            return const DashboardPage();
           }
           return const LoginPage();
         },
