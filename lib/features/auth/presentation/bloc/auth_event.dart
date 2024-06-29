@@ -14,6 +14,7 @@ final class AuthSignUp extends AuthEvent {
     required this.name,
   });
 }
+
 final class AuthLogin extends AuthEvent {
   final String email;
   final String password;
@@ -23,5 +24,7 @@ final class AuthLogin extends AuthEvent {
     required this.password,
   });
 }
+
 final class AuthIsUserLoggedIn extends AuthEvent{}
 
+final class SignInWithGoogleEvent extends AuthEvent {}
