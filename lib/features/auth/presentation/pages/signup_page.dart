@@ -1,7 +1,7 @@
+import 'package:finance_tracker/features/finance/presentation/pages/dashboardpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:finance_tracker/core/common/widgets/loader.dart';
-import 'package:finance_tracker/core/theme/app_pallete.dart';
 import 'package:finance_tracker/core/utils/show_snackbar.dart';
 import 'package:finance_tracker/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:finance_tracker/features/auth/presentation/pages/login_page.dart';
@@ -34,9 +34,10 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
-    //_formKey.currentState!.validate();
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.blueGrey,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(15.0),
@@ -44,6 +45,13 @@ class _SignupPageState extends State<SignupPage> {
             listener: (context, state) {
               if (state is AuthFailure) {
                 showSnackBar(context, state.message);
+              } else if (state is AuthSuccess) {
+                showSnackBar(context, 'Successfully signed up!');
+                // Navigate to your home page or desired page
+                Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const DashboardPage()), // Replace HomePage() with your actual homepage widget
+            );
               }
             },
             builder: (context, state) {
@@ -56,38 +64,37 @@ class _SignupPageState extends State<SignupPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 100),
-                    // To ensure content is centered
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Image.asset(
+                        'assets/images/logos/light.jpg',
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        height: MediaQuery.of(context).size.width * 0.5,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    const SizedBox(height: 50),
                     const Text(
-                      'Sign Up:',
-                      style:
-                          TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                      'Enter your details',
+                      style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(
-                      height: 30,
-                    ),
+                    const SizedBox(height: 30),
                     AuthField(
                       hintText: "Name",
                       controller: nameController,
                     ),
-                    const SizedBox(
-                      height: 15,
-                    ),
+                    const SizedBox(height: 15),
                     AuthField(
                       hintText: "Email",
                       controller: emailController,
                     ),
-                    const SizedBox(
-                      height: 15,
-                    ),
+                    const SizedBox(height: 15),
                     AuthField(
                       hintText: "Password",
                       controller: passwordController,
                       isObscureText: true,
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                    const SizedBox(height: 20),
                     AuthGradientButton(
                       buttonText: 'Sign Up',
                       onPressed: () {
@@ -102,9 +109,22 @@ class _SignupPageState extends State<SignupPage> {
                         }
                       },
                     ),
-                    const SizedBox(
-                      height: 20,
+                    const SizedBox(height: 20),
+                    const Text(
+                      'Or sign up with',
+                      style: TextStyle(fontSize: 16),
                     ),
+                    const SizedBox(height: 10),
+                    GestureDetector(
+                      onTap: () {
+                        context.read<AuthBloc>().add(SignInWithGoogleEvent());
+                      },
+                      child: Image.asset(
+                        "assets/images/logos/google.png",
+                        width: 40,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
                     GestureDetector(
                       onTap: () {
                         Navigator.push(context, LoginPage.route());
@@ -115,20 +135,19 @@ class _SignupPageState extends State<SignupPage> {
                           style: Theme.of(context).textTheme.titleMedium,
                           children: [
                             TextSpan(
-                              text: "Sign in:",
+                              text: "Login In",
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium
                                   ?.copyWith(
-                                      color: AppPallete.gradient2,
+                                      color: Colors.blue[400],
                                       fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
                       ),
                     ),
-                    const SizedBox(
-                        height: 100), // To ensure content is centered
+                    const SizedBox(height: 100), // To ensure content is centered
                   ],
                 ),
               );

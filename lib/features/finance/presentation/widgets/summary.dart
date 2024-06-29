@@ -17,7 +17,7 @@ class SummaryWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       decoration: BoxDecoration(
-        color: Colors.grey[200],
+        //color: Colors.grey[200],
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Row(
