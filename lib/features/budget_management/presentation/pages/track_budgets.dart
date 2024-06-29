@@ -36,7 +36,7 @@ class _TrackBudgetsState extends State<TrackBudgets> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Track Budgets",
+          "Track your cash!",
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
