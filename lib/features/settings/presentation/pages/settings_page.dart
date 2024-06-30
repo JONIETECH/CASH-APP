@@ -1,7 +1,6 @@
 // lib/features/settings/presentation/pages/settings_page.dart
 
 import 'package:flutter/material.dart';
-import '../widgets/profile_picture_section.dart';
 import '../widgets/text_form_field.dart';
 import '../widgets/switch_list_tile.dart';
 import '../widgets/dropdown_list_tile.dart';
@@ -16,15 +15,13 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final _formKey = GlobalKey<FormState>();
-  String _username = '';
-  String _email = '';
-  String _password = '';
+  
   bool _notifications = false;
   bool _darkMode = false;
   String _theme = 'Light';
   String _language = 'English';
   bool _locationAccess = false;
-  String _profilePictureUrl = '';
+  
   String _currencyFormat = 'USD';
 
   void _saveSettings() {

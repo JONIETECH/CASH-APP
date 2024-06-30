@@ -1,7 +1,11 @@
+import 'package:finance_tracker/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:finance_tracker/features/auth/presentation/pages/login_page.dart';
+import 'package:finance_tracker/features/auth/presentation/widgets/logout_confirmation_dialog.dart';
 import 'package:finance_tracker/features/budget_management/presentation/pages/track_budgets.dart';
 import 'package:finance_tracker/features/profile_management/presentation/pages/profilepic.dart';
 import 'package:finance_tracker/features/settings/presentation/pages/settings_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../pages/about/main_about.dart';
 
@@ -103,7 +107,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),
             onTap: () {
-              // Implement logout functionality
+              showLogoutConfirmationDialog(context);
             },
           ),
         ],
