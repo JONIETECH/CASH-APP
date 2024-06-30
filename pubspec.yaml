@@ -32,3 +32,9 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/logos/
+
+dependencies:
+  flutter:
+    sdk: flutter 
+  proviider: ^6.0.0
+  charts_flutter: ^0.11.0
