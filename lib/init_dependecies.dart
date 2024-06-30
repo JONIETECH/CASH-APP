@@ -1,4 +1,5 @@
 import 'package:finance_tracker/core/network/network_connection_checker.dart';
+import 'package:finance_tracker/features/auth/domain/usecases/user_sign_out.dart';
 import 'package:get_it/get_it.dart';
 import 'package:finance_tracker/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:finance_tracker/core/secrets/app_secrets.dart';
@@ -20,15 +21,16 @@ Future<void> initDependencies() async {
     anonKey: AppSecrets.supabaseAnonyKey,
   );
   serviceLocator.registerLazySingleton(() => supabase.client);
-   serviceLocator.registerFactory(() => InternetConnection());
+  serviceLocator.registerFactory(() => InternetConnection());
   //core
   serviceLocator.registerLazySingleton(() => AppUserCubit());
- 
+
   serviceLocator.registerFactory<ConnectionChecker>(
     () => ConnectionCheckerImpl(
       serviceLocator(),
     ),
   );
+  //register logout usecase
 }
 
 void _initAuth() {
@@ -43,7 +45,7 @@ void _initAuth() {
       //repositpry
       () => AuthRepositoryImpl(
         serviceLocator(),
-         serviceLocator(),
+        serviceLocator(),
       ),
     )
 
@@ -63,6 +65,11 @@ void _initAuth() {
         serviceLocator(),
       ),
     )
+    ..registerFactory(
+      () => UserSignOut(
+        serviceLocator(),
+      ),
+    )
 
     ///Bloc
     ..registerLazySingleton(
@@ -71,6 +78,7 @@ void _initAuth() {
         userSignUp: serviceLocator(),
         userLogin: serviceLocator(),
         appUserCubit: serviceLocator(),
+        userSignOut: serviceLocator(),
       ),
     );
 }

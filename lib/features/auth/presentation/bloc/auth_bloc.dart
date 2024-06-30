@@ -1,3 +1,4 @@
+import 'package:finance_tracker/features/auth/domain/usecases/user_sign_out.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:finance_tracker/core/common/cubits/app_user/app_user_cubit.dart';
@@ -15,21 +16,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UserLogin _userLogin;
   final CurrentUser _currentUser;
   final AppUserCubit _appUserCubit;
+  final UserSignOut _userSignOut;
 
   AuthBloc({
     required UserSignUp userSignUp,
     required UserLogin userLogin,
     required CurrentUser currentUser,
     required AppUserCubit appUserCubit,
+    required UserSignOut userSignOut,
   })  : _userSignUp = userSignUp,
         _userLogin = userLogin,
         _currentUser = currentUser,
         _appUserCubit = appUserCubit,
+        _userSignOut = userSignOut,
         super(AuthInitial()) {
     on<AuthEvent>((_, emit) => emit(AuthLoading()));
     on<AuthSignUp>(_onAuthSignUp);
     on<AuthLogin>(_onAuthLogin);
     on<AuthIsUserLoggedIn>(_isUserLoggedIn);
+    on<AuthSignOut>(_onAuthSignOut);
   }
 
   void _isUserLoggedIn(
@@ -81,6 +86,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _appUserCubit.updateUser(user);
     emit(
       AuthSuccess(user),
+    );
+  }
+
+  void _onAuthSignOut(AuthSignOut event, Emitter<AuthState> emit) async {
+    final res = await _userSignOut(NoParams());
+    res.fold(
+      (l) => emit(AuthFailure(l.message)),
+      (_) => emit(AuthInitial()),
     );
   }
 }
