@@ -1,5 +1,10 @@
 import 'package:finance_tracker/core/network/network_connection_checker.dart';
 import 'package:finance_tracker/features/auth/domain/usecases/user_sign_out.dart';
+import 'package:finance_tracker/features/profile_management/data/datasources/user_remote_datasource.dart';
+import 'package:finance_tracker/features/profile_management/data/repositories/profile_repository_impl.dart';
+import 'package:finance_tracker/features/profile_management/domain/repositories/user_repository.dart';
+import 'package:finance_tracker/features/profile_management/domain/usecases/get_user_profile.dart';
+import 'package:finance_tracker/features/profile_management/presentation/bloc/profile_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:finance_tracker/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:finance_tracker/core/secrets/app_secrets.dart';
@@ -16,6 +21,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 final serviceLocator = GetIt.instance;
 Future<void> initDependencies() async {
   _initAuth();
+  _initProfile();
   final supabase = await Supabase.initialize(
     url: AppSecrets.supabaseUrl,
     anonKey: AppSecrets.supabaseAnonyKey,
@@ -81,4 +87,36 @@ void _initAuth() {
         userSignOut: serviceLocator(),
       ),
     );
+
+  
 }
+void _initProfile() {
+   // Data Source
+  serviceLocator.registerFactory<ProfileRemoteDataSource>(
+    () => ProfileRemoteDataSourceImpl(
+      serviceLocator(),
+    ),
+  );
+
+  // Repository
+  serviceLocator.registerFactory<ProfileRepository>(
+    () => ProfileRepositoryImpl(
+      serviceLocator(),
+    ),
+  );
+
+  // Use Case
+  serviceLocator.registerFactory(
+    () => GetUserProfile(
+      serviceLocator(),
+    ),
+  );
+
+  // Bloc
+  serviceLocator.registerFactory(
+    () => ProfileBloc(
+      getUserProfile: serviceLocator(),
+    ),
+  );
+}
+
