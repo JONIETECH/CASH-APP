@@ -44,7 +44,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const Text('Forgot Password'),
+          title: const Text('Forgot Password',style: TextStyle(fontWeight: FontWeight.bold),),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
