@@ -36,7 +36,7 @@ class AppTheme {
       primaryColor: AppPallete.gradient2,
       colorScheme: const ColorScheme.dark(
         primary: AppPallete.gradient2,
-        secondary: AppPallete.gradient3,
+        secondary: AppPallete.secondary,
       ),
       appBarTheme: AppBarThemes.darkAppBarTheme,
       bottomSheetTheme: FBottomsheetThemes.darkBottomSheetTheme,

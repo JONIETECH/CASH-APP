@@ -7,10 +7,10 @@ class FElevatedButtonTheme {
     style: ElevatedButton.styleFrom(
       elevation: 0,
       foregroundColor: Colors.white,
-      backgroundColor: Colors.blueGrey,
-      disabledBackgroundColor: Colors.grey,
-      disabledForegroundColor: Colors.grey,
-      side: const BorderSide(color: Colors.black),
+      backgroundColor: Colors.blue,
+      disabledBackgroundColor: Colors.blue,
+      disabledForegroundColor: Colors.blue,
+      side: const BorderSide(color: Colors.blue, width: 1),
       padding: const EdgeInsets.symmetric(vertical: 10),
       textStyle: const TextStyle(
         fontSize: 16,
@@ -24,10 +24,10 @@ class FElevatedButtonTheme {
     style: ElevatedButton.styleFrom(
       elevation: 0,
       foregroundColor: Colors.white,
-      backgroundColor: Colors.grey,
-      disabledBackgroundColor: Colors.grey,
-      disabledForegroundColor: Colors.grey,
-      side: const BorderSide(color: Colors.blue),
+      backgroundColor: Colors.blue,
+      disabledBackgroundColor: Colors.blue,
+      disabledForegroundColor: Colors.blue,
+      side: const BorderSide(color: Colors.blue, width: 1),
       padding: const EdgeInsets.symmetric(vertical: 10),
       textStyle: const TextStyle(
         fontSize: 16,
