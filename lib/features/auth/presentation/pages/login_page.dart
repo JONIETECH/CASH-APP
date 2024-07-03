@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                 );
                  Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => DashboardPage()), // Replace HomePage() with your actual homepage widget
+              MaterialPageRoute(builder: (context) => const DashboardPage()), // Replace HomePage() with your actual homepage widget
             );
                 // Navigate to your home page or desired page
               }

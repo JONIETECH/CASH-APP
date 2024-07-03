@@ -38,120 +38,123 @@ class _SignupPageState extends State<SignupPage> {
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: BlocConsumer<AuthBloc, AuthState>(
-            listener: (context, state) {
-              if (state is AuthFailure) {
-                showSnackBar(context, state.message);
-              } else if (state is AuthSuccess) {
-                showSnackBar(context, 'Successfully signed up!');
-                // Navigate to your home page or desired page
-                Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const DashboardPage()), // Replace HomePage() with your actual homepage widget
-            );
-              }
-            },
-            builder: (context, state) {
-              if (state is AuthLoading) {
-                return const Loader();
-              }
-
-              return Form(
-                key: formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Image.asset(
-                        'assets/images/logos/light.jpg',
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        height: MediaQuery.of(context).size.width * 0.5,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    const SizedBox(height: 50),
-                    const Text(
-                      'Enter your details',
-                      style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 30),
-                    AuthField(
-                      hintText: "Name",
-                      controller: nameController,
-                    ),
-                    const SizedBox(height: 15),
-                    AuthField(
-                      hintText: "Email",
-                      controller: emailController,
-                    ),
-                    const SizedBox(height: 15),
-                    AuthField(
-                      hintText: "Password",
-                      controller: passwordController,
-                      isObscureText: true,
-                    ),
-                    const SizedBox(height: 20),
-                    AuthGradientButton(
-                      buttonText: 'Sign Up',
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          context.read<AuthBloc>().add(
-                                AuthSignUp(
-                                  email: emailController.text.trim(),
-                                  password: passwordController.text.trim(),
-                                  name: nameController.text.trim(),
-                                ),
-                              );
-                        }
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'Or sign up with',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 10),
-                    GestureDetector(
-                      onTap: () {
-                        context.read<AuthBloc>().add(SignInWithGoogleEvent());
-                      },
-                      child: Image.asset(
-                        "assets/images/logos/google.png",
-                        width: 40,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(context, LoginPage.route());
-                      },
-                      child: RichText(
-                        text: TextSpan(
-                          text: "Already have an account? ",
-                          style: Theme.of(context).textTheme.titleMedium,
-                          children: [
-                            TextSpan(
-                              text: "Login In",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.copyWith(
-                                      color: Colors.blue[400],
-                                      fontWeight: FontWeight.bold),
-                            ),
-                          ],
+      body: ClipRRect(
+        borderRadius: BorderRadius.circular(100),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: BlocConsumer<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state is AuthFailure) {
+                  showSnackBar(context, state.message);
+                } else if (state is AuthSuccess) {
+                  showSnackBar(context, 'Successfully signed up!');
+                  // Navigate to your home page or desired page
+                  Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const DashboardPage()), // Replace HomePage() with your actual homepage widget
+              );
+                }
+              },
+              builder: (context, state) {
+                if (state is AuthLoading) {
+                  return const Loader();
+                }
+        
+                return Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.asset(
+                          'assets/images/logos/light.jpg',
+                          height: 500,
+                          width: 150,
+                          fit: BoxFit.cover,
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 100), // To ensure content is centered
-                  ],
-                ),
-              );
-            },
+                      const SizedBox(height: 50),
+                      const Text(
+                        'Enter your details',
+                        style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 30),
+                      AuthField(
+                        hintText: "Name",
+                        controller: nameController,
+                      ),
+                      const SizedBox(height: 15),
+                      AuthField(
+                        hintText: "Email",
+                        controller: emailController,
+                      ),
+                      const SizedBox(height: 15),
+                      AuthField(
+                        hintText: "Password",
+                        controller: passwordController,
+                        isObscureText: true,
+                      ),
+                      const SizedBox(height: 20),
+                      AuthGradientButton(
+                        buttonText: 'Sign Up',
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            context.read<AuthBloc>().add(
+                                  AuthSignUp(
+                                    email: emailController.text.trim(),
+                                    password: passwordController.text.trim(),
+                                    name: nameController.text.trim(),
+                                  ),
+                                );
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      const Text(
+                        'Or sign up with',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      const SizedBox(height: 10),
+                      GestureDetector(
+                        onTap: () {
+                          context.read<AuthBloc>().add(SignInWithGoogleEvent());
+                        },
+                        child: Image.asset(
+                          "assets/images/logos/google.png",
+                          width: 40,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(context, LoginPage.route());
+                        },
+                        child: RichText(
+                          text: TextSpan(
+                            text: "Already have an account? ",
+                            style: Theme.of(context).textTheme.titleMedium,
+                            children: [
+                              TextSpan(
+                                text: "Login In",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(
+                                        color: Colors.blue[400],
+                                        fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 100), // To ensure content is centered
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ),
