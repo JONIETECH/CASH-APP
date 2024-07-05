@@ -6,7 +6,7 @@ import 'package:finance_tracker/features/profile_management/presentation/pages/p
 import 'package:finance_tracker/features/settings/presentation/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:finance_tracker/features/ai_automation/presentation/pages/ai_page.dart';
 import '../pages/about/main_about.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -59,6 +59,13 @@ class AppDrawer extends StatelessWidget {
             title: const Text('Profile'),
             onTap: () {
               Navigator.push(context, ProfilePage.route());
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.memory),
+            title: const Text('AI'),
+            onTap: () {
+              Navigator.push(context, Aipage.route());
             },
           ),
           ListTile(
