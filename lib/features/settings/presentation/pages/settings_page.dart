@@ -127,10 +127,6 @@ class _SettingsPageState extends State<SettingsPage> {
        
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: _logout,
-          ),
-          IconButton(
             icon: const Icon(Icons.help),
             onPressed: _showHelp,
           ),
