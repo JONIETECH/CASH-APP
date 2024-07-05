@@ -77,98 +77,102 @@ class _DashboardPageState extends State<DashboardPage> {
       selectedTime = TimeOfDay.now();
     }
 
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Theme.of(context).cardColor,
-          title: Text(index == null ? 'Add $type' : 'Update $type'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: nameController,
-                decoration: const InputDecoration(labelText: 'Name'),
-              ),
-              TextField(
-                controller: amountController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: 'Amount'),
-              ),
-              TextButton(
-                style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.inverseSurface),
-                onPressed: () async {
-                  final DateTime? picked = await showDatePicker(
-                    context: context,
-                    initialDate: selectedDate,
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2101),
-                  );
-                  if (picked != null && picked != selectedDate) {
-                    setState(() {
-                      selectedDate = picked;
-                    });
-                  }
-                },
-                child: Text(DateFormat('yyyy-MM-dd').format(selectedDate)),
-              ),
-              TextButton(
-                style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.inverseSurface),
-                onPressed: () async {
-                  final TimeOfDay? picked = await showTimePicker(
-                    context: context,
-                    initialTime: selectedTime!,
-                  );
-                  if (picked != null && picked != selectedTime) {
-                    setState(() {
-                      selectedTime = picked;
-                    });
-                  }
-                },
-                child: Text(selectedTime!.format(context)),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.inverseSurface),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
+    showDialogwidget(index, type, nameController, amountController, selectedDate, selectedTime);
+  }
+
+  Future<dynamic> showDialogwidget(int? index, String type, TextEditingController nameController, TextEditingController amountController, DateTime selectedDate, TimeOfDay? selectedTime) {
+    return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Theme.of(context).cardColor,
+        title: Text(index == null ? 'Add $type' : 'Update $type'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(labelText: 'Name'),
+            ),
+            TextField(
+              controller: amountController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(labelText: 'Amount'),
             ),
             TextButton(
               style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.inverseSurface),
-              onPressed: () {
-                setState(() {
-                  if (index == null) {
-                    transactions.add({
-                      'type': type,
-                      'name': nameController.text,
-                      'amount': amountController.text,
-                      'date': DateFormat('yyyy-MM-dd').format(selectedDate),
-                      'time': selectedTime!.format(context),
-                    });
-                  } else {
-                    transactions[index] = {
-                      'type': type,
-                      'name': nameController.text,
-                      'amount': amountController.text,
-                      'date': DateFormat('yyyy-MM-dd').format(selectedDate),
-                      'time': selectedTime!.format(context),
-                    };
-                  }
-                  _sortTransactions();
-                });
-                _saveTransactions();
-                Navigator.of(context).pop();
+              onPressed: () async {
+                final DateTime? picked = await showDatePicker(
+                  context: context,
+                  initialDate: selectedDate,
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2101),
+                );
+                if (picked != null && picked != selectedDate) {
+                  setState(() {
+                    selectedDate = picked;
+                  });
+                }
               },
-              child: Text(index == null ? 'Add' : 'Update'),
+              child: Text(DateFormat('yyyy-MM-dd').format(selectedDate)),
+            ),
+            TextButton(
+              style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.inverseSurface),
+              onPressed: () async {
+                final TimeOfDay? picked = await showTimePicker(
+                  context: context,
+                  initialTime: selectedTime!,
+                );
+                if (picked != null && picked != selectedTime) {
+                  setState(() {
+                    selectedTime = picked;
+                  });
+                }
+              },
+              child: Text(selectedTime!.format(context)),
             ),
           ],
-        );
-      },
-    );
+        ),
+        actions: [
+          TextButton(
+            style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.inverseSurface),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.inverseSurface),
+            onPressed: () {
+              setState(() {
+                if (index == null) {
+                  transactions.add({
+                    'type': type,
+                    'name': nameController.text,
+                    'amount': amountController.text,
+                    'date': DateFormat('yyyy-MM-dd').format(selectedDate),
+                    'time': selectedTime!.format(context),
+                  });
+                } else {
+                  transactions[index] = {
+                    'type': type,
+                    'name': nameController.text,
+                    'amount': amountController.text,
+                    'date': DateFormat('yyyy-MM-dd').format(selectedDate),
+                    'time': selectedTime!.format(context),
+                  };
+                }
+                _sortTransactions();
+              });
+              _saveTransactions();
+              Navigator.of(context).pop();
+            },
+            child: Text(index == null ? 'Add' : 'Update'),
+          ),
+        ],
+      );
+    },
+  );
   }
 
   void _showTransactionOptionsDialog(int index) {

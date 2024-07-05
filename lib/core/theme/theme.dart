@@ -29,9 +29,12 @@ class AppTheme {
     ),
     textTheme: FTextTheme.lightTextTheme,
     chipTheme : FChipTheme.lightChipTheme,
+    
+    
   );
 
   static final darkThemeMode = ThemeData.dark().copyWith(
+      
       scaffoldBackgroundColor: AppPallete.backgroundColor,
       primaryColor: AppPallete.gradient2,
       colorScheme: const ColorScheme.dark(

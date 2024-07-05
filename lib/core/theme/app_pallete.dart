@@ -49,7 +49,7 @@ class AppPallete {
   static final LightColors light = LightColors();
 
   // App Palette Colors
-  static const Color backgroundColor = Colors.black;
+  static const Color backgroundColor = Color.fromARGB(255, 58, 57, 57);
   static const Color gradient1 = Colors.black;
   static const Color gradient2 = Colors.black;
   static const Color gradient3 = Color.fromRGBO(255, 159, 124, 1);

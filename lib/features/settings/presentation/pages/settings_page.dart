@@ -1,3 +1,4 @@
+import 'package:finance_tracker/features/auth/presentation/widgets/logout_confirmation_dialog.dart';
 import 'package:finance_tracker/features/security/presentation/bloc/biometric_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,6 +40,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void _logout() {
+    showLogoutConfirmationDialog(context);
     // Implement the logic to log out the user
   }
 
@@ -122,7 +124,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
-        backgroundColor: Colors.blue[800],
+       
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
