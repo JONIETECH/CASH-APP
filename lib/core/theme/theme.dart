@@ -1,3 +1,4 @@
+import 'package:finance_tracker/core/theme/app_toggletheme.dart';
 import 'package:finance_tracker/core/theme/app_drawer.dart';
 import 'package:finance_tracker/core/theme/chiptheme.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,10 @@ class AppTheme {
     ),
     textTheme: FTextTheme.lightTextTheme,
     chipTheme : FChipTheme.lightChipTheme,
+    toggleButtonsTheme: AppToggletheme.lightAppToggletheme,
+    
+  
+  
     drawerTheme: AppDrawerThemes.lightAppDrawerThemes
     
     
@@ -56,6 +61,7 @@ class AppTheme {
       ),
       textTheme: FTextTheme.darkTextTheme,
       chipTheme : FChipTheme.darkChipTheme,
+      toggleButtonsTheme: AppToggletheme.darkAppToggletheme,
       drawerTheme: AppDrawerThemes.darkAppDrawerThemes,
       
       
