@@ -1,4 +1,7 @@
 import 'package:finance_tracker/features/profile_management/presentation/bloc/profile_bloc.dart';
+
+import 'package:finance_tracker/features/security/presentation/bloc/biometric_bloc.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:finance_tracker/app.dart';
@@ -21,6 +24,7 @@ void main() async {
        BlocProvider(
         create: (_) => serviceLocator<ProfileBloc>(),
       ),
+      BlocProvider(create: (_) => serviceLocator<BiometricBloc>(),)
        
     ],
     child: const MainApp(),

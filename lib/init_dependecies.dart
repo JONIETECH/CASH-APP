@@ -5,6 +5,14 @@ import 'package:finance_tracker/features/profile_management/data/repositories/pr
 import 'package:finance_tracker/features/profile_management/domain/repositories/user_repository.dart';
 import 'package:finance_tracker/features/profile_management/domain/usecases/get_user_profile.dart';
 import 'package:finance_tracker/features/profile_management/presentation/bloc/profile_bloc.dart';
+import 'package:finance_tracker/features/security/data/datasources/biometric_local_datasource.dart';
+import 'package:finance_tracker/features/security/data/repositories/biometric_repository_impl.dart';
+import 'package:finance_tracker/features/security/domain/repositories/biometric_repository.dart';
+import 'package:finance_tracker/features/security/domain/usecases/authenticate.dart';
+import 'package:finance_tracker/features/security/domain/usecases/get_biometric_status.dart';
+import 'package:finance_tracker/features/security/domain/usecases/set_biometric_status.dart';
+import 'package:finance_tracker/features/security/presentation/bloc/biometric_bloc.dart';
+
 import 'package:get_it/get_it.dart';
 import 'package:finance_tracker/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:finance_tracker/core/secrets/app_secrets.dart';
@@ -16,12 +24,15 @@ import 'package:finance_tracker/features/auth/domain/usecases/user_login.dart';
 import 'package:finance_tracker/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:finance_tracker/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final serviceLocator = GetIt.instance;
 Future<void> initDependencies() async {
   _initAuth();
   _initProfile();
+  _initBiometric();
   final supabase = await Supabase.initialize(
     url: AppSecrets.supabaseUrl,
     anonKey: AppSecrets.supabaseAnonyKey,
@@ -36,6 +47,8 @@ Future<void> initDependencies() async {
       serviceLocator(),
     ),
   );
+  final sharedPreferences = await SharedPreferences.getInstance();
+  serviceLocator.registerLazySingleton(() => sharedPreferences);
   //register logout usecase
 }
 
@@ -87,11 +100,10 @@ void _initAuth() {
         userSignOut: serviceLocator(),
       ),
     );
-
-  
 }
+
 void _initProfile() {
-   // Data Source
+  // Data Source
   serviceLocator.registerFactory<ProfileRemoteDataSource>(
     () => ProfileRemoteDataSourceImpl(
       serviceLocator(),
@@ -119,4 +131,50 @@ void _initProfile() {
     ),
   );
 }
+void _initBiometric() {
+  // Initialize LocalAuthentication
+  final localAuth = LocalAuthentication();
 
+  // Data Source
+  serviceLocator.registerFactory<BiometricLocalDataSource>(
+    () => BiometricLocalDataSourceImpl(
+      localAuth: localAuth,
+      sharedPreferences: serviceLocator(),
+    ),
+  );
+
+  // Repository
+  serviceLocator.registerFactory<BiometricRepository>(
+    () => BiometricRepositoryImpl(
+      localDataSource: serviceLocator(),
+    ),
+  );
+
+  // Use Cases
+  serviceLocator.registerFactory(
+    () => Authenticate(
+      serviceLocator(),
+    ),
+  );
+
+  serviceLocator.registerFactory(
+    () => GetBiometricStatus(
+      serviceLocator(),
+    ),
+  );
+
+  serviceLocator.registerFactory(
+    () => SetBiometricStatus(
+      serviceLocator(),
+    ),
+  );
+
+  // Bloc
+  serviceLocator.registerLazySingleton(
+    () => BiometricBloc(
+      getBiometricStatus: serviceLocator(),
+      setBiometricStatus: serviceLocator(),
+      authenticate: serviceLocator(),
+    ),
+  );
+}
