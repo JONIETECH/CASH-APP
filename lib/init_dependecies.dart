@@ -1,4 +1,6 @@
 import 'package:finance_tracker/core/network/network_connection_checker.dart';
+import 'package:finance_tracker/features/auth/domain/usecases/sign_in_with_google.dart';
+import 'package:finance_tracker/features/auth/domain/usecases/sign_up_with_google.dart';
 import 'package:finance_tracker/features/auth/domain/usecases/user_sign_out.dart';
 import 'package:finance_tracker/features/profile_management/data/datasources/user_remote_datasource.dart';
 import 'package:finance_tracker/features/profile_management/data/repositories/profile_repository_impl.dart';
@@ -23,6 +25,7 @@ import 'package:finance_tracker/features/auth/domain/usecases/current_user.dart'
 import 'package:finance_tracker/features/auth/domain/usecases/user_login.dart';
 import 'package:finance_tracker/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:finance_tracker/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,6 +42,7 @@ Future<void> initDependencies() async {
   );
   serviceLocator.registerLazySingleton(() => supabase.client);
   serviceLocator.registerFactory(() => InternetConnection());
+  serviceLocator.registerLazySingleton(() => GoogleSignIn());
   //core
   serviceLocator.registerLazySingleton(() => AppUserCubit());
 
@@ -49,7 +53,8 @@ Future<void> initDependencies() async {
   );
   final sharedPreferences = await SharedPreferences.getInstance();
   serviceLocator.registerLazySingleton(() => sharedPreferences);
-  //register logout usecase
+  // registr googleSignIn
+  
 }
 
 void _initAuth() {
@@ -58,6 +63,7 @@ void _initAuth() {
     ..registerFactory<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(
         serviceLocator(),
+        serviceLocator(),
       ),
     )
     ..registerFactory<AuthRepository>(
@@ -65,6 +71,7 @@ void _initAuth() {
       () => AuthRepositoryImpl(
         serviceLocator(),
         serviceLocator(),
+        
       ),
     )
 
@@ -89,6 +96,16 @@ void _initAuth() {
         serviceLocator(),
       ),
     )
+    ..registerFactory(
+      () => SignInWithGoogle(
+        serviceLocator(),
+      ),
+    )
+    ..registerFactory(
+      () => SignUpWithGoogle(
+        serviceLocator(),
+      ),
+    )
 
     ///Bloc
     ..registerLazySingleton(
@@ -98,6 +115,8 @@ void _initAuth() {
         userLogin: serviceLocator(),
         appUserCubit: serviceLocator(),
         userSignOut: serviceLocator(),
+        signInWithGoogle: serviceLocator(),
+        signUpWithGoogle: serviceLocator(),
       ),
     );
 }
@@ -131,6 +150,7 @@ void _initProfile() {
     ),
   );
 }
+
 void _initBiometric() {
   // Initialize LocalAuthentication
   final localAuth = LocalAuthentication();

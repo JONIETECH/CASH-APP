@@ -3,12 +3,12 @@ import 'package:finance_tracker/core/error/failure.dart';
 import 'package:finance_tracker/features/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
-class SignInWithGoogle {
+class SignUpWithGoogle {
   final AuthRepository authRepository;
 
-  SignInWithGoogle(this.authRepository);
+  SignUpWithGoogle(this.authRepository);
 
   Future<Either<Failure, User>> call() async {
-    return await authRepository.signInWithGoogle();
+    return await authRepository.signUpWithGoogle();
   }
 }

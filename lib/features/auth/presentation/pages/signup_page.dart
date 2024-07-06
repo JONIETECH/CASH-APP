@@ -51,16 +51,16 @@ class _SignupPageState extends State<SignupPage> {
                   showSnackBar(context, 'Successfully signed up!');
                   // Navigate to your home page or desired page
                   Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const DashboardPage()), // Replace HomePage() with your actual homepage widget
-              );
+                    context,
+                    MaterialPageRoute(builder: (context) => const DashboardPage()), // Replace HomePage() with your actual homepage widget
+                  );
                 }
               },
               builder: (context, state) {
                 if (state is AuthLoading) {
                   return const Loader();
                 }
-        
+
                 return Form(
                   key: formKey,
                   child: Column(
@@ -70,7 +70,7 @@ class _SignupPageState extends State<SignupPage> {
                         borderRadius: BorderRadius.circular(100),
                         child: Image.asset(
                           'assets/images/logos/light.jpg',
-                          height: 500,
+                          height: 150,
                           width: 150,
                           fit: BoxFit.cover,
                         ),
@@ -119,7 +119,7 @@ class _SignupPageState extends State<SignupPage> {
                       const SizedBox(height: 10),
                       GestureDetector(
                         onTap: () {
-                          context.read<AuthBloc>().add(SignInWithGoogleEvent());
+                          context.read<AuthBloc>().add(AuthSignUpWithGoogle());
                         },
                         child: Image.asset(
                           "assets/images/logos/google.png",

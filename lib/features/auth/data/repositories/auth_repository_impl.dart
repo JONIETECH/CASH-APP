@@ -92,4 +92,14 @@ class AuthRepositoryImpl implements AuthRepository {
       return left(Failure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, User>> signInWithGoogle() async {
+    return _getUser(() async => await remoteDataSource.signInWithGoogle());
+  }
+
+  @override
+  Future<Either<Failure, User>> signUpWithGoogle() async {
+    return _getUser(() async => await remoteDataSource.signUpWithGoogle());
+  }
 }
