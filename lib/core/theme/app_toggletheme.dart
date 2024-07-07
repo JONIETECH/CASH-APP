@@ -9,8 +9,8 @@ class AppToggletheme{
   );
 
    static const darkAppToggletheme = ToggleButtonsThemeData( 
-    color: Colors.grey,
-    fillColor: Colors.grey,
+    color: Colors.blue,
+    fillColor: Colors.blue,
   );
 
 

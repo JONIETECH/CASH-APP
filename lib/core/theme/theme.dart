@@ -65,5 +65,6 @@ class AppTheme {
       drawerTheme: AppDrawerThemes.darkAppDrawerThemes,
       
       
+      
   );
 }

@@ -258,14 +258,12 @@ class _SettingsPageState extends State<SettingsPage> {
                     onPressed: _saveSettings,
                     child: const Text(
                       'Save Settings',
-                      style: TextStyle(color: Colors.white),
                     ),
                   ),
                   const SizedBox(height: 20),
                   Center(
                     child: Text(
                       '© 2024 Finance Tracker. All rights reserved.',
-                      style: TextStyle(color: Colors.blue[800]),
                     ),
                   ),
                 ],
