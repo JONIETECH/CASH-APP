@@ -1,8 +1,8 @@
 import 'package:finance_tracker/features/auth/presentation/widgets/logout_confirmation_dialog.dart';
 import 'package:finance_tracker/features/security/presentation/bloc/biometric_bloc.dart';
+import 'package:finance_tracker/features/settings/presentation/bloc/theme_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../widgets/text_form_field.dart';
 import '../widgets/switch_list_tile.dart';
 import '../widgets/dropdown_list_tile.dart';
 
@@ -30,6 +30,8 @@ class _SettingsPageState extends State<SettingsPage> {
     super.initState();
     // Load the initial biometric status
     BlocProvider.of<BiometricBloc>(context).add(LoadBiometricStatus());
+    // Load the initial theme status
+    BlocProvider.of<ThemeBloc>(context).add(LoadThemeStatus());
   }
 
   void _saveSettings() {
@@ -97,7 +99,8 @@ class _SettingsPageState extends State<SettingsPage> {
       builder: (context) {
         return AlertDialog(
           title: Text('Confirmation'),
-          content: Text('Are you sure you want to ${value ? "enable" : "disable"} biometric login?'),
+          content: Text(
+              'Are you sure you want to ${value ? "enable" : "disable"} biometric login?'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -108,7 +111,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 setState(() {
                   _biometricEnabled = value;
                 });
-                BlocProvider.of<BiometricBloc>(context).add(UpdateBiometricStatus(status: value));
+                BlocProvider.of<BiometricBloc>(context)
+                    .add(UpdateBiometricStatus(status: value));
                 Navigator.pop(context);
               },
               child: const Text('Confirm'),
@@ -119,12 +123,15 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  void _toggleTheme(bool value) {
+    BlocProvider.of<ThemeBloc>(context).add(ToggleTheme());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
-       
         actions: [
           IconButton(
             icon: const Icon(Icons.help),
@@ -140,8 +147,15 @@ class _SettingsPageState extends State<SettingsPage> {
             });
           }
         },
-        child: Container(
-          child: Padding(
+        child: BlocListener<ThemeBloc, ThemeState>(
+          listener: (context, state) {
+            if (state is ThemeInitial) {
+              setState(() {
+                _darkMode = state.themeMode == ThemeMode.dark;
+              });
+            }
+          },
+          child: Container(
             padding: const EdgeInsets.all(16.0),
             child: Form(
               key: _formKey,
@@ -150,18 +164,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   CustomSwitchListTile(
                     title: 'Enable Notifications',
                     value: _notifications,
-                    onChanged: (value) => setState(() => _notifications = value),
+                    onChanged: (value) =>
+                        setState(() => _notifications = value),
                   ),
                   CustomSwitchListTile(
-                    title: 'Enable Dark Mode',
+                    title: 'Change theme',
                     value: _darkMode,
-                    onChanged: (value) => setState(() => _darkMode = value),
-                  ),
-                  CustomDropdownListTile(
-                    title: 'Select Theme',
-                    value: _theme,
-                    items: ['Light', 'Dark'],
-                    onChanged: (value) => setState(() => _theme = value!),
+                    onChanged: (value) => _toggleTheme(value),
                   ),
                   CustomDropdownListTile(
                     title: 'Select Language',
@@ -178,13 +187,15 @@ class _SettingsPageState extends State<SettingsPage> {
                   CustomSwitchListTile(
                     title: 'Enable Location Access',
                     value: _locationAccess,
-                    onChanged: (value) => setState(() => _locationAccess = value),
+                    onChanged: (value) =>
+                        setState(() => _locationAccess = value),
                   ),
                   CustomDropdownListTile(
                     title: 'Currency Format',
                     value: _currencyFormat,
                     items: ['USH', 'KSH', 'TSH', 'USD', 'EUR'],
-                    onChanged: (value) => setState(() => _currencyFormat = value!),
+                    onChanged: (value) =>
+                        setState(() => _currencyFormat = value!),
                   ),
                   CustomSwitchListTile(
                     title: 'Enable Biometric Login',

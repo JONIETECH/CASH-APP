@@ -14,6 +14,7 @@ import 'package:finance_tracker/features/security/domain/usecases/authenticate.d
 import 'package:finance_tracker/features/security/domain/usecases/get_biometric_status.dart';
 import 'package:finance_tracker/features/security/domain/usecases/set_biometric_status.dart';
 import 'package:finance_tracker/features/security/presentation/bloc/biometric_bloc.dart';
+import 'package:finance_tracker/features/settings/presentation/bloc/theme_bloc.dart';
 
 import 'package:get_it/get_it.dart';
 import 'package:finance_tracker/core/common/cubits/app_user/app_user_cubit.dart';
@@ -36,6 +37,7 @@ Future<void> initDependencies() async {
   _initAuth();
   _initProfile();
   _initBiometric();
+  _initTheme();
   final supabase = await Supabase.initialize(
     url: AppSecrets.supabaseUrl,
     anonKey: AppSecrets.supabaseAnonyKey,
@@ -54,7 +56,6 @@ Future<void> initDependencies() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   serviceLocator.registerLazySingleton(() => sharedPreferences);
   // registr googleSignIn
-  
 }
 
 void _initAuth() {
@@ -71,7 +72,6 @@ void _initAuth() {
       () => AuthRepositoryImpl(
         serviceLocator(),
         serviceLocator(),
-        
       ),
     )
 
@@ -195,6 +195,15 @@ void _initBiometric() {
       getBiometricStatus: serviceLocator(),
       setBiometricStatus: serviceLocator(),
       authenticate: serviceLocator(),
+    ),
+  );
+}
+
+void _initTheme() {
+  //blocs
+  serviceLocator.registerLazySingleton(
+    () => ThemeBloc(
+      sharedPreferences: serviceLocator(),
     ),
   );
 }

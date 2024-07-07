@@ -1,6 +1,7 @@
 import 'package:finance_tracker/features/profile_management/presentation/bloc/profile_bloc.dart';
 
 import 'package:finance_tracker/features/security/presentation/bloc/biometric_bloc.dart';
+import 'package:finance_tracker/features/settings/presentation/bloc/theme_bloc.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,15 +20,18 @@ void main() async {
       ),
       BlocProvider(
         create: (_) => serviceLocator<AuthBloc>(),
-      
       ),
-       BlocProvider(
+      BlocProvider(
         create: (_) => serviceLocator<ProfileBloc>(),
       ),
-      BlocProvider(create: (_) => serviceLocator<BiometricBloc>(),)
-       
+      BlocProvider(
+        create: (_) => serviceLocator<BiometricBloc>(),
+      ),
+      BlocProvider(
+        create: (_) => serviceLocator<ThemeBloc>(),
+      
+      ),
     ],
     child: const MainApp(),
   ));
-  
 }
