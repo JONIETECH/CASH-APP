@@ -191,7 +191,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         setState(() => _locationAccess = value),
                   ),
                   CustomDropdownListTile(
-                    title: 'Currency Format',
+                    title: 'Currency',
                     value: _currencyFormat,
                     items: ['USH', 'KSH', 'TSH', 'USD', 'EUR'],
                     onChanged: (value) =>
@@ -239,6 +239,32 @@ class _SettingsPageState extends State<SettingsPage> {
                   ListTile(
                     leading: const Icon(Icons.pin),
                     title: const Text('Change PIN'),
+                    trailing: ElevatedButton(
+                      onPressed: _changePin,
+                      child: const Text('Change'),
+                    ),
+                  ),
+                  const Divider(),
+                  ListTile(
+                    leading: const Icon(Icons.view_day),
+                    title: const Text('Set first day of week'),
+                    trailing: ElevatedButton(
+                      onPressed: _changePin,
+                      child: const Text('Change'),
+                    ),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.view_day),
+                    title: const Text('Set first day of month'),
+                    trailing: ElevatedButton(
+                      onPressed: _changePin,
+                      child: const Text('Change'),
+                    ),
+                  ),
+                  const Divider(),
+                  ListTile(
+                    leading: const Icon(Icons.monetization_on),
+                    title: const Text('Currency format'),
                     trailing: ElevatedButton(
                       onPressed: _changePin,
                       child: const Text('Change'),
