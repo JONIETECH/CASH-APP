@@ -1,10 +1,9 @@
-import 'package:finance_tracker/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:finance_tracker/features/auth/presentation/pages/login_page.dart';
 import 'package:finance_tracker/features/auth/presentation/widgets/logout_confirmation_dialog.dart';
 import 'package:finance_tracker/features/budget_management/presentation/pages/track_budgets.dart';
 import 'package:finance_tracker/features/profile_management/presentation/pages/profile_page.dart';
 import 'package:finance_tracker/features/settings/presentation/pages/settings_page.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:finance_tracker/features/ai_automation/presentation/pages/ai_page.dart';
 import '../pages/about/main_about.dart';
@@ -23,7 +22,7 @@ class AppDrawer extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
             decoration: const BoxDecoration(
-              //color: Colors.blue,
+              // color: Colors.blue,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
