@@ -35,7 +35,13 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
+        title: const Text("Finance Tracking app",
+        
+        style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+        leading: const SizedBox(),
+        actions: const [SizedBox()],
+        automaticallyImplyLeading: false,
+        
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -45,15 +51,15 @@ class _LoginPageState extends State<LoginPage> {
               if (state is AuthFailure) {
                 showSnackBar(context, state.message);
               } else if (state is AuthSuccess) {
-                showSnackBar(context, 'Successfully logged in!',
-                
-                
+                showSnackBar(
+                  context,
+                  'Successfully logged in!',
                 );
-                 Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => DashboardPage()), // Replace HomePage() with your actual homepage widget
-            );
-                // Navigate to your home page or desired page
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const DashboardPage()), // Replace HomePage() with your actual homepage widget
+                );
               }
             },
             builder: (context, state) {
@@ -77,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     const SizedBox(height: 25),
                     const Text(
-                      'Welcome back',
+                      'Welcome back 🪶',
                       style: TextStyle(
                         fontSize: 40,
                       ),
@@ -141,7 +147,9 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            context.read<AuthBloc>().add(SignInWithGoogleEvent());
+                            context
+                                .read<AuthBloc>()
+                                .add(AuthSignInWithGoogle());
                           },
                           child: Image.asset(
                             "assets/images/logos/google.png",

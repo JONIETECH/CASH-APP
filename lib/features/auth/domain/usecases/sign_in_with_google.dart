@@ -1,15 +1,14 @@
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:finance_tracker/core/common/entities/user.dart';
+import 'package:finance_tracker/core/error/failure.dart';
+import 'package:finance_tracker/features/auth/domain/repository/auth_repository.dart';
+import 'package:fpdart/fpdart.dart';
 
-abstract class AuthRepository {
-  Future<AuthResponse> signInWithGoogle();
-}
+class SignInWithGoogle {
+  final AuthRepository authRepository;
 
-class SignInWithGoogleUseCase {
-  final AuthRepository _authRepository;
+  SignInWithGoogle(this.authRepository);
 
-  SignInWithGoogleUseCase(this._authRepository);
-
-  Future<AuthResponse> call() {
-    return _authRepository.signInWithGoogle();
+  Future<Either<Failure, User>> call() async {
+    return await authRepository.signInWithGoogle();
   }
 }

@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:finance_tracker/features/finance/domain/entities/finance_transaction.dart';
 
 class TransactionList extends StatelessWidget {
-  final List<Map<String, String>> transactions;
+  final List<FinanceTransaction> transactions;
+  final Function(FinanceTransaction) onTap;
 
-  const TransactionList({super.key, required this.transactions});
+  const TransactionList({
+    Key? key,
+    required this.transactions,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: transactions.length,
       itemBuilder: (context, index) {
+        final transaction = transactions[index];
         return ListTile(
-          title: Text(transactions[index]['type']!),
-          subtitle: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(transactions[index]['date']!),
-              const SizedBox(width: 10),
-              Text(transactions[index]['time']!),
-            ],
-          ),
-          trailing: Text(transactions[index]['amount']!),
+          title: Text(transaction.name),
+          subtitle: Text('${transaction.type} - ${transaction.amount.toString()}'),
+          onTap: () => onTap(transaction),
         );
       },
     );

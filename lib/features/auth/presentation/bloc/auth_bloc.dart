@@ -1,3 +1,5 @@
+import 'package:finance_tracker/features/auth/domain/usecases/sign_in_with_google.dart';
+import 'package:finance_tracker/features/auth/domain/usecases/sign_up_with_google.dart';
 import 'package:finance_tracker/features/auth/domain/usecases/user_sign_out.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +19,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final CurrentUser _currentUser;
   final AppUserCubit _appUserCubit;
   final UserSignOut _userSignOut;
+  final SignInWithGoogle _signInWithGoogle;
+  final SignUpWithGoogle _signUpWithGoogle;
 
   AuthBloc({
     required UserSignUp userSignUp,
@@ -24,17 +28,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required CurrentUser currentUser,
     required AppUserCubit appUserCubit,
     required UserSignOut userSignOut,
+    required SignInWithGoogle signInWithGoogle,
+    required SignUpWithGoogle signUpWithGoogle,
   })  : _userSignUp = userSignUp,
         _userLogin = userLogin,
         _currentUser = currentUser,
         _appUserCubit = appUserCubit,
         _userSignOut = userSignOut,
+        _signInWithGoogle = signInWithGoogle,
+        _signUpWithGoogle = signUpWithGoogle,
         super(AuthInitial()) {
     on<AuthEvent>((_, emit) => emit(AuthLoading()));
     on<AuthSignUp>(_onAuthSignUp);
     on<AuthLogin>(_onAuthLogin);
     on<AuthIsUserLoggedIn>(_isUserLoggedIn);
     on<AuthSignOut>(_onAuthSignOut);
+    on<AuthSignInWithGoogle>(_onAuthSignInWithGoogle);
+    on<AuthSignUpWithGoogle>(_onAuthSignUpWithGoogle);
   }
 
   void _isUserLoggedIn(
@@ -76,6 +86,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     res.fold(
       (l) => emit(AuthFailure(l.message)),
       (r) => _emitAuthSuccess(r, emit),
+    );
+  }
+
+  void _onAuthSignUpWithGoogle(
+    AuthSignUpWithGoogle event,
+    Emitter<AuthState> emit,
+  ) async {
+    final res = await _signInWithGoogle();
+    res.fold(
+      (failure) =>emit(AuthFailure(failure.message)),
+      (user) => _emitAuthSuccess(user,emit),
+    );
+  }
+  void _onAuthSignInWithGoogle(
+    AuthSignInWithGoogle event,
+    Emitter<AuthState> emit,
+  ) async {
+    final res = await _signInWithGoogle();
+    res.fold(
+      (failure) =>emit(AuthFailure(failure.message)),
+      (user) => _emitAuthSuccess(user,emit),
     );
   }
 

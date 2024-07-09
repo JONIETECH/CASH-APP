@@ -10,7 +10,7 @@ class AppPallete {
 
   // Text Colors
   static const Color textPrimary = Color(0xFF000000);
-  static const Color textSecondary = Color(0xFF757575);
+  static const Color textSecondary = Color(0xFFFFFFFF);
   static const Color textAccent = Color(0xFFFFFFFF);
 
   // Gradient Colors
@@ -49,7 +49,7 @@ class AppPallete {
   static final LightColors light = LightColors();
 
   // App Palette Colors
-  static const Color backgroundColor = Colors.black;
+  static const Color backgroundColor = Color.fromARGB(255, 58, 57, 57);
   static const Color gradient1 = Colors.black;
   static const Color gradient2 = Colors.black;
   static const Color gradient3 = Color.fromRGBO(255, 159, 124, 1);
@@ -62,66 +62,66 @@ class AppPallete {
 
 class DarkColors {
   // Dark Theme Colors
-  final Color primaryColor = Color(0xFF1a237e);
-  final Color secondary = Color(0xFF0288d1);
-  final Color accent = Color(0xFFd32f2f);
+  final Color primaryColor = const Color(0xFF1a237e);
+  final Color secondary = const Color(0xFF0288d1);
+  final Color accent = const Color(0xFFd32f2f);
 
-  final Color textPrimary = Color(0xFFFFFFFF);
-  final Color textSecondary = Color(0xFFbdbdbd);
-  final Color textAccent = Color(0xFF000000);
+  final Color textPrimary = const Color(0xFFFFFFFF);
+  final Color textSecondary = const Color(0xFFbdbdbd);
+  final Color textAccent = const Color(0xFF000000);
 
-  final Color gradientStart = Color(0xFF1a237e);
-  final Color gradientEnd = Color(0xFF0288d1);
+  final Color gradientStart = const Color(0xFF1a237e);
+  final Color gradientEnd = const Color(0xFF0288d1);
 
-  final Color backgroundPrimary = Color(0xFF303030);
-  final Color backgroundSecondary = Color(0xFF424242);
+  final Color backgroundPrimary = const Color(0xFF303030);
+  final Color backgroundSecondary = const Color(0xFF424242);
 
-  final Color containerBackground = Color(0xFF616161);
-  final Color containerShadow = Color(0xFF757575);
+  final Color containerBackground = const Color(0xFF616161);
+  final Color containerShadow = const Color(0xFF757575);
 
-  final Color buttonPrimary = Color(0xFF1a237e);
-  final Color buttonSecondary = Color(0xFF0288d1);
-  final Color buttonText = Color(0xFFFFFFFF);
+  final Color buttonPrimary = const Color(0xFF1a237e);
+  final Color buttonSecondary = const Color(0xFF0288d1);
+  final Color buttonText = const Color(0xFFFFFFFF);
 
-  final Color borderPrimary = Color(0xFF1a237e);
-  final Color borderSecondary = Color(0xFF0288d1);
+  final Color borderPrimary = const Color(0xFF1a237e);
+  final Color borderSecondary = const Color(0xFF0288d1);
 
-  final Color error = Color(0xFFd32f2f);
-  final Color validation = Color(0xFF00e676);
+  final Color error = const Color(0xFFd32f2f);
+  final Color validation = const Color(0xFF00e676);
 
-  final Color neutralDark = Color(0xFF212121);
-  final Color neutralLight = Color(0xFFFAFAFA);
+  final Color neutralDark = const Color(0xFF212121);
+  final Color neutralLight = const Color(0xFFFAFAFA);
 }
 
 class LightColors {
   // Light Theme Colors
-  final Color primaryColor = Color(0xFF4b68ff);
-  final Color secondary = Color(0xFF60c7ff);
-  final Color accent = Color(0xFFb00020);
+  final Color primaryColor = const Color(0xFF4b68ff);
+  final Color secondary = const Color(0xFF60c7ff);
+  final Color accent = const Color(0xFFb00020);
 
-  final Color textPrimary = Color(0xFF000000);
-  final Color textSecondary = Color(0xFF757575);
-  final Color textAccent = Color(0xFFFFFFFF);
+  final Color textPrimary = const Color(0xFF000000);
+  final Color textSecondary = const Color(0xFF757575);
+  final Color textAccent = const Color(0xFFFFFFFF);
 
-  final Color gradientStart = Color(0xFF4b68ff);
-  final Color gradientEnd = Color(0xFF60c7ff);
+  final Color gradientStart = const Color(0xFF4b68ff);
+  final Color gradientEnd = const Color(0xFF60c7ff);
 
-  final Color backgroundPrimary = Color(0xFFFFFFFF);
-  final Color backgroundSecondary = Color(0xFFF5F5F5);
+  final Color backgroundPrimary = const Color(0xFFFFFFFF);
+  final Color backgroundSecondary = const Color(0xFFF5F5F5);
 
-  final Color containerBackground = Color(0xFFE0E0E0);
-  final Color containerShadow = Color(0xFFBDBDBD);
+  final Color containerBackground = const Color(0xFFE0E0E0);
+  final Color containerShadow = const Color(0xFFBDBDBD);
 
-  final Color buttonPrimary = Color(0xFF4b68ff);
-  final Color buttonSecondary = Color(0xFF60c7ff);
-  final Color buttonText = Color(0xFFFFFFFF);
+  final Color buttonPrimary = const Color(0xFF4b68ff);
+  final Color buttonSecondary = const Color(0xFF60c7ff);
+  final Color buttonText = const Color(0xFFFFFFFF);
 
-  final Color borderPrimary = Color(0xFF4b68ff);
-  final Color borderSecondary = Color(0xFF60c7ff);
+  final Color borderPrimary = const Color(0xFF4b68ff);
+  final Color borderSecondary = const Color(0xFF60c7ff);
 
-  final Color error = Color(0xFFb00020);
-  final Color validation = Color(0xFF00c853);
+  final Color error = const Color(0xFFb00020);
+  final Color validation = const Color(0xFF00c853);
 
-  final Color neutralDark = Color(0xFF212121);
-  final Color neutralLight = Color(0xFFFAFAFA);
+  final Color neutralDark = const Color(0xFF212121);
+  final Color neutralLight = const Color(0xFFFAFAFA);
 }
