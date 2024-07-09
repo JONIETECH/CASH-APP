@@ -1,12 +1,13 @@
+import 'package:finance_tracker/features/finance/domain/entities/finance_transaction.dart';
+import 'package:finance_tracker/features/finance/presentation/bloc/finance_transaction_bloc.dart';
+import 'package:finance_tracker/features/finance/presentation/widgets/app_drawer.dart';
+import 'package:finance_tracker/features/finance/presentation/widgets/options_menu.dart';
+import 'package:finance_tracker/features/finance/presentation/widgets/summary.dart';
+import 'package:finance_tracker/features/finance/presentation/widgets/transaction_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../widgets/app_drawer.dart';
-import '../widgets/options_menu.dart';
-import '../widgets/transaction_list.dart';
-import '../widgets/summary.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -17,29 +18,12 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   String _filter = 'All';
-  List<Map<String, String>> transactions = [];
   bool _isAscending = true;
 
   @override
   void initState() {
     super.initState();
-    _loadTransactions();
-  }
-
-  Future<void> _saveTransactions() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('transactions', jsonEncode(transactions));
-  }
-
-  Future<void> _loadTransactions() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? transactionsString = prefs.getString('transactions');
-    if (transactionsString != null) {
-      setState(() {
-        transactions = List<Map<String, String>>.from(
-            jsonDecode(transactionsString) as List);
-      });
-    }
+    context.read<FinanceTransactionBloc>().add(LoadFinanceTransactions());
   }
 
   void _showOptionsMenu(BuildContext context) {
@@ -52,155 +36,126 @@ class _DashboardPageState extends State<DashboardPage> {
             setState(() {
               _isAscending = value;
             });
-            _sortTransactions();
           },
         );
       },
     );
   }
 
-  void _showAddTransactionDialog(String type, [int? index]) {
+  void _showAddTransactionDialog(String type, [FinanceTransaction? transaction]) {
     TextEditingController amountController = TextEditingController();
     TextEditingController nameController = TextEditingController();
-    DateTime selectedDate = DateTime.now(); // Initialize with current date
-    TimeOfDay? selectedTime;
+    DateTime selectedDate = DateTime.now();
+    TimeOfDay? selectedTime = TimeOfDay.now();
 
-    if (index != null) {
-      amountController.text = transactions[index]['amount']!;
-      nameController.text = transactions[index]['name']!;
-      selectedDate = DateTime.parse(transactions[index]['date']!);
-      selectedTime = TimeOfDay(
-        hour: int.parse(transactions[index]['time']!.split(':')[0]),
-        minute: int.parse(transactions[index]['time']!.split(':')[1].split(' ')[0]),
-      );
-    } else {
-      selectedTime = TimeOfDay.now();
+    if (transaction != null) {
+      amountController.text = transaction.amount.toString();
+      nameController.text = transaction.name;
+      selectedDate = transaction.date;
+      selectedTime = transaction.time;
     }
 
-    showDialogwidget(index, type, nameController, amountController, selectedDate, selectedTime);
-  }
-
-  Future<dynamic> showDialogwidget(int? index, String type, TextEditingController nameController, TextEditingController amountController, DateTime selectedDate, TimeOfDay? selectedTime) {
-    return showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        backgroundColor: Theme.of(context).cardColor,
-        title: Text(index == null ? 'Add $type' : 'Update $type'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: nameController,
-              decoration: const InputDecoration(labelText: 'Name'),
-            ),
-            TextField(
-              controller: amountController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(labelText: 'Amount'),
-            ),
-            TextButton(
-              style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.inverseSurface),
-              onPressed: () async {
-                final DateTime? picked = await showDatePicker(
-                  context: context,
-                  initialDate: selectedDate,
-                  firstDate: DateTime(2000),
-                  lastDate: DateTime(2101),
-                );
-                if (picked != null && picked != selectedDate) {
-                  setState(() {
-                    selectedDate = picked;
-                  });
-                }
-              },
-              child: Text(DateFormat('yyyy-MM-dd').format(selectedDate)),
-            ),
-            TextButton(
-              style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.inverseSurface),
-              onPressed: () async {
-                final TimeOfDay? picked = await showTimePicker(
-                  context: context,
-                  initialTime: selectedTime!,
-                );
-                if (picked != null && picked != selectedTime) {
-                  setState(() {
-                    selectedTime = picked;
-                  });
-                }
-              },
-              child: Text(selectedTime!.format(context)),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.inverseSurface),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.inverseSurface),
-            onPressed: () {
-              setState(() {
-                if (index == null) {
-                  transactions.add({
-                    'type': type,
-                    'name': nameController.text,
-                    'amount': amountController.text,
-                    'date': DateFormat('yyyy-MM-dd').format(selectedDate),
-                    'time': selectedTime!.format(context),
-                  });
-                } else {
-                  transactions[index] = {
-                    'type': type,
-                    'name': nameController.text,
-                    'amount': amountController.text,
-                    'date': DateFormat('yyyy-MM-dd').format(selectedDate),
-                    'time': selectedTime!.format(context),
-                  };
-                }
-                _sortTransactions();
-              });
-              _saveTransactions();
-              Navigator.of(context).pop();
-            },
-            child: Text(index == null ? 'Add' : 'Update'),
-          ),
-        ],
-      );
-    },
-  );
-  }
-
-  void _showTransactionOptionsDialog(int index) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Theme.of(context).cardColor,
+          title: Text(transaction == null ? 'Add $type' : 'Update $type'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: const InputDecoration(labelText: 'Name'),
+              ),
+              TextField(
+                controller: amountController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(labelText: 'Amount'),
+              ),
+              TextButton(
+                onPressed: () async {
+                  final DateTime? picked = await showDatePicker(
+                    context: context,
+                    initialDate: selectedDate,
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime(2101),
+                  );
+                  if (picked != null && picked != selectedDate) {
+                    setState(() {
+                      selectedDate = picked;
+                    });
+                  }
+                },
+                child: Text(DateFormat('yyyy-MM-dd').format(selectedDate)),
+              ),
+              TextButton(
+                onPressed: () async {
+                  final TimeOfDay? picked = await showTimePicker(
+                    context: context,
+                    initialTime: selectedTime!,
+                  );
+                  if (picked != null && picked != selectedTime) {
+                    setState(() {
+                      selectedTime = picked;
+                    });
+                  }
+                },
+                child: Text(selectedTime!.format(context)),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                FinanceTransaction newTransaction = FinanceTransaction(
+                  id: transaction?.id ?? DateTime.now().toString(),
+                  type: type,
+                  name: nameController.text,
+                  amount: double.parse(amountController.text),
+                  date: selectedDate,
+                  time: selectedTime!,
+                );
+
+                if (transaction == null) {
+                  context.read<FinanceTransactionBloc>().add(AddNewFinanceTransaction(newTransaction));
+                } else {
+                  context.read<FinanceTransactionBloc>().add(UpdateExistingFinanceTransaction(newTransaction));
+                }
+
+                Navigator.of(context).pop();
+              },
+              child: Text(transaction == null ? 'Add' : 'Update'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showTransactionOptionsDialog(FinanceTransaction transaction) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
           title: const Text('Transaction Options'),
           content: const Text('Would you like to update or delete this transaction?'),
           actions: [
             TextButton(
-              style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.inverseSurface),
               onPressed: () {
                 Navigator.of(context).pop();
-                _showAddTransactionDialog(transactions[index]['type']!, index);
+                _showAddTransactionDialog(transaction.type, transaction);
               },
-              child: const Text(
-                'Update',
-              ),
+              child: const Text('Update'),
             ),
             TextButton(
-              style: TextButton.styleFrom(foregroundColor: Colors.white, backgroundColor: Colors.red, side: BorderSide(color: Theme.of(context).colorScheme.inverseSurface)),
               onPressed: () {
-                setState(() {
-                  transactions.removeAt(index);
-                });
-                _saveTransactions();
+                context.read<FinanceTransactionBloc>().add(DeleteExistingFinanceTransaction(transaction.id));
                 Navigator.of(context).pop();
               },
               child: const Text('Delete'),
@@ -211,10 +166,10 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  List<Map<String, String>> _filteredTransactions() {
+  List<FinanceTransaction> _filteredTransactions(List<FinanceTransaction> transactions) {
     DateTime now = DateTime.now();
     return transactions.where((transaction) {
-      DateTime date = DateTime.parse(transaction['date']!);
+      DateTime date = transaction.date;
       if (_filter == 'Daily') {
         return date.difference(now).inDays == 0;
       } else if (_filter == 'Weekly') {
@@ -226,31 +181,8 @@ class _DashboardPageState extends State<DashboardPage> {
     }).toList();
   }
 
-  void _sortTransactions() {
-    setState(() {
-      transactions.sort((a, b) {
-        DateTime dateA = DateTime.parse(a['date']!);
-        DateTime dateB = DateTime.parse(b['date']!);
-        return _isAscending ? dateA.compareTo(dateB) : dateB.compareTo(dateA);
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    double totalCashIn = _filteredTransactions()
-        .where((transaction) => transaction['type'] == 'Cash In')
-        .map((transaction) => double.parse(transaction['amount']!))
-        .fold(0, (prev, amount) => prev + amount);
-    double totalCashOut = _filteredTransactions()
-        .where((transaction) => transaction['type'] == 'Cash Out')
-        .map((transaction) => double.parse(transaction['amount']!))
-        .fold(0, (prev, amount) => prev + amount);
-    double balance = totalCashIn - totalCashOut;
-
-    // Determine text color for balance based on its value
-    Color balanceColor = balance >= 0 ? Theme.of(context).colorScheme.inverseSurface : Colors.red;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Finance Tracker'),
@@ -286,50 +218,76 @@ class _DashboardPageState extends State<DashboardPage> {
         ],
       ),
       drawer: const AppDrawer(),
-      body: Column(
-        children: [
-          Expanded(
-            child: TransactionList(
-              transactions: _filteredTransactions(),
-              onTap: (index) {
-                _showTransactionOptionsDialog(index);
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SummaryWidget(
-              totalCashIn: totalCashIn,
-              totalCashOut: totalCashOut,
-              balance: balance,
-              balanceColor: balanceColor, // Pass the determined color to SummaryWidget
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () => _showAddTransactionDialog('Cash In'),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(150, 40),
-                  side: const BorderSide(width: 0),
-                  backgroundColor: Colors.green, // Set button color to green
+      body: BlocBuilder<FinanceTransactionBloc, FinanceTransactionState>(
+        builder: (context, state) {
+          if (state is FinanceTransactionLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is FinanceTransactionLoaded) {
+            final transactions = _filteredTransactions(state.transactions);
+
+            double totalCashIn = transactions
+                .where((transaction) => transaction.type == 'Cash In')
+                .map((transaction) => transaction.amount)
+                .fold(0, (prev, amount) => prev + amount);
+            double totalCashOut = transactions
+                .where((transaction) => transaction.type == 'Cash Out')
+                .map((transaction) => transaction.amount)
+                .fold(0, (prev, amount) => prev + amount);
+            double balance = totalCashIn - totalCashOut;
+
+            Color balanceColor = balance >= 0
+                ? Theme.of(context).colorScheme.inverseSurface
+                : Colors.red;
+
+            return Column(
+              children: [
+                Expanded(
+                  child: TransactionList(
+                    transactions: transactions,
+                    onTap: (transaction) {
+                      _showTransactionOptionsDialog(transaction);
+                    },
+                  ),
                 ),
-                child: const Text('Cash In'),
-              ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                onPressed: () => _showAddTransactionDialog('Cash Out'),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(150, 40),
-                  side: const BorderSide(width: 0),
-                  backgroundColor: Colors.red, // Set button color to red
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SummaryWidget(
+                    totalCashIn: totalCashIn,
+                    totalCashOut: totalCashOut,
+                    balance: balance,
+                    balanceColor: balanceColor,
+                  ),
                 ),
-                child: const Text('Cash Out'),
-              ),
-            ],
-          ),
-        ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => _showAddTransactionDialog('Cash In'),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(150, 40),
+                        backgroundColor: Colors.green,
+                      ),
+                      child: const Text('Cash In'),
+                    ),
+                    const SizedBox(width: 16),
+                    ElevatedButton(
+                      onPressed: () => _showAddTransactionDialog('Cash Out'),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(150, 40),
+                        backgroundColor: Colors.red,
+                      ),
+                      child: const Text('Cash Out'),
+                    ),
+                  ],
+                ),
+              ],
+            );
+          } else if (state is FinanceTransactionError) {
+            return Center(child: Text(state.message));
+          } else {
+            return const Center(child: Text('No Transactions Found'));
+          }
+        },
       ),
     );
   }

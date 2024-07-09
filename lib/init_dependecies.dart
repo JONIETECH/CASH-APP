@@ -2,6 +2,15 @@ import 'package:finance_tracker/core/network/network_connection_checker.dart';
 import 'package:finance_tracker/features/auth/domain/usecases/sign_in_with_google.dart';
 import 'package:finance_tracker/features/auth/domain/usecases/sign_up_with_google.dart';
 import 'package:finance_tracker/features/auth/domain/usecases/user_sign_out.dart';
+import 'package:finance_tracker/features/finance/data/datasources/finance_local_data_source.dart';
+import 'package:finance_tracker/features/finance/data/repositories/finance_transaction_repository_impl.dart';
+import 'package:finance_tracker/features/finance/domain/entities/finance_transaction.dart';
+import 'package:finance_tracker/features/finance/domain/repositories/finance_transaction_repository.dart';
+import 'package:finance_tracker/features/finance/domain/usecases/add_finance_transaction.dart';
+import 'package:finance_tracker/features/finance/domain/usecases/delete_finance_transaction.dart';
+import 'package:finance_tracker/features/finance/domain/usecases/get_finance_transaction.dart';
+import 'package:finance_tracker/features/finance/domain/usecases/update_finance_transaction.dart';
+import 'package:finance_tracker/features/finance/presentation/bloc/finance_transaction_bloc.dart';
 import 'package:finance_tracker/features/profile_management/data/datasources/user_remote_datasource.dart';
 import 'package:finance_tracker/features/profile_management/data/repositories/profile_repository_impl.dart';
 import 'package:finance_tracker/features/profile_management/domain/repositories/user_repository.dart';
@@ -38,6 +47,7 @@ Future<void> initDependencies() async {
   _initProfile();
   _initBiometric();
   _initTheme();
+  _initFinanceTransactions();
   final supabase = await Supabase.initialize(
     url: AppSecrets.supabaseUrl,
     anonKey: AppSecrets.supabaseAnonyKey,
@@ -206,4 +216,31 @@ void _initTheme() {
       sharedPreferences: serviceLocator(),
     ),
   );
+}
+
+void _initFinanceTransactions() {
+  //DataSource
+  serviceLocator
+    ..registerFactory<FinanceLocalDataSource>(
+      () => FinanceLocalDataSourceImpl(serviceLocator()),
+    )
+    // rep
+    ..registerFactory<FinanceTransactionRepository>(
+        () => FinanceTransactionRepositoryImpl(
+              financeLocalDataSource: serviceLocator(),
+            ))
+    //usecases
+    ..registerFactory(() => AddFinanceTransaction(serviceLocator()))
+    ..registerFactory(() => DeleteFinanceTransaction(serviceLocator()))
+    ..registerFactory(() => GetFinanceTransactions(serviceLocator()))
+    ..registerFactory(() => UpdateFinanceTransaction(serviceLocator()))
+
+    //bloc
+    ..registerFactory(
+      () => FinanceTransactionBloc(
+          getFinanceTransactions: serviceLocator(),
+          addFinanceTransaction: serviceLocator(),
+          updateFinanceTransaction: serviceLocator(),
+          deleteFinanceTransaction: serviceLocator()),
+    );
 }
