@@ -35,7 +35,13 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
+        title: const Text("Finance Tracking app",
+        
+        style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+        leading: const SizedBox(),
+        actions: const [SizedBox()],
+        automaticallyImplyLeading: false,
+        
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -77,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     const SizedBox(height: 25),
                     const Text(
-                      'Welcome back',
+                      'Welcome back 🪶',
                       style: TextStyle(
                         fontSize: 40,
                       ),

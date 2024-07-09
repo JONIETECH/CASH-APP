@@ -6,8 +6,10 @@ class AppDrawerThemes {
 
   static const lightAppDrawerThemes = DrawerThemeData(
     elevation: 0,
-    backgroundColor: Colors.blue,
+    backgroundColor: Colors.lightBlue,
     surfaceTintColor: Colors.transparent,
+    
+  
     
     
     

@@ -36,7 +36,11 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
+        title: const Text(
+          "Finance Tracking app",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        ),
+        // Remove the leading property to enable the default back arrow
       ),
       body: ClipRRect(
         borderRadius: BorderRadius.circular(100),
@@ -77,7 +81,7 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                       const SizedBox(height: 50),
                       const Text(
-                        'Enter your details',
+                        'Sign up with us 🌏',
                         style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 30),

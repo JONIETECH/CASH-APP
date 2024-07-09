@@ -4,7 +4,6 @@ import 'package:finance_tracker/features/auth/domain/usecases/sign_up_with_googl
 import 'package:finance_tracker/features/auth/domain/usecases/user_sign_out.dart';
 import 'package:finance_tracker/features/finance/data/datasources/finance_local_data_source.dart';
 import 'package:finance_tracker/features/finance/data/repositories/finance_transaction_repository_impl.dart';
-import 'package:finance_tracker/features/finance/domain/entities/finance_transaction.dart';
 import 'package:finance_tracker/features/finance/domain/repositories/finance_transaction_repository.dart';
 import 'package:finance_tracker/features/finance/domain/usecases/add_finance_transaction.dart';
 import 'package:finance_tracker/features/finance/domain/usecases/delete_finance_transaction.dart';
@@ -23,6 +22,10 @@ import 'package:finance_tracker/features/security/domain/usecases/authenticate.d
 import 'package:finance_tracker/features/security/domain/usecases/get_biometric_status.dart';
 import 'package:finance_tracker/features/security/domain/usecases/set_biometric_status.dart';
 import 'package:finance_tracker/features/security/presentation/bloc/biometric_bloc.dart';
+import 'package:finance_tracker/features/settings/data/repositories/reset_app_repository_impl.dart';
+import 'package:finance_tracker/features/settings/domain/repositories/app_repository.dart';
+import 'package:finance_tracker/features/settings/domain/usecases/reset_app_data_usecase.dart';
+import 'package:finance_tracker/features/settings/presentation/bloc/reset_bloc.dart';
 import 'package:finance_tracker/features/settings/presentation/bloc/theme_bloc.dart';
 
 import 'package:get_it/get_it.dart';
@@ -41,83 +44,64 @@ import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+// Initialize GetIt instance
 final serviceLocator = GetIt.instance;
+
+// Function to initialize all dependencies
 Future<void> initDependencies() async {
-  _initAuth();
-  _initProfile();
-  _initBiometric();
-  _initTheme();
-  _initFinanceTransactions();
+  // Initialize feature-specific dependencies
+  _initAuth(); // Authentication
+  _initProfile(); // Profile Management
+  _initBiometric(); // Biometric Authentication
+  _initTheme(); // Theme Management
+  _initFinanceTransactions(); // Finance Transactions
+  _initReset(); // Reset App Data
+
+  // Initialize Supabase
   final supabase = await Supabase.initialize(
     url: AppSecrets.supabaseUrl,
     anonKey: AppSecrets.supabaseAnonyKey,
   );
   serviceLocator.registerLazySingleton(() => supabase.client);
+
+  // Register Internet Connection
   serviceLocator.registerFactory(() => InternetConnection());
+
+  // Register GoogleSignIn
   serviceLocator.registerLazySingleton(() => GoogleSignIn());
-  //core
+
+  // Core dependencies
   serviceLocator.registerLazySingleton(() => AppUserCubit());
 
+  // Register Connection Checker
   serviceLocator.registerFactory<ConnectionChecker>(
-    () => ConnectionCheckerImpl(
-      serviceLocator(),
-    ),
+    () => ConnectionCheckerImpl(serviceLocator()),
   );
+
+  // Shared Preferences
   final sharedPreferences = await SharedPreferences.getInstance();
   serviceLocator.registerLazySingleton(() => sharedPreferences);
-  // registr googleSignIn
 }
 
+// Initialize authentication related dependencies
 void _initAuth() {
-  //DataSource
   serviceLocator
+    // Register Auth Remote Data Source
     ..registerFactory<AuthRemoteDataSource>(
-      () => AuthRemoteDataSourceImpl(
-        serviceLocator(),
-        serviceLocator(),
-      ),
+      () => AuthRemoteDataSourceImpl(serviceLocator(), serviceLocator()),
     )
+    // Register Auth Repository
     ..registerFactory<AuthRepository>(
-      //repositpry
-      () => AuthRepositoryImpl(
-        serviceLocator(),
-        serviceLocator(),
-      ),
+      () => AuthRepositoryImpl(serviceLocator(), serviceLocator()),
     )
-
-    ///Use Cases
-    ..registerFactory(
-      () => UserSignUp(
-        serviceLocator(),
-      ),
-    )
-    ..registerFactory(
-      () => UserLogin(
-        serviceLocator(),
-      ),
-    )
-    ..registerFactory(
-      () => CurrentUser(
-        serviceLocator(),
-      ),
-    )
-    ..registerFactory(
-      () => UserSignOut(
-        serviceLocator(),
-      ),
-    )
-    ..registerFactory(
-      () => SignInWithGoogle(
-        serviceLocator(),
-      ),
-    )
-    ..registerFactory(
-      () => SignUpWithGoogle(
-        serviceLocator(),
-      ),
-    )
-
-    ///Bloc
+    // Register Use Cases
+    ..registerFactory(() => UserSignUp(serviceLocator()))
+    ..registerFactory(() => UserLogin(serviceLocator()))
+    ..registerFactory(() => CurrentUser(serviceLocator()))
+    ..registerFactory(() => UserSignOut(serviceLocator()))
+    ..registerFactory(() => SignInWithGoogle(serviceLocator()))
+    ..registerFactory(() => SignUpWithGoogle(serviceLocator()))
+    // Register Auth Bloc
     ..registerLazySingleton(
       () => AuthBloc(
         currentUser: serviceLocator(),
@@ -131,116 +115,112 @@ void _initAuth() {
     );
 }
 
+// Initialize profile management related dependencies
 void _initProfile() {
-  // Data Source
-  serviceLocator.registerFactory<ProfileRemoteDataSource>(
-    () => ProfileRemoteDataSourceImpl(
-      serviceLocator(),
-    ),
-  );
-
-  // Repository
-  serviceLocator.registerFactory<ProfileRepository>(
-    () => ProfileRepositoryImpl(
-      serviceLocator(),
-    ),
-  );
-
-  // Use Case
-  serviceLocator.registerFactory(
-    () => GetUserProfile(
-      serviceLocator(),
-    ),
-  );
-
-  // Bloc
-  serviceLocator.registerFactory(
-    () => ProfileBloc(
-      getUserProfile: serviceLocator(),
-    ),
-  );
+  serviceLocator
+    // Register Profile Remote Data Source
+    ..registerFactory<ProfileRemoteDataSource>(
+      () => ProfileRemoteDataSourceImpl(serviceLocator()),
+    )
+    // Register Profile Repository
+    ..registerFactory<ProfileRepository>(
+      () => ProfileRepositoryImpl(serviceLocator()),
+    )
+    // Register Use Case
+    ..registerFactory(() => GetUserProfile(serviceLocator()))
+    // Register Profile Bloc
+    ..registerFactory(
+      () => ProfileBloc(getUserProfile: serviceLocator()),
+    );
 }
 
+// Initialize biometric related dependencies
 void _initBiometric() {
-  // Initialize LocalAuthentication
   final localAuth = LocalAuthentication();
 
-  // Data Source
-  serviceLocator.registerFactory<BiometricLocalDataSource>(
-    () => BiometricLocalDataSourceImpl(
-      localAuth: localAuth,
-      sharedPreferences: serviceLocator(),
-    ),
-  );
-
-  // Repository
-  serviceLocator.registerFactory<BiometricRepository>(
-    () => BiometricRepositoryImpl(
-      localDataSource: serviceLocator(),
-    ),
-  );
-
-  // Use Cases
-  serviceLocator.registerFactory(
-    () => Authenticate(
-      serviceLocator(),
-    ),
-  );
-
-  serviceLocator.registerFactory(
-    () => GetBiometricStatus(
-      serviceLocator(),
-    ),
-  );
-
-  serviceLocator.registerFactory(
-    () => SetBiometricStatus(
-      serviceLocator(),
-    ),
-  );
-
-  // Bloc
-  serviceLocator.registerLazySingleton(
-    () => BiometricBloc(
-      getBiometricStatus: serviceLocator(),
-      setBiometricStatus: serviceLocator(),
-      authenticate: serviceLocator(),
-    ),
-  );
-}
-
-void _initTheme() {
-  //blocs
-  serviceLocator.registerLazySingleton(
-    () => ThemeBloc(
-      sharedPreferences: serviceLocator(),
-    ),
-  );
-}
-
-void _initFinanceTransactions() {
-  //DataSource
   serviceLocator
+    // Register Biometric Local Data Source
+    ..registerFactory<BiometricLocalDataSource>(
+      () => BiometricLocalDataSourceImpl(
+        localAuth: localAuth,
+        sharedPreferences: serviceLocator(),
+      ),
+    )
+    // Register Biometric Repository
+    ..registerFactory<BiometricRepository>(
+      () => BiometricRepositoryImpl(localDataSource: serviceLocator()),
+    )
+    // Register Use Cases
+    ..registerFactory(() => Authenticate(serviceLocator()))
+    ..registerFactory(() => GetBiometricStatus(serviceLocator()))
+    ..registerFactory(() => SetBiometricStatus(serviceLocator()))
+    // Register Biometric Bloc
+    ..registerLazySingleton(
+      () => BiometricBloc(
+        getBiometricStatus: serviceLocator(),
+        setBiometricStatus: serviceLocator(),
+        authenticate: serviceLocator(),
+      ),
+    );
+}
+
+// Initialize theme related dependencies
+void _initTheme() {
+  serviceLocator.registerLazySingleton(
+    () => ThemeBloc(sharedPreferences: serviceLocator()),
+  );
+}
+
+// Initialize finance transactions related dependencies
+void _initFinanceTransactions() {
+  serviceLocator
+    // Register Finance Local Data Source
     ..registerFactory<FinanceLocalDataSource>(
       () => FinanceLocalDataSourceImpl(serviceLocator()),
     )
-    // rep
+    // Register Finance Transaction Repository
     ..registerFactory<FinanceTransactionRepository>(
-        () => FinanceTransactionRepositoryImpl(
-              financeLocalDataSource: serviceLocator(),
-            ))
-    //usecases
+      () => FinanceTransactionRepositoryImpl(
+        financeLocalDataSource: serviceLocator(),
+      ),
+    )
+    // Register Use Cases
     ..registerFactory(() => AddFinanceTransaction(serviceLocator()))
     ..registerFactory(() => DeleteFinanceTransaction(serviceLocator()))
     ..registerFactory(() => GetFinanceTransactions(serviceLocator()))
     ..registerFactory(() => UpdateFinanceTransaction(serviceLocator()))
-
-    //bloc
+    // Register Finance Transaction Bloc
     ..registerFactory(
       () => FinanceTransactionBloc(
-          getFinanceTransactions: serviceLocator(),
-          addFinanceTransaction: serviceLocator(),
-          updateFinanceTransaction: serviceLocator(),
-          deleteFinanceTransaction: serviceLocator()),
+        getFinanceTransactions: serviceLocator(),
+        addFinanceTransaction: serviceLocator(),
+        updateFinanceTransaction: serviceLocator(),
+        deleteFinanceTransaction: serviceLocator(),
+      ),
+    );
+}
+
+// Initialize reset app data related dependencies
+void _initReset() {
+  serviceLocator
+    // Register Reset App Repository
+    ..registerFactory<ResetAppRepository>(
+      () => ResetAppRepositoryImpl(
+        serviceLocator(),
+        serviceLocator(),
+
+      ),
+    )
+    // Register Reset App Data Usecase
+    ..registerFactory(
+      () => ResetAppDataUsecase(
+        serviceLocator(),
+      ),
+    )
+    // Register Reset Bloc
+    ..registerFactory(
+      () => ResetBloc(
+        resetAppDataUsecase: serviceLocator(),
+      ),
     );
 }

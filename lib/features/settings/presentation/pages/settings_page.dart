@@ -1,5 +1,7 @@
+import 'package:finance_tracker/features/auth/presentation/pages/login_page.dart';
 import 'package:finance_tracker/features/auth/presentation/widgets/logout_confirmation_dialog.dart';
 import 'package:finance_tracker/features/security/presentation/bloc/biometric_bloc.dart';
+import 'package:finance_tracker/features/settings/presentation/bloc/reset_bloc.dart';
 import 'package:finance_tracker/features/settings/presentation/bloc/theme_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,8 +10,11 @@ import '../widgets/dropdown_list_tile.dart';
 
 class SettingsPage extends StatefulWidget {
   static route() => MaterialPageRoute(
-        builder: (context) => SettingsPage(),
+        builder: (context) => const SettingsPage(),
       );
+
+  const SettingsPage({Key? key}) : super(key: key);
+
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
@@ -52,8 +57,8 @@ class _SettingsPageState extends State<SettingsPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Help'),
-          content: Text('How may we help you?'),
+          title: const Text('Help'),
+          content: const Text('How may we help you?'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -74,7 +79,8 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void _resetData() {
-    // Implement the logic to reset data
+    // Dispatch the reset event
+    BlocProvider.of<ResetBloc>(context).add(ResetAppData());
   }
 
   void _changePassword() {
@@ -98,7 +104,7 @@ class _SettingsPageState extends State<SettingsPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Confirmation'),
+          title: const Text('Confirmation'),
           content: Text(
               'Are you sure you want to ${value ? "enable" : "disable"} biometric login?'),
           actions: [
@@ -175,7 +181,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   CustomDropdownListTile(
                     title: 'Select Language',
                     value: _language,
-                    items: [
+                    items: const [
                       'English',
                       'Spanish',
                       'French',
@@ -193,7 +199,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   CustomDropdownListTile(
                     title: 'Currency',
                     value: _currencyFormat,
-                    items: ['USH', 'KSH', 'TSH', 'USD', 'EUR'],
+                    items: const ['USH', 'KSH', 'TSH', 'USD', 'EUR'],
                     onChanged: (value) =>
                         setState(() => _currencyFormat = value!),
                   ),
@@ -202,29 +208,71 @@ class _SettingsPageState extends State<SettingsPage> {
                     value: _biometricEnabled,
                     onChanged: (value) => _toggleBiometricLogin(value),
                   ),
-                  Divider(),
+                  const Divider(),
                   ListTile(
-                    leading: Icon(Icons.backup),
-                    title: Text('Backup Data'),
+                    leading: const Icon(Icons.backup),
+                    title: const Text('Backup Data'),
                     trailing: ElevatedButton(
                       onPressed: _backupData,
-                      child: Text('Backup'),
+                      child: const Text('Backup'),
                     ),
                   ),
                   ListTile(
-                    leading: Icon(Icons.restore),
-                    title: Text('Restore Data'),
+                    leading: const Icon(Icons.restore),
+                    title: const Text('Restore Data'),
                     trailing: ElevatedButton(
                       onPressed: _restoreData,
-                      child: Text('Restore'),
+                      child: const Text('Restore'),
                     ),
                   ),
-                  ListTile(
-                    leading: Icon(Icons.reset_tv),
-                    title: Text('Reset Data'),
-                    trailing: ElevatedButton(
-                      onPressed: _resetData,
-                      child: Text('Reset'),
+                  BlocListener<ResetBloc, ResetState>(
+                    listener: (context, state) {
+                      if (state is ResetAppLoading) {
+                        // Show loading indicator
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const AlertDialog(
+                              content: Row(
+                                children: [
+                                  CircularProgressIndicator(),
+                                  SizedBox(width: 20),
+                                  Text("Resetting data..."),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      } else if (state is ResetAppSuccess) {
+                        // Hide the loading indicator
+                        Navigator.pop(context);
+                        // Show success message
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Data reset successfully"),
+                          ),
+                        );
+                        //Navigate to login screen
+                        Navigator.pushReplacement(context, LoginPage.route());
+                      } else if (state is ResetAppError) {
+                        // Hide the loading indicator
+                        Navigator.pop(context);
+                        // Show error message
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content:
+                                Text("Failed to reset data: ${state.message}"),
+                          ),
+                        );
+                      }
+                    },
+                    child: ListTile(
+                      leading: const Icon(Icons.reset_tv),
+                      title: const Text('Reset Data'),
+                      trailing: ElevatedButton(
+                        onPressed: _resetData,
+                        child: const Text('Reset'),
+                      ),
                     ),
                   ),
                   const Divider(),
@@ -287,7 +335,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Center(
+                  const Center(
                     child: Text(
                       '© 2024 Finance Tracker. All rights reserved.',
                     ),

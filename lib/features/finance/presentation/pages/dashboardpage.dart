@@ -42,7 +42,8 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  void _showAddTransactionDialog(String type, [FinanceTransaction? transaction]) {
+  void _showAddTransactionDialog(String type,
+      [FinanceTransaction? transaction]) {
     TextEditingController amountController = TextEditingController();
     TextEditingController nameController = TextEditingController();
     DateTime selectedDate = DateTime.now();
@@ -123,9 +124,13 @@ class _DashboardPageState extends State<DashboardPage> {
                 );
 
                 if (transaction == null) {
-                  context.read<FinanceTransactionBloc>().add(AddNewFinanceTransaction(newTransaction));
+                  context
+                      .read<FinanceTransactionBloc>()
+                      .add(AddNewFinanceTransaction(newTransaction));
                 } else {
-                  context.read<FinanceTransactionBloc>().add(UpdateExistingFinanceTransaction(newTransaction));
+                  context
+                      .read<FinanceTransactionBloc>()
+                      .add(UpdateExistingFinanceTransaction(newTransaction));
                 }
 
                 Navigator.of(context).pop();
@@ -144,7 +149,8 @@ class _DashboardPageState extends State<DashboardPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Transaction Options'),
-          content: const Text('Would you like to update or delete this transaction?'),
+          content: const Text(
+              'Would you like to update or delete this transaction?'),
           actions: [
             TextButton(
               onPressed: () {
@@ -155,7 +161,9 @@ class _DashboardPageState extends State<DashboardPage> {
             ),
             TextButton(
               onPressed: () {
-                context.read<FinanceTransactionBloc>().add(DeleteExistingFinanceTransaction(transaction.id));
+                context
+                    .read<FinanceTransactionBloc>()
+                    .add(DeleteExistingFinanceTransaction(transaction.id));
                 Navigator.of(context).pop();
               },
               child: const Text('Delete'),
@@ -166,7 +174,8 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  List<FinanceTransaction> _filteredTransactions(List<FinanceTransaction> transactions) {
+  List<FinanceTransaction> _filteredTransactions(
+      List<FinanceTransaction> transactions) {
     DateTime now = DateTime.now();
     return transactions.where((transaction) {
       DateTime date = transaction.date;
@@ -239,48 +248,116 @@ class _DashboardPageState extends State<DashboardPage> {
                 ? Theme.of(context).colorScheme.inverseSurface
                 : Colors.red;
 
-            return Column(
-              children: [
-                Expanded(
-                  child: TransactionList(
-                    transactions: transactions,
-                    onTap: (transaction) {
-                      _showTransactionOptionsDialog(transaction);
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: SummaryWidget(
-                    totalCashIn: totalCashIn,
-                    totalCashOut: totalCashOut,
-                    balance: balance,
-                    balanceColor: balanceColor,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () => _showAddTransactionDialog('Cash In'),
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(150, 40),
-                        backgroundColor: Colors.green,
+            return LayoutBuilder(
+              builder: (context, constraints) {
+                if (constraints.maxWidth < 600) {
+                  // Mobile layout
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: TransactionList(
+                          transactions: transactions,
+                          onTap: (transaction) {
+                            _showTransactionOptionsDialog(transaction);
+                          },
+                        ),
                       ),
-                      child: const Text('Cash In'),
-                    ),
-                    const SizedBox(width: 16),
-                    ElevatedButton(
-                      onPressed: () => _showAddTransactionDialog('Cash Out'),
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(150, 40),
-                        backgroundColor: Colors.red,
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: SummaryWidget(
+                          totalCashIn: totalCashIn,
+                          totalCashOut: totalCashOut,
+                          balance: balance,
+                          balanceColor: balanceColor,
+                        ),
                       ),
-                      child: const Text('Cash Out'),
-                    ),
-                  ],
-                ),
-              ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () =>
+                                _showAddTransactionDialog('Cash In'),
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(150, 40),
+                              backgroundColor: Colors.green,
+                            ),
+                            child: const Text('Cash In'),
+                          ),
+                          const SizedBox(width: 16),
+                          ElevatedButton(
+                            onPressed: () =>
+                                _showAddTransactionDialog('Cash Out'),
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(150, 40),
+                              backgroundColor: Colors.red,
+                            ),
+                            child: const Text('Cash Out'),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                          height: 16), // Added to avoid button being covered
+                    ],
+                  );
+                } else {
+                  // Desktop layout
+                  return Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: TransactionList(
+                                transactions: transactions,
+                                onTap: (transaction) {
+                                  _showTransactionOptionsDialog(transaction);
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: SummaryWidget(
+                                totalCashIn: totalCashIn,
+                                totalCashOut: totalCashOut,
+                                balance: balance,
+                                balanceColor: balanceColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () =>
+                                  _showAddTransactionDialog('Cash In'),
+                              style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(150, 40),
+                                backgroundColor: Colors.green,
+                              ),
+                              child: const Text('Cash In'),
+                            ),
+                            const SizedBox(height: 16),
+                            ElevatedButton(
+                              onPressed: () =>
+                                  _showAddTransactionDialog('Cash Out'),
+                              style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(150, 40),
+                                backgroundColor: Colors.red,
+                              ),
+                              child: const Text('Cash Out'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                }
+              },
             );
           } else if (state is FinanceTransactionError) {
             return Center(child: Text(state.message));
