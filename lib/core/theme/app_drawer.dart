@@ -8,7 +8,7 @@ class AppDrawerThemes {
     elevation: 0,
     backgroundColor: Colors.blue,
     surfaceTintColor: Colors.transparent,
-    DrawerHeaderColor: Colors.blue,
+    
     
     
   );
@@ -16,10 +16,8 @@ class AppDrawerThemes {
   static const darkAppDrawerThemes = DrawerThemeData(
     elevation: 0,
     backgroundColor: Colors.blueGrey,
-    surfaceTintColor: Colors.s.transparent,
-    DrawerHeaderColor: Colors.blue,
+    surfaceTintColor: Colors.transparent,
+    
   );
 }
 
-class DrawerHeaderColor {
-}
