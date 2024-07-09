@@ -1,5 +1,5 @@
 import 'package:finance_tracker/features/finance/presentation/bloc/finance_transaction_bloc.dart';
-import 'package:finance_tracker/features/profile_management/presentation/bloc/profile_bloc.dart';
+
 
 import 'package:finance_tracker/features/security/presentation/bloc/biometric_bloc.dart';
 import 'package:finance_tracker/features/settings/presentation/bloc/reset_bloc.dart';
@@ -23,9 +23,9 @@ void main() async {
       BlocProvider(
         create: (_) => serviceLocator<AuthBloc>(),
       ),
-      BlocProvider(
-        create: (_) => serviceLocator<ProfileBloc>(),
-      ),
+      //BlocProvider(
+       // create: (_) => serviceLocator<ProfileBloc>(),
+      //),
       BlocProvider(
         create: (_) => serviceLocator<BiometricBloc>(),
       ),

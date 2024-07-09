@@ -10,11 +10,7 @@ import 'package:finance_tracker/features/finance/domain/usecases/delete_finance_
 import 'package:finance_tracker/features/finance/domain/usecases/get_finance_transaction.dart';
 import 'package:finance_tracker/features/finance/domain/usecases/update_finance_transaction.dart';
 import 'package:finance_tracker/features/finance/presentation/bloc/finance_transaction_bloc.dart';
-import 'package:finance_tracker/features/profile_management/data/datasources/user_remote_datasource.dart';
-import 'package:finance_tracker/features/profile_management/data/repositories/profile_repository_impl.dart';
-import 'package:finance_tracker/features/profile_management/domain/repositories/user_repository.dart';
-import 'package:finance_tracker/features/profile_management/domain/usecases/get_user_profile.dart';
-import 'package:finance_tracker/features/profile_management/presentation/bloc/profile_bloc.dart';
+
 import 'package:finance_tracker/features/security/data/datasources/biometric_local_datasource.dart';
 import 'package:finance_tracker/features/security/data/repositories/biometric_repository_impl.dart';
 import 'package:finance_tracker/features/security/domain/repositories/biometric_repository.dart';
@@ -51,7 +47,7 @@ final serviceLocator = GetIt.instance;
 Future<void> initDependencies() async {
   // Initialize feature-specific dependencies
   _initAuth(); // Authentication
-  _initProfile(); // Profile Management
+  //_initProfile(); // Profile Management
   _initBiometric(); // Biometric Authentication
   _initTheme(); // Theme Management
   _initFinanceTransactions(); // Finance Transactions
@@ -116,24 +112,7 @@ void _initAuth() {
 }
 
 // Initialize profile management related dependencies
-void _initProfile() {
-  serviceLocator
-    // Register Profile Remote Data Source
-    ..registerFactory<ProfileRemoteDataSource>(
-      () => ProfileRemoteDataSourceImpl(serviceLocator()),
-    )
-    // Register Profile Repository
-    ..registerFactory<ProfileRepository>(
-      () => ProfileRepositoryImpl(serviceLocator()),
-    )
-    // Register Use Case
-    ..registerFactory(() => GetUserProfile(serviceLocator()))
-    // Register Profile Bloc
-    ..registerFactory(
-      () => ProfileBloc(getUserProfile: serviceLocator()),
-    );
-}
-
+//
 // Initialize biometric related dependencies
 void _initBiometric() {
   final localAuth = LocalAuthentication();

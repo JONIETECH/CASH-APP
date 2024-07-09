@@ -1,6 +1,7 @@
 import 'package:finance_tracker/core/theme/app_toggletheme.dart';
 import 'package:finance_tracker/core/theme/app_drawer.dart';
 import 'package:finance_tracker/core/theme/chiptheme.dart';
+import 'package:finance_tracker/core/theme/dialog_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:finance_tracker/core/theme/app_pallete.dart';
 import 'package:finance_tracker/core/theme/appbar_theme.dart';
@@ -35,7 +36,9 @@ class AppTheme {
     
   
   
-    drawerTheme: AppDrawerThemes.lightAppDrawerThemes
+    drawerTheme: AppDrawerThemes.lightAppDrawerThemes,
+    dialogTheme: FDialogTheme.lightDialogTheme,
+    dialogBackgroundColor: Colors.grey
     
     
   );
@@ -63,6 +66,8 @@ class AppTheme {
       chipTheme : FChipTheme.darkChipTheme,
       toggleButtonsTheme: AppToggletheme.darkAppToggletheme,
       drawerTheme: AppDrawerThemes.darkAppDrawerThemes,
+      dialogTheme: FDialogTheme.darkDialogTheme,
+      dialogBackgroundColor: Colors.grey
       
       
       
