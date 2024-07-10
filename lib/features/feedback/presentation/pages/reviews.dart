@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ReviewPage extends StatelessWidget {
+  static route() => MaterialPageRoute(builder: (context) => const ReviewPage());
   const ReviewPage({super.key});
 
   @override

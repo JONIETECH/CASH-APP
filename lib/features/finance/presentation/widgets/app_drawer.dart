@@ -1,3 +1,4 @@
+import 'package:finance_tracker/features/feedback/presentation/pages/reviews.dart';
 import 'package:flutter/material.dart';
 import 'package:finance_tracker/features/auth/presentation/pages/login_page.dart';
 import 'package:finance_tracker/features/auth/presentation/widgets/logout_confirmation_dialog.dart';
@@ -110,6 +111,13 @@ class AppDrawer extends StatelessWidget {
             title: const Text('About'),
             onTap: () {
               Navigator.push(context, MainAbout.route());
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.feedback),
+            title: const Text('Feedback'),
+            onTap: () {
+              Navigator.push(context, ReviewPage.route());
             },
           ),
           ListTile(
