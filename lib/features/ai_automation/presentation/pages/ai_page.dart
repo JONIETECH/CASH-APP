@@ -3,38 +3,56 @@ import 'package:flutter/material.dart';
 class Aipage extends StatefulWidget {
   static route() => MaterialPageRoute(builder: (context) => const Aipage());
   const Aipage({super.key});
-  
+
   @override
   State<Aipage> createState() => _AipageState();
 }
 
 class _AipageState extends State<Aipage> {
+  final TextEditingController _controller = TextEditingController();
+
+  void _sendMessage() {
+    final text = _controller.text;
+    if (text.isNotEmpty) {
+      print('Sending message: $text');
+      _controller.clear();
+    }
+  }
+
+  void _startVoiceInput() {
+    print('Starting voice input...');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Fin Pal', textAlign: TextAlign.center),
+        centerTitle: true,
+      ),
       body: Container(
         width: double.infinity,
         height: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/dark.jpg"),
-            fit: BoxFit.cover, // This ensures the image covers the entire background
+            fit: BoxFit.cover,
           ),
         ),
         child: Column(
           children: [
             Container(
               height: 120,
-              child: const Row(
-                children: [
-                  Text(
-                    "Fin Pal",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-                  ),
-                ],
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(16),
+              child: const Text(
+                "Fin Pal",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 34, color: Colors.white),
               ),
             ),
-            Expanded(child: ListView()),
+            Expanded(
+              child: ListView(),
+            ),
             Container(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               height: 120,
@@ -43,6 +61,7 @@ class _AipageState extends State<Aipage> {
                 children: [
                   Expanded(
                     child: TextField(
+                      controller: _controller,
                       style: const TextStyle(color: Colors.black),
                       cursorColor: Theme.of(context).primaryColor,
                       decoration: InputDecoration(
@@ -61,19 +80,25 @@ class _AipageState extends State<Aipage> {
                     ),
                   ),
                   const SizedBox(width: 12),
-                  CircleAvatar(
-                    radius: 30,
-                    backgroundColor: Theme.of(context).primaryColor,
-                    child: const Center(
-                      child: Icon(Icons.send, color: Colors.white),
+                  GestureDetector(
+                    onTap: _sendMessage,
+                    child: CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Theme.of(context).primaryColor,
+                      child: const Center(
+                        child: Icon(Icons.send, color: Colors.white),
+                      ),
                     ),
                   ),
                   const SizedBox(width: 12),
-                  CircleAvatar(
-                    radius: 30,
-                    backgroundColor: Theme.of(context).primaryColor,
-                    child: const Center(
-                      child: Icon(Icons.mic, color: Colors.white),
+                  GestureDetector(
+                    onTap: _startVoiceInput,
+                    child: CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Theme.of(context).primaryColor,
+                      child: const Center(
+                        child: Icon(Icons.mic, color: Colors.white),
+                      ),
                     ),
                   ),
                 ],
@@ -85,4 +110,3 @@ class _AipageState extends State<Aipage> {
     );
   }
 }
-
