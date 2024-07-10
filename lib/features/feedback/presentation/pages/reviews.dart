@@ -73,7 +73,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                 maxLines: 5,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Your Feedback',
+                  labelText: 'Type your feedback Here...',
                   alignLabelWithHint: true,
                 ),
                 validator: (value) {
