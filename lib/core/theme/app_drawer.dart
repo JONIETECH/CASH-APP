@@ -20,6 +20,6 @@ class AppDrawerThemes {
     backgroundColor: Colors.blueGrey,
     surfaceTintColor: Colors.transparent,
     
-  );
+);
 }
 
