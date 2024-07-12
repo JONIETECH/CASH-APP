@@ -25,6 +25,8 @@ dependencies:
   local_auth: ^2.2.0
   equatable: ^2.0.5
   uuid: ^4.4.0
+  flutter_local_notifications: ^17.2.1+1
+  timezone: ^0.9.4
   
 
 dev_dependencies:

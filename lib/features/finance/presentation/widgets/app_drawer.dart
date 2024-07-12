@@ -1,4 +1,5 @@
 import 'package:finance_tracker/features/feedback/presentation/pages/reviews.dart';
+import 'package:finance_tracker/features/notifications_events/presentation/pages/set_page.dart';
 import 'package:flutter/material.dart';
 import 'package:finance_tracker/features/auth/presentation/pages/login_page.dart';
 import 'package:finance_tracker/features/auth/presentation/widgets/logout_confirmation_dialog.dart';
@@ -23,8 +24,7 @@ class AppDrawer extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
             decoration: const BoxDecoration(
-
-             color: Colors.grey,
+              color: Colors.grey,
 
               // color: Colors.blue,
             ),
@@ -69,6 +69,13 @@ class AppDrawer extends StatelessWidget {
             title: const Text('AI'),
             onTap: () {
               Navigator.push(context, Aipage.route());
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.money_off),
+            title: const Text('Future Events'),
+            onTap: () {
+              Navigator.push(context, FinanceOptionsPage.route());
             },
           ),
           ListTile(
