@@ -83,7 +83,7 @@ class _TrackBudgetsState extends State<TrackBudgets> {
 }
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: TrackBudgets(),
   ));
 }

@@ -1,11 +1,12 @@
+// ignore: unused_import
+import 'package:finance_tracker/core/theme/app_pallete.dart';
 import 'package:finance_tracker/features/feedback/presentation/pages/reviews.dart';
+import 'package:finance_tracker/features/notifications_events/presentation/pages/set_page.dart';
 import 'package:flutter/material.dart';
-import 'package:finance_tracker/features/auth/presentation/pages/login_page.dart';
 import 'package:finance_tracker/features/auth/presentation/widgets/logout_confirmation_dialog.dart';
 import 'package:finance_tracker/features/budget_management/presentation/pages/track_budgets.dart';
 
 import 'package:finance_tracker/features/settings/presentation/pages/settings_page.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:finance_tracker/features/ai_automation/presentation/pages/ai_page.dart';
 import '../pages/about/main_about.dart';
 
@@ -24,9 +25,8 @@ class AppDrawer extends StatelessWidget {
           DrawerHeader(
             decoration: const BoxDecoration(
 
-             color: Colors.grey,
+             color: Colors.blue,
 
-              // color: Colors.blue,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -43,14 +43,12 @@ class AppDrawer extends StatelessWidget {
                 const Text(
                   'Username',
                   style: TextStyle(
-                    color: Colors.white,
                     fontSize: 24,
                   ),
                 ),
                 const Text(
                   'user@gmail.com',
                   style: TextStyle(
-                    color: Colors.white,
                     fontSize: 15,
                   ),
                 ),
@@ -69,6 +67,13 @@ class AppDrawer extends StatelessWidget {
             title: const Text('AI'),
             onTap: () {
               Navigator.push(context, Aipage.route());
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.money_off),
+            title: const Text('Future Events'),
+            onTap: () {
+              Navigator.push(context, FinanceOptionsPage.route());
             },
           ),
           ListTile(

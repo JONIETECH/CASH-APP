@@ -1,7 +1,4 @@
-import 'package:finance_tracker/core/theme/app_toggletheme.dart';
-import 'package:finance_tracker/core/theme/app_drawer.dart';
 import 'package:finance_tracker/core/theme/chiptheme.dart';
-import 'package:finance_tracker/core/theme/dialog_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:finance_tracker/core/theme/app_pallete.dart';
 import 'package:finance_tracker/core/theme/appbar_theme.dart';
@@ -21,7 +18,9 @@ class AppTheme {
     ),
     appBarTheme: AppBarThemes.lightAppBarTheme,
     bottomSheetTheme: FBottomsheetThemes.lightBottomSheetTheme,
-    inputDecorationTheme: FTextFieldTheme.lightInputDecorationTheme,
+    inputDecorationTheme: FTextFieldTheme.lightInputDecorationTheme.copyWith(
+      floatingLabelStyle: const TextStyle(color: AppPallete.gradient1), // Set the floating label style
+    ),
     outlinedButtonTheme: FOutlineButtonTheme.lightOutlineButtonTheme,
     elevatedButtonTheme: FElevatedButtonTheme.lightElevatedButtonTheme,
     buttonTheme: ButtonThemeData(
@@ -31,45 +30,37 @@ class AppTheme {
       ),
     ),
     textTheme: FTextTheme.lightTextTheme,
-    chipTheme : FChipTheme.lightChipTheme,
-    toggleButtonsTheme: AppToggletheme.lightAppToggletheme,
-    
-  
-  
-    drawerTheme: AppDrawerThemes.lightAppDrawerThemes,
-    dialogTheme: FDialogTheme.lightDialogTheme,
-    dialogBackgroundColor: Colors.grey
-    
-    
+    chipTheme: FChipTheme.lightChipTheme,
+    dividerTheme: const DividerThemeData(
+      color: Color.fromARGB(148, 224, 224, 224),
+    ),
   );
 
   static final darkThemeMode = ThemeData.dark().copyWith(
-      
-      scaffoldBackgroundColor: AppPallete.backgroundColor,
-      primaryColor: AppPallete.gradient2,
-      colorScheme: const ColorScheme.dark(
-        primary: AppPallete.gradient2,
-        secondary: AppPallete.secondary,
+    scaffoldBackgroundColor: AppPallete.backgroundColor,
+    primaryColor: AppPallete.gradient2,
+    colorScheme: const ColorScheme.dark(
+      primary: AppPallete.gradient2,
+      secondary: AppPallete.secondary,
+    ),
+    appBarTheme: AppBarThemes.darkAppBarTheme,
+    bottomSheetTheme: FBottomsheetThemes.darkBottomSheetTheme,
+    inputDecorationTheme: FTextFieldTheme.darkInputDecorationTheme.copyWith(
+      floatingLabelStyle: const TextStyle(color: AppPallete.gradient2), // Set the floating label style
+    ),
+    outlinedButtonTheme: FOutlineButtonTheme.darkOutlineButtonTheme,
+    elevatedButtonTheme: FElevatedButtonTheme.darkElevatedButtonTheme,
+    buttonTheme: ButtonThemeData(
+      buttonColor: AppPallete.gradient2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
       ),
-      appBarTheme: AppBarThemes.darkAppBarTheme,
-      bottomSheetTheme: FBottomsheetThemes.darkBottomSheetTheme,
-      inputDecorationTheme: FTextFieldTheme.darkInputDecorationTheme,
-      outlinedButtonTheme: FOutlineButtonTheme.darkOutlineButtonTheme,
-      elevatedButtonTheme: FElevatedButtonTheme.darkElevatedButtonTheme,
-      buttonTheme: ButtonThemeData(
-        buttonColor: AppPallete.gradient2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-      ),
-      textTheme: FTextTheme.darkTextTheme,
-      chipTheme : FChipTheme.darkChipTheme,
-      toggleButtonsTheme: AppToggletheme.darkAppToggletheme,
-      drawerTheme: AppDrawerThemes.darkAppDrawerThemes,
-      dialogTheme: FDialogTheme.darkDialogTheme,
-      dialogBackgroundColor: Colors.grey
-      
-      
-      
+    ),
+    textTheme: FTextTheme.darkTextTheme,
+    chipTheme: FChipTheme.darkChipTheme,
+    dividerTheme: const DividerThemeData(
+      color: Color.fromARGB(76, 224, 224, 224),
+    ),
   );
 }
+

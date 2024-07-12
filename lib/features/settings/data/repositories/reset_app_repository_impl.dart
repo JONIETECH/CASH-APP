@@ -19,7 +19,7 @@ class ResetAppRepositoryImpl implements ResetAppRepository {
       // Clear all SharedPreferences data
       await sharedPreferences.clear();
 
-      return Right(unit);
+      return const Right(unit);
     } catch (e) {
       print('Error resetting app data: $e');
       return Left(Failure(e.toString()));

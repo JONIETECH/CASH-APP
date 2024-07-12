@@ -13,7 +13,7 @@ class SettingsPage extends StatefulWidget {
         builder: (context) => const SettingsPage(),
       );
 
-  const SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({super.key});
 
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -24,7 +24,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   bool _notifications = false;
   bool _darkMode = false;
-  String _theme = 'Light';
+  final String _theme = 'Light';
   String _language = 'English';
   bool _locationAccess = false;
   String _currencyFormat = 'USD';

@@ -21,7 +21,7 @@ class _BiometricLoginPageState extends State<BiometricLoginPage> {
     if (_isAuthenticated) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => DashboardPage()),
+        MaterialPageRoute(builder: (context) => const DashboardPage()),
       );
     }
   }
