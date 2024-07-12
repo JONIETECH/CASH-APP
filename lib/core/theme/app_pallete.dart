@@ -49,9 +49,9 @@ class AppPallete {
   static final LightColors light = LightColors();
 
   // App Palette Colors
-  static const Color backgroundColor = Color.fromARGB(255, 58, 57, 57);
+  static const Color backgroundColor = Colors.black;
   static const Color gradient1 = Colors.black;
-  static const Color gradient2 = Colors.black;
+  static const Color gradient2 = Colors.white;
   static const Color gradient3 = Color.fromRGBO(255, 159, 124, 1);
   static const Color borderColor = Color.fromRGBO(52, 51, 67, 1);
   static const Color whiteColor = Colors.white;
@@ -62,7 +62,7 @@ class AppPallete {
 
 class DarkColors {
   // Dark Theme Colors
-  final Color primaryColor = const Color(0xFF1a237e);
+  final Color primaryColor = const Color(0xFF4b68ff);
   final Color secondary = const Color(0xFF0288d1);
   final Color accent = const Color(0xFFd32f2f);
 
@@ -70,7 +70,7 @@ class DarkColors {
   final Color textSecondary = const Color(0xFFbdbdbd);
   final Color textAccent = const Color(0xFF000000);
 
-  final Color gradientStart = const Color(0xFF1a237e);
+  final Color gradientStart = const Color(0xFF4b68ff);
   final Color gradientEnd = const Color(0xFF0288d1);
 
   final Color backgroundPrimary = const Color(0xFF303030);
@@ -79,11 +79,11 @@ class DarkColors {
   final Color containerBackground = const Color(0xFF616161);
   final Color containerShadow = const Color(0xFF757575);
 
-  final Color buttonPrimary = const Color(0xFF1a237e);
+  final Color buttonPrimary = const Color(0xFF4b68ff);
   final Color buttonSecondary = const Color(0xFF0288d1);
   final Color buttonText = const Color(0xFFFFFFFF);
 
-  final Color borderPrimary = const Color(0xFF1a237e);
+  final Color borderPrimary = const Color(0xFF4b68ff);
   final Color borderSecondary = const Color(0xFF0288d1);
 
   final Color error = const Color(0xFFd32f2f);

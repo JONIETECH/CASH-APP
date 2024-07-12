@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class ProfilePictureSection extends StatelessWidget {
   final String profilePictureUrl;
 
-  ProfilePictureSection({required this.profilePictureUrl});
+  const ProfilePictureSection({super.key, required this.profilePictureUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +14,10 @@ class ProfilePictureSection extends StatelessWidget {
         CircleAvatar(
           radius: 40,
           backgroundImage: profilePictureUrl.isEmpty
-              ? AssetImage('assets/default_profile_picture.png')
+              ? const AssetImage('assets/default_profile_picture.png')
               : NetworkImage(profilePictureUrl) as ImageProvider,
         ),
-        SizedBox(width: 20),
+        const SizedBox(width: 20),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

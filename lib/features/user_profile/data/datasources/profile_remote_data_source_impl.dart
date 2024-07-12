@@ -15,8 +15,8 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   Future<UserModel> getProfile() async {
     try {
       final response = await client.auth.getUser();
-      if (response == null || response.user == null) {
-        throw ServerException('Failed to fetch user profile.');
+      if (response.user == null) {
+        throw const ServerException('Failed to fetch user profile.');
       }
       final user = response.user!;
       final metadata = user.userMetadata ?? {};
