@@ -25,8 +25,9 @@ class AppDrawer extends StatelessWidget {
           DrawerHeader(
             decoration: const BoxDecoration(
 
-             color: Colors.blue,
 
+             color: Colors.blue,
+              
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
