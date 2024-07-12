@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:finance_tracker/core/theme/app_pallete.dart';
+import 'package:finance_tracker/features/account_management/account_management.dart';
 import 'package:finance_tracker/features/feedback/presentation/pages/reviews.dart';
 import 'package:finance_tracker/features/notifications_events/presentation/pages/set_page.dart';
 import 'package:flutter/material.dart';
@@ -88,6 +89,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.group_rounded),
             title: const Text('Accounts'),
             onTap: () {
+              Navigator.push(context, AccountManagementPage.route());
               // Implement accounts
             },
           ),
