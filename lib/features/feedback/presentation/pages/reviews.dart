@@ -86,7 +86,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
               SizedBox(height: 16),
               ElevatedButton(
                 onPressed: _submitFeedback,
-                child: Text('Submit'),
+                child: Text('SUBMIT'),
               ),
             ],
           ),
