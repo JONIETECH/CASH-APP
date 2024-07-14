@@ -48,18 +48,18 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         ),
         body: Column(
           children: [
-            Text(" Please Enter Your Email and you will be sent a message to reset your password"),
+            const Text(" Please Enter Your Email and you will be sent a message to reset your password"),
             TextFormField(
               controller: emailController,
               decoration:  InputDecoration(
                 labelText: 'Email',
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white), 
+                  borderSide: const BorderSide(color: Colors.white), 
                   borderRadius: BorderRadius.circular(12),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.purple),
+                  borderSide: const BorderSide(color: Colors.purple),
                 ),
                 hintText: 'Email',
                 fillColor: Colors.grey[300],

@@ -2,7 +2,7 @@ import 'package:finance_tracker/features/security/domain/entities/biometric_stat
 
 
 class BiometricStatusModel extends BiometricStatus {
-  const BiometricStatusModel({required bool isEnabled}) : super(isEnabled: isEnabled);
+  const BiometricStatusModel({required super.isEnabled});
 
   factory BiometricStatusModel.fromJson(Map<String, dynamic> json) {
     return BiometricStatusModel(

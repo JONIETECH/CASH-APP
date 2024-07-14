@@ -7,7 +7,7 @@ class CustomSwitchListTile extends StatelessWidget {
   final bool value;
   final ValueChanged<bool> onChanged;
 
-  CustomSwitchListTile({
+  const CustomSwitchListTile({super.key, 
     required this.title,
     required this.value,
     required this.onChanged,

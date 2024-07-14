@@ -19,7 +19,7 @@ Future<void> showLogoutConfirmationDialog(BuildContext context) async {
         ),
         actions: <Widget>[
           TextButton(
-            child: Text('Cancel'),
+            child: const Text('Cancel'),
             onPressed: () {
               Navigator.of(context).pop();
             },

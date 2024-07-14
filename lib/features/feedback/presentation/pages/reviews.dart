@@ -14,12 +14,14 @@ class ReviewPage extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
-      body: FeedbackPage(),
+      body: const FeedbackPage(),
     );
   }
 }
 
 class FeedbackPage extends StatefulWidget {
+  const FeedbackPage({super.key});
+
   @override
   _FeedbackPageState createState() => _FeedbackPageState();
 }
@@ -42,7 +44,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
 
       // Show a snackbar or dialog to inform the user
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Thank you for your feedback!')),
+        const SnackBar(content: Text('Thank you for your feedback!')),
       );
 
       // Clear the form
@@ -54,24 +56,24 @@ class _FeedbackPageState extends State<FeedbackPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Feedback'),
+        title: const Text('Feedback'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'We value your feedback!',
                 style: TextStyle(fontSize: 18),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _feedbackController,
                 maxLines: 5,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Type your feedback Here...',
                   alignLabelWithHint: true,
@@ -83,10 +85,10 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: _submitFeedback,
-                child: Text('SUBMIT'),
+                child: Text('Submit'),
               ),
             ],
           ),

@@ -1,3 +1,4 @@
+import 'package:finance_tracker/core/theme/app_pallete.dart';
 import 'package:flutter/material.dart';
 
 class SummaryWidget extends StatelessWidget {
@@ -18,7 +19,13 @@ class SummaryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Divider(),
+        const Divider(
+          height: 0,
+          color: AppPallete.greyColor,
+          thickness: 1.0,
+          indent: 5,
+          endIndent: 5,
+        ),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           decoration: BoxDecoration(
@@ -64,7 +71,13 @@ class SummaryWidget extends StatelessWidget {
             ],
           ),
         ),
-        const Divider(),
+        const Divider(
+          height: 0,
+          color: AppPallete.greyColor,
+          thickness: 1.0,
+          indent: 5,
+          endIndent: 5,
+        ),
       ],
     );
   }

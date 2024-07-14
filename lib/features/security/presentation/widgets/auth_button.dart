@@ -5,7 +5,7 @@ import '../../../../core/services/auth_service.dart';
 class AuthButton extends StatefulWidget {
   final Function(bool) onAuthenticated;
 
-  const AuthButton({Key? key, required this.onAuthenticated}) : super(key: key);
+  const AuthButton({super.key, required this.onAuthenticated});
 
   @override
   _AuthButtonState createState() => _AuthButtonState();
