@@ -34,7 +34,6 @@ class _FeedbackPageState extends State<FeedbackPage> {
   final ImagePicker _picker = ImagePicker();
   List<File> _images = [];
 
-
   @override
   void dispose() {
     _feedbackController.dispose();
@@ -43,7 +42,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
 
   void _submitFeedback() {
     if (_formKey.currentState?.validate() ?? false) {
-      //feedback submission is handled here
+      // Handle the feedback submission here
       String feedback = _feedbackController.text;
       print('Feedback submitted: $feedback');
       print('Images submitted: ${_images.length}');
@@ -55,11 +54,14 @@ class _FeedbackPageState extends State<FeedbackPage> {
 
       // Clear the form
       _feedbackController.clear();
+      setState(() {
+        _images.clear();
+      });
     }
   }
 
-Future<void> _pickImage() async {
-  final List<XFile>? pickedFiles = await _picker.pickMultiImage();
+  Future<void> _pickImage() async {
+    final List<XFile>? pickedFiles = await _picker.pickMultiImage();
     if (pickedFiles != null) {
       setState(() {
         _images = pickedFiles.map((file) => File(file.path)).toList();
@@ -77,35 +79,57 @@ Future<void> _pickImage() async {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'We value your feedback!',
-                style: TextStyle(fontSize: 18),
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _feedbackController,
-                maxLines: 5,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Type your feedback Here...',
-                  alignLabelWithHint: true,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'We value your feedback!',
+                  style: TextStyle(fontSize: 18),
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your feedback';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _submitFeedback,
-                child: Text('Submit'),
-              ),
-            ],
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _feedbackController,
+                  maxLines: 5,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Type your feedback Here...',
+                    alignLabelWithHint: true,
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your feedback';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: _pickImage,
+                  child: const Text('Pick Images'),
+                ),
+                const SizedBox(height: 16),
+                _images.isEmpty
+                    ? const Text('No images selected.')
+                    : Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        children: _images.map((image) {
+                          return Image.file(
+                            image,
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          );
+                        }).toList(),
+                      ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: _submitFeedback,
+                  child: const Text('Submit'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
