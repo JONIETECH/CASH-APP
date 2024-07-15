@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class ReviewPage extends StatelessWidget {
   static route() => MaterialPageRoute(builder: (context) => const ReviewPage());
@@ -29,6 +31,9 @@ class FeedbackPage extends StatefulWidget {
 class _FeedbackPageState extends State<FeedbackPage> {
   final _formKey = GlobalKey<FormState>();
   final _feedbackController = TextEditingController();
+  final ImagePicker _picker = ImagePicker();
+  List<File> _images = [];
+
 
   @override
   void dispose() {
@@ -38,9 +43,10 @@ class _FeedbackPageState extends State<FeedbackPage> {
 
   void _submitFeedback() {
     if (_formKey.currentState?.validate() ?? false) {
-      // You can handle the feedback submission here
+      //feedback submission is handled here
       String feedback = _feedbackController.text;
       print('Feedback submitted: $feedback');
+      print('Images submitted: ${_images.length}');
 
       // Show a snackbar or dialog to inform the user
       ScaffoldMessenger.of(context).showSnackBar(
@@ -49,6 +55,15 @@ class _FeedbackPageState extends State<FeedbackPage> {
 
       // Clear the form
       _feedbackController.clear();
+    }
+  }
+
+Future<void> _pickImage() async {
+  final List<XFile>? pickedFiles = await _picker.pickMultiImage();
+    if (pickedFiles != null) {
+      setState(() {
+        _images = pickedFiles.map((file) => File(file.path)).toList();
+      });
     }
   }
 
