@@ -106,7 +106,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: _pickImage,
-                  child: const Text('Pick Images'),
+                  child: const Text('Add Photos'),
                 ),
                 const SizedBox(height: 16),
                 _images.isEmpty
