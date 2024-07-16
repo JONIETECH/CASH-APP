@@ -1,3 +1,5 @@
+import 'package:finance_tracker/features/ai_automation/data/api_service.dart';
+import 'package:finance_tracker/features/ai_automation/presentation/bloc/ai_bloc.dart';
 import 'package:finance_tracker/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:finance_tracker/features/notifications_events/data/datasources/balance_local_data_source.dart';
 import 'package:finance_tracker/features/notifications_events/data/datasources/balance_local_data_source_impl.dart';
@@ -63,6 +65,7 @@ Future<void> initDependencies() async {
   _initFinanceTransactions();
   _initReset();
   _initNotifications();
+  _initAI();
 
   await NotificationHelper.initialize();
 }
@@ -234,4 +237,10 @@ void _initNotifications() {
         updateBalance: serviceLocator(),
       ),
     );
+}
+
+void _initAI() {
+  serviceLocator
+    ..registerSingleton<ApiService>(ApiService())
+    ..registerFactory(() => AiBloc(apiService: serviceLocator()));
 }
