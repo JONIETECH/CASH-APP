@@ -1,6 +1,7 @@
 import 'package:finance_tracker/core/common/widgets/loader.dart';
 import 'package:finance_tracker/core/theme/app_pallete.dart';
 import 'package:finance_tracker/core/utils/show_snackbar.dart';
+import 'package:finance_tracker/features/finance/presentation/pages/dashboardpage.dart';
 import 'package:finance_tracker/features/finance_blog/presentation/bloc/blog_bloc.dart';
 import 'package:finance_tracker/features/finance_blog/presentation/pages/add_new_blog.dart';
 import 'package:finance_tracker/features/finance_blog/presentation/widgets/blog_card.dart';
@@ -30,6 +31,12 @@ class _BlogPageState extends State<BlogPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Finance Blogs'),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.push(context, DashboardPage.route());
+          },
+          icon: const Icon(CupertinoIcons.home),
+        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -38,7 +45,7 @@ class _BlogPageState extends State<BlogPage> {
             icon: const Icon(
               CupertinoIcons.add_circled,
             ),
-          )
+          ),
         ],
       ),
       body: BlocConsumer<BlogBloc, BlogState>(
@@ -58,7 +65,6 @@ class _BlogPageState extends State<BlogPage> {
                   final blog = state.blogs[index];
                   return BlogCard(
                     blog: blog,
-                    
                   );
                 });
           }
