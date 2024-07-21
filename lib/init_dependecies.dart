@@ -1,6 +1,12 @@
 import 'package:finance_tracker/features/ai_automation/data/api_service.dart';
 import 'package:finance_tracker/features/ai_automation/presentation/bloc/ai_bloc.dart';
 import 'package:finance_tracker/features/auth/domain/usecases/user_sign_up.dart';
+import 'package:finance_tracker/features/finance_blog/data/datasources/blog_remote_data_source.dart';
+import 'package:finance_tracker/features/finance_blog/data/repositories/blog_repository_impl.dart';
+import 'package:finance_tracker/features/finance_blog/domain/repositories/blog_repositories.dart';
+import 'package:finance_tracker/features/finance_blog/domain/usecases/get_all_blogs.dart';
+import 'package:finance_tracker/features/finance_blog/domain/usecases/upload_blog.dart';
+import 'package:finance_tracker/features/finance_blog/presentation/bloc/blog_bloc.dart';
 import 'package:finance_tracker/features/notifications_events/data/datasources/balance_local_data_source.dart';
 import 'package:finance_tracker/features/notifications_events/data/datasources/balance_local_data_source_impl.dart';
 import 'package:finance_tracker/features/notifications_events/data/datasources/event_local_data_source.dart';
@@ -66,6 +72,7 @@ Future<void> initDependencies() async {
   _initReset();
   _initNotifications();
   _initAI();
+  _initBlog();
 
   await NotificationHelper.initialize();
 }
@@ -243,4 +250,40 @@ void _initAI() {
   serviceLocator
     ..registerSingleton<ApiService>(ApiService())
     ..registerFactory(() => AiBloc(apiService: serviceLocator()));
+}
+
+void _initBlog() {
+  serviceLocator
+    //Datasource
+    ..registerFactory<BlogRemoteDataSource>(
+      () => BlogRemoteDataSourceImpl(
+        serviceLocator(),
+      ),
+    )
+    //repository
+    ..registerFactory<BlogRepository>(
+      () => BlogRepositoryImpl(
+        serviceLocator(),
+      ),
+    )
+
+    //usecase
+    ..registerFactory(
+      () => UploadBlog(
+        serviceLocator(),
+      ),
+    )
+    ..registerFactory(
+      () => GetAllBlogs(
+        serviceLocator(),
+      ),
+    )
+
+    //Blocs
+    ..registerLazySingleton(
+      () => BlogBloc(
+        uploadBlog: serviceLocator(),
+        getAllBlogs: serviceLocator(),
+      ),
+    );
 }

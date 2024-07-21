@@ -16,6 +16,7 @@ migrate_working_dir/
 *.iws
 .idea/
 .env
+test
 
 # Flutter/Dart/Pub related
 **/doc/api/

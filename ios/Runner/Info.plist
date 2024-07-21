@@ -71,5 +71,11 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>Photos from gallery to post blogs</string>
+		<key>NSCameraUsageDescription</key>
+		<string>Photos from from  to post blogs</string>
+		
+		
 	</dict>
 </plist>

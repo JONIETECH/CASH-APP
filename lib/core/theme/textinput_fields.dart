@@ -21,7 +21,8 @@ class FTextFieldTheme {
     ),
     enabledBorder: const OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(14),
-      borderSide: const BorderSide(width: 1,color: Colors.grey)
+      borderSide: const BorderSide(width: 1,color: Colors.grey),
+    
 
     
 

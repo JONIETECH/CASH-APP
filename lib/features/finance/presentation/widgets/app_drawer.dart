@@ -2,6 +2,7 @@
 import 'package:finance_tracker/core/theme/app_pallete.dart';
 import 'package:finance_tracker/features/account_management/account_management.dart';
 import 'package:finance_tracker/features/feedback/presentation/pages/reviews.dart';
+import 'package:finance_tracker/features/finance_blog/presentation/pages/blog_page.dart';
 import 'package:finance_tracker/features/notifications_events/presentation/pages/set_page.dart';
 import 'package:flutter/material.dart';
 import 'package:finance_tracker/features/auth/presentation/widgets/logout_confirmation_dialog.dart';
@@ -19,23 +20,21 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
             decoration: const BoxDecoration(
-
-
-             color: Colors.blue,
-              
+              color: Colors.blue,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ClipOval(
                   child: Image.asset(
-                    'assets/images/logos/light.jpg',
+                   isDarkMode ?  'assets/images/logos/dark.jpg' :  'assets/images/logos/light.jpg',
                     width: 50,
                     height: 50,
                     fit: BoxFit.cover,
@@ -65,8 +64,15 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: const Icon(Icons.book),
+            title: const Text('Finance Blogs'),
+            onTap: () {
+              Navigator.push(context, BlogPage.route());
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.memory),
-            title: const Text('AI'),
+            title: const Text('Finance AI'),
             onTap: () {
               Navigator.push(context, Aipage.route());
             },

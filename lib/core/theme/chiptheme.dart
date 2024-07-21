@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class FChipTheme {
   FChipTheme._();
   static ChipThemeData lightChipTheme = ChipThemeData(
@@ -7,6 +8,7 @@ class FChipTheme {
     selectedColor: Colors.blue,
     padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
     checkmarkColor: Colors.white,
+    side: BorderSide.none,
   );
   static ChipThemeData darkChipTheme = ChipThemeData(
     disabledColor: Colors.grey.withOpacity(0.4),
