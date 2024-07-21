@@ -1,6 +1,7 @@
 import 'package:finance_tracker/features/ai_automation/data/api_service.dart';
 import 'package:finance_tracker/features/ai_automation/presentation/bloc/ai_bloc.dart';
 import 'package:finance_tracker/features/auth/domain/usecases/user_sign_up.dart';
+import 'package:finance_tracker/features/finance_blog/data/datasources/blog_local_datasource.dart';
 import 'package:finance_tracker/features/finance_blog/data/datasources/blog_remote_data_source.dart';
 import 'package:finance_tracker/features/finance_blog/data/repositories/blog_repository_impl.dart';
 import 'package:finance_tracker/features/finance_blog/domain/repositories/blog_repositories.dart';
@@ -56,8 +57,10 @@ import 'package:finance_tracker/features/auth/domain/usecases/current_user.dart'
 import 'package:finance_tracker/features/auth/domain/usecases/user_login.dart';
 import 'package:finance_tracker/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hive/hive.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -85,6 +88,11 @@ Future<void> _initCoreDependencies() async {
   );
   serviceLocator.registerLazySingleton(() => supabase.client);
 
+  //hive
+  Hive.defaultDirectory = (await getApplicationDocumentsDirectory()).path;
+
+  serviceLocator.registerLazySingleton(() => Hive.box(name: 'blogs'));
+
   // Register Internet Connection
   serviceLocator.registerFactory(() => InternetConnection());
 
@@ -107,7 +115,10 @@ Future<void> _initCoreDependencies() async {
 void _initAuth() {
   serviceLocator
     ..registerFactory<AuthRemoteDataSource>(
-      () => AuthRemoteDataSourceImpl(serviceLocator(), serviceLocator()),
+      () => AuthRemoteDataSourceImpl(
+        serviceLocator(),
+        serviceLocator(),
+      ),
     )
     ..registerFactory<AuthRepository>(
       () => AuthRepositoryImpl(serviceLocator(), serviceLocator()),
@@ -260,9 +271,13 @@ void _initBlog() {
         serviceLocator(),
       ),
     )
+    ..registerFactory<BlogLocalDataSource>(
+        () => BlogLocalDatasourceImpl(serviceLocator()))
     //repository
     ..registerFactory<BlogRepository>(
       () => BlogRepositoryImpl(
+        serviceLocator(),
+        serviceLocator(),
         serviceLocator(),
       ),
     )

@@ -21,7 +21,7 @@ dependencies:
   image_picker: ^1.1.2
   internet_connection_checker_plus: ^2.5.0
   provider: ^6.0.0
-  charts_flutter:
+  charts_flutter: ^0.12.0
   local_auth: ^2.2.0
   equatable: ^2.0.5
   uuid: ^4.4.2
@@ -36,11 +36,11 @@ dependencies:
   path_provider: ^2.1.3
   extension_google_sign_in_as_googleapis_auth: ^2.0.12
   googleapis_auth: ^1.6.0
-  isar: ^3.1.0+1
-  isar_flutter_libs: ^3.1.0+1
   googleapis: ^13.2.0
   path: ^1.9.0
-  
+  hive: ^4.0.0-dev.2
+  isar_flutter_libs: ^4.0.0-dev.13
+  #isar: ^4.0.0-dev.14
 
 dev_dependencies:
   flutter_lints: ^4.0.0
@@ -53,4 +53,3 @@ flutter:
     - assets/images/logos/
     - .env
     - assets/images/
-
