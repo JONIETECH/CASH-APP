@@ -111,7 +111,7 @@ class ProfilePage extends StatelessWidget {
                       const SizedBox(height: 12),
                       ElevatedButton(
                         onPressed: () {
-                          // Add logout functionality here
+                          showLogoutConfirmationDialog(context);
                         },
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
@@ -124,12 +124,7 @@ class ProfilePage extends StatelessWidget {
                             vertical: 12.0,
                           ),
                         ),
-                        child: GestureDetector(
-                          onTap: () {
-                            showLogoutConfirmationDialog(context);
-                          },
-                          child: const Text('Logout'),
-                        ),
+                        child: const Text('Logout'),
                       ),
                     ],
                   ),
