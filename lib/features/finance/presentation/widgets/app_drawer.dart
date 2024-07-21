@@ -1,6 +1,7 @@
 // ignore: unused_import
 import 'package:finance_tracker/core/theme/app_pallete.dart';
 import 'package:finance_tracker/features/account_management/account_management.dart';
+import 'package:finance_tracker/features/auth/presentation/pages/profile_page.dart';
 import 'package:finance_tracker/features/feedback/presentation/pages/reviews.dart';
 import 'package:finance_tracker/features/finance_blog/presentation/pages/blog_page.dart';
 import 'package:finance_tracker/features/notifications_events/presentation/pages/set_page.dart';
@@ -60,7 +61,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.account_circle),
             title: const Text('Profile'),
             onTap: () {
-              //Navigator.push(context, ProfilePage.route());
+              Navigator.push(context, ProfilePage.route());
             },
           ),
           ListTile(
