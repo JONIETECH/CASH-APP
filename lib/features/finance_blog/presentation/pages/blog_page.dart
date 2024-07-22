@@ -60,6 +60,7 @@ class _BlogPageState extends State<BlogPage> {
           }
           if (state is BlogsDisplaySuccess) {
             return ListView.builder(
+                reverse: true,
                 itemCount: state.blogs.length,
                 itemBuilder: (context, index) {
                   final blog = state.blogs[index];
