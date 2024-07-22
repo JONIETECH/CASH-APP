@@ -2,6 +2,10 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intl/intl.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter_file_dialog/flutter_file_dialog.dart';
+
 
 void main() {
   runApp(const CharityPage());
@@ -34,6 +38,23 @@ class _CharityDonationsPageState extends State<CharityDonationsPage> with Ticker
   double _donationGoal = 1000;
   double _totalDonations = 0;
   List<Map<String, dynamic>> _donations = [];
+  Future<void> _saveDetails() async {
+  final directory = await getApplicationDocumentsDirectory();
+  final file = File('${directory.path}/donations.txt');
+
+  String content = 'Donation Goal: \$$_donationGoal\n';
+  content += 'Total Donations: \$$_totalDonations\n';
+  content += 'Donations:\n';
+
+  for (var donation in _donations) {
+    final date = DateFormat('yyyy-MM-dd').format(donation['date']);
+    content += '\$${donation['amount']} on $date\n';
+  }
+
+  await file.writeAsString(content);
+  await FlutterFileDialog.saveFile(params: SaveFileDialogParams(sourceFilePath: file.path));
+}
+
 
   void _addDonation(double amount) {
     setState(() {
@@ -97,13 +118,7 @@ class _CharityDonationsPageState extends State<CharityDonationsPage> with Ticker
               child: const Text('Update Goal'),
             ).animate().scale(),
             const SizedBox(height: 10),
-            LinearProgressIndicator(
-              value: _totalDonations / _donationGoal,
-              minHeight: 10,
-              color: Colors.green,
-              backgroundColor: Colors.grey,
-            ).animate().fadeIn().slideX(duration: const Duration(seconds: 1)),
-            const SizedBox(height: 10),
+            
             Text(
               'Total Donations: \$$_totalDonations',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -111,8 +126,7 @@ class _CharityDonationsPageState extends State<CharityDonationsPage> with Ticker
             const SizedBox(height: 20),
             Column(
               children: [
-                const Text('Total Donations'),
-                const SizedBox(height: 10),
+
                 SizedBox(
                   height: 150,
                   child: PieChart(
@@ -149,6 +163,11 @@ class _CharityDonationsPageState extends State<CharityDonationsPage> with Ticker
               child: const Text('Donate'),
             ).animate().scale(),
             const SizedBox(height: 20),
+            ElevatedButton(
+            onPressed: _saveDetails,
+            child: const Text('Save '),
+          ).animate().scale(),
+          const SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
                 itemCount: _donations.length,
