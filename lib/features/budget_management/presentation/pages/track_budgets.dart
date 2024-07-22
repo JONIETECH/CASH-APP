@@ -1,3 +1,4 @@
+import 'package:finance_tracker/features/charity/presentation/pages/donations.dart';
 import 'package:flutter/material.dart';
 
 class TrackBudgets extends StatefulWidget {
@@ -74,6 +75,16 @@ class _TrackBudgetsState extends State<TrackBudgets> {
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
               ),
+            ),
+            const SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const CharityDonationsPage()),
+                );
+              },
+              child: const Text('Go to Charity Donations'),
             ),
           ],
         ),
