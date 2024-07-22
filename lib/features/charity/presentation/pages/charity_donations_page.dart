@@ -1,5 +1,7 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(const CharityPage());
@@ -11,7 +13,7 @@ class CharityPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: 'Charity Donations',
+      title: 'Donations',
       home: CharityDonationsPage(),
     );
   }
@@ -27,22 +29,43 @@ class CharityDonationsPage extends StatefulWidget {
 
 class _CharityDonationsPageState extends State<CharityDonationsPage> with TickerProviderStateMixin {
   final TextEditingController _donationAmountController = TextEditingController();
+  final TextEditingController _donationGoalController = TextEditingController();
 
   double _donationGoal = 1000;
   double _totalDonations = 0;
-  List<double> _donations = [];
+  List<Map<String, dynamic>> _donations = [];
 
   void _addDonation(double amount) {
     setState(() {
       _totalDonations += amount;
-      _donations.add(amount);
+      _donations.add({'amount': amount, 'date': DateTime.now()});
     });
+  }
+
+  void _updateDonationGoal() {
+    if (_donationGoalController.text.isNotEmpty) {
+      setState(() {
+        _donationGoal = double.parse(_donationGoalController.text);
+      });
+      _donationGoalController.clear();
+    }
   }
 
   @override
   void dispose() {
     _donationAmountController.dispose();
+    _donationGoalController.dispose();
     super.dispose();
+  }
+
+  PieChartSectionData _createSectionData(double value, double total, Color color, String title) {
+    return PieChartSectionData(
+      color: color,
+      value: value,
+      title: '$title\n${(value / total * 100).toStringAsFixed(1)}%',
+      radius: 50,
+      titleStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+    );
   }
 
   @override
@@ -60,14 +83,50 @@ class _CharityDonationsPageState extends State<CharityDonationsPage> with Ticker
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
+            TextField(
+              controller: _donationGoalController,
+              decoration: const InputDecoration(
+                labelText: 'Edit donation goal',
+                border: OutlineInputBorder(),
+              ),
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: _updateDonationGoal,
+              child: const Text('Update Goal'),
+            ).animate().scale(),
+            const SizedBox(height: 10),
             LinearProgressIndicator(
               value: _totalDonations / _donationGoal,
               minHeight: 10,
+              color: Colors.green,
+              backgroundColor: Colors.grey,
             ).animate().fadeIn().slideX(duration: const Duration(seconds: 1)),
             const SizedBox(height: 10),
             Text(
               'Total Donations: \$$_totalDonations',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            Column(
+              children: [
+                const Text('Total Donations'),
+                const SizedBox(height: 10),
+                SizedBox(
+                  height: 150,
+                  child: PieChart(
+                    PieChartData(
+                      sections: [
+                        _createSectionData(_totalDonations, _donationGoal, Colors.green, 'Donated'),
+                        _createSectionData(_donationGoal - _totalDonations, _donationGoal, Colors.grey, 'Remaining'),
+                      ],
+                      sectionsSpace: 0,
+                      centerSpaceRadius: 30,
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 20),
             TextField(
@@ -94,8 +153,11 @@ class _CharityDonationsPageState extends State<CharityDonationsPage> with Ticker
               child: ListView.builder(
                 itemCount: _donations.length,
                 itemBuilder: (context, index) {
+                  final donation = _donations[index];
+                  final date = DateFormat('yyyy-MM-dd').format(donation['date']);
                   return ListTile(
-                    title: Text('\$${_donations[index]}'),
+                    title: Text('\$${donation['amount']}'),
+                    subtitle: Text('Date: $date'),
                   ).animate().fadeIn(duration: Duration(milliseconds: 300 * (index + 1)));
                 },
               ),

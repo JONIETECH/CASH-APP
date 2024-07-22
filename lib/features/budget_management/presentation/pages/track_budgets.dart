@@ -1,4 +1,4 @@
-import 'package:finance_tracker/features/charity/presentation/pages/donations.dart';
+import 'package:finance_tracker/features/charity/presentation/pages/charity_donations_page.dart';
 import 'package:flutter/material.dart';
 
 class TrackBudgets extends StatefulWidget {
@@ -84,7 +84,7 @@ class _TrackBudgetsState extends State<TrackBudgets> {
                   MaterialPageRoute(builder: (context) => const CharityDonationsPage()),
                 );
               },
-              child: const Text('Go to Charity Donations'),
+              child: const Text('Donations'),
             ),
           ],
         ),

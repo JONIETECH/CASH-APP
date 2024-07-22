@@ -41,6 +41,7 @@ dependencies:
   hive: ^4.0.0-dev.2
   isar_flutter_libs: ^4.0.0-dev.13
   flutter_animate: ^4.5.0
+  fl_chart: ^0.68.0
   #isar: ^4.0.0-dev.14
 
 dev_dependencies:
