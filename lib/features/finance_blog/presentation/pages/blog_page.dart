@@ -60,6 +60,7 @@ class _BlogPageState extends State<BlogPage> {
           }
           if (state is BlogsDisplaySuccess) {
             return ListView.builder(
+                padding: const EdgeInsets.only(bottom: 16.0),  // Added padding to the bottom
                 reverse: true,
                 itemCount: state.blogs.length,
                 itemBuilder: (context, index) {

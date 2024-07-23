@@ -55,8 +55,8 @@ ios/ServiceDefinitions.json
 ios/Runner/GeneratedPluginRegistrant.*
 
 # Android related
-android/local.properties
-android/.gradle/
+#android/local.properties
+#android/.gradle/
 android/.idea/
 android/build/
 android/app/app.iml
@@ -102,7 +102,7 @@ coverage/
 Thumbs.db
 
 # Gradle specific
-.gradle/
+#.gradle/
 /captures/
 /lint/
 
