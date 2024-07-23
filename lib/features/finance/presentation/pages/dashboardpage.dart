@@ -7,7 +7,6 @@ import '../widgets/transaction_list.dart';
 import '../widgets/summary.dart';
 import 'package:intl/intl.dart';
 
-
 class DashboardPage extends StatefulWidget {
   static route() =>
       MaterialPageRoute(builder: (context) => const DashboardPage());
@@ -22,7 +21,8 @@ class _DashboardPageState extends State<DashboardPage> {
   String _searchQuery = '';
   List<Map<String, String>> transactions = [];
   bool _isAscending = true;
-  final SharedPreferencesService _sharedPreferencesService = SharedPreferencesService();
+  final SharedPreferencesService _sharedPreferencesService =
+      SharedPreferencesService();
 
   @override
   void initState() {
@@ -285,9 +285,7 @@ class _DashboardPageState extends State<DashboardPage> {
     double balance = totalCashIn - totalCashOut;
 
     // Determine text color for balance based on its value
-    Color balanceColor = balance >= 0
-        ? Theme.of(context).colorScheme.inverseSurface
-        : Colors.red;
+    Color balanceColor = balance >= 0 ? Colors.green : Colors.red;
 
     return Scaffold(
       appBar: AppBar(
