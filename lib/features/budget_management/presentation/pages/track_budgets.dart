@@ -1,4 +1,4 @@
-import 'package:finance_tracker/features/charity/presentation/pages/charity_donations_page.dart';
+import 'package:finance_tracker/features/charity/presentation/charity_donations_page.dart';
 import 'package:flutter/material.dart';
 
 class TrackBudgets extends StatefulWidget {
