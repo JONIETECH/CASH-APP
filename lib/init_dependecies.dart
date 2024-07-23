@@ -1,3 +1,4 @@
+import 'package:finance_tracker/core/services/shared_preferences_service.dart';
 import 'package:finance_tracker/features/ai_automation/data/api_service.dart';
 import 'package:finance_tracker/features/ai_automation/presentation/bloc/ai_bloc.dart';
 import 'package:finance_tracker/features/auth/domain/usecases/user_sign_up.dart';
@@ -110,6 +111,7 @@ Future<void> _initCoreDependencies() async {
   // Shared Preferences
   final sharedPreferences = await SharedPreferences.getInstance();
   serviceLocator.registerLazySingleton(() => sharedPreferences);
+ serviceLocator.registerLazySingleton(() => SharedPreferencesService());
 }
 
 void _initAuth() {
