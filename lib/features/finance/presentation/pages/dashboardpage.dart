@@ -286,6 +286,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
     // Determine text color for balance based on its value
     Color balanceColor = balance >= 0 ? Colors.green : Colors.red;
+    Color totalCashOutColor = Colors.red;
+    Color totalCashInColor = Colors.green;
 
     return Scaffold(
       appBar: AppBar(
@@ -354,8 +356,10 @@ class _DashboardPageState extends State<DashboardPage> {
               totalCashIn: totalCashIn,
               totalCashOut: totalCashOut,
               balance: balance,
-              balanceColor:
-                  balanceColor, // Pass the determined color to SummaryWidget
+              balanceColor: balanceColor,
+              totalCashInColor: totalCashInColor,
+              totalCashOutColor: totalCashOutColor,
+              // Pass the determined color to SummaryWidget
             ),
           ),
           Row(
