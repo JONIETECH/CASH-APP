@@ -2,13 +2,12 @@ import 'package:finance_tracker/features/charity/domain/donation.dart';
 import 'package:finance_tracker/features/charity/domain/donation_usecases.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:intl/intl.dart';
 
 class CharityDonationsViewModel extends ChangeNotifier {
   final TextEditingController donationAmountController = TextEditingController();
   final TextEditingController donationGoalController = TextEditingController();
 
-  double donationGoal = 1000;
+  double donationGoal = 0;
   double totalDonations = 0;
   List<Donation> donations = [];
 

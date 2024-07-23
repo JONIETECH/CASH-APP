@@ -1,4 +1,3 @@
-import 'package:finance_tracker/features/charity/data/donation_repository.dart';
 import 'package:finance_tracker/features/charity/domain/donation.dart';
 
 
@@ -9,6 +8,7 @@ class DonationUseCases {
     await donationRepository.saveDonationDetails(goal, total, donations);
   }
 }
+//needs fixing
 class DonationRepository {
   saveDonationDetails(double goal, double total, List<Donation> donations) {}
   

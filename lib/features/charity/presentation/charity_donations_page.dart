@@ -15,7 +15,7 @@ class CharityDonationsPage extends StatelessWidget {
       create: (_) => CharityDonationsViewModel(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Charity Donations'),
+          title: const Text('Donations'),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
