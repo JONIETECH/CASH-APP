@@ -79,7 +79,7 @@ class CharityDonationsPage extends StatelessWidget {
                       ).animate().scale(),
                       const SizedBox(width: 10),
                       ElevatedButton(
-                        onPressed: viewModel.saveDetails,
+                        onPressed: viewModel.saveDonations,
                         child: const Text('Save'),
                       ).animate().scale(),
                     ],
