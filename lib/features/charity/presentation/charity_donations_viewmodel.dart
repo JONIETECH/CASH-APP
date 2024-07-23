@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -31,7 +32,7 @@ class CharityDonationsViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> saveDonations() async {
+  Future<void> saveDonations(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     final donationList = donations.map((donation) => donation.toJson()).toList();
     await prefs.setString('donations', jsonEncode(donationList));
@@ -39,7 +40,10 @@ class CharityDonationsViewModel extends ChangeNotifier {
     await prefs.setDouble('totalDonations', totalDonations);
 
 
-   
+    
+    ScaffoldMessenger.of(context).showSnackBar(
+     const SnackBar(content: Text('Successfully saved!')),
+  );
   }
 
   Future<void> _loadDonations() async {
