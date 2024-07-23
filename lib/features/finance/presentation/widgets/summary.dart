@@ -6,6 +6,8 @@ class SummaryWidget extends StatelessWidget {
   final double totalCashOut;
   final double balance;
   final Color balanceColor;
+  final Color totalCashInColor;
+  final Color totalCashOutColor;
 
   const SummaryWidget({
     super.key,
@@ -13,6 +15,8 @@ class SummaryWidget extends StatelessWidget {
     required this.totalCashOut,
     required this.balance,
     required this.balanceColor,
+    required this.totalCashInColor,
+    required this.totalCashOutColor,
   });
 
   @override
@@ -41,7 +45,10 @@ class SummaryWidget extends StatelessWidget {
                     'Total Cash In',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Text(totalCashIn.toStringAsFixed(0)),
+                  Text(
+                    totalCashIn.toStringAsFixed(0),
+                    style: TextStyle(color: totalCashInColor),
+                  ),
                 ],
               ),
               Column(
@@ -50,7 +57,10 @@ class SummaryWidget extends StatelessWidget {
                     'Total Cash Out',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Text(totalCashOut.toStringAsFixed(0)),
+                  Text(
+                    totalCashOut.toStringAsFixed(0),
+                    style: TextStyle(color: totalCashOutColor),
+                  ),
                 ],
               ),
               Column(

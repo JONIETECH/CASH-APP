@@ -14,7 +14,7 @@ class TransactionList extends StatelessWidget {
       itemBuilder: (context, index) {
         final transaction = transactions[index];
         final isCashOut = transaction['type'] == 'Cash Out';
-        final amountColor = isCashOut ? Colors.red : Theme.of(context).textTheme.bodyMedium!.color;
+        final amountColor = isCashOut ? Colors.red : Colors.green;
 
         return Column(
           children: [
