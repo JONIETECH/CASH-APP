@@ -1,3 +1,4 @@
+import 'package:finance_tracker/core/services/shared_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../widgets/app_drawer.dart';
@@ -5,8 +6,6 @@ import '../widgets/options_menu.dart';
 import '../widgets/transaction_list.dart';
 import '../widgets/summary.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 
 class DashboardPage extends StatefulWidget {
   static route() =>
@@ -22,6 +21,8 @@ class _DashboardPageState extends State<DashboardPage> {
   String _searchQuery = '';
   List<Map<String, String>> transactions = [];
   bool _isAscending = true;
+  final SharedPreferencesService _sharedPreferencesService =
+      SharedPreferencesService();
 
   @override
   void initState() {
@@ -30,19 +31,12 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   Future<void> _saveTransactions() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('transactions', jsonEncode(transactions));
+    await _sharedPreferencesService.saveTransactions(transactions);
   }
 
   Future<void> _loadTransactions() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? transactionsString = prefs.getString('transactions');
-    if (transactionsString != null) {
-      setState(() {
-        transactions = List<Map<String, String>>.from(
-            jsonDecode(transactionsString) as List);
-      });
-    }
+    transactions = await _sharedPreferencesService.loadTransactions();
+    setState(() {});
   }
 
   void _showOptionsMenu(BuildContext context) {
@@ -291,9 +285,7 @@ class _DashboardPageState extends State<DashboardPage> {
     double balance = totalCashIn - totalCashOut;
 
     // Determine text color for balance based on its value
-    Color balanceColor = balance >= 0
-        ? Theme.of(context).colorScheme.inverseSurface
-        : Colors.red;
+    Color balanceColor = balance >= 0 ? Colors.green : Colors.red;
 
     return Scaffold(
       appBar: AppBar(
