@@ -1,3 +1,4 @@
+import 'package:finance_tracker/features/currency_conversion/presentation/pages/currency_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:finance_tracker/features/auth/presentation/bloc/auth_bloc.dart';
@@ -93,6 +94,13 @@ class AppDrawer extends StatelessWidget {
                   title: const Text('Future Events'),
                   onTap: () {
                     Navigator.push(context, FinanceOptionsPage.route());
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.attach_money_rounded),
+                  title: const Text('Check Currency'),
+                  onTap: () {
+                    Navigator.push(context, CurrencyPage.route());
                   },
                 ),
                 ListTile(

@@ -1,7 +1,12 @@
+import 'package:finance_tracker/core/services/currency_service.dart';
 import 'package:finance_tracker/core/services/shared_preferences_service.dart';
 import 'package:finance_tracker/features/ai_automation/data/api_service.dart';
 import 'package:finance_tracker/features/ai_automation/presentation/bloc/ai_bloc.dart';
 import 'package:finance_tracker/features/auth/domain/usecases/user_sign_up.dart';
+import 'package:finance_tracker/features/currency_conversion/data/repositories/currency_repository_impl.dart';
+import 'package:finance_tracker/features/currency_conversion/domain/repositories/currency_repository.dart';
+import 'package:finance_tracker/features/currency_conversion/domain/usecases/get_currency_rates.dart';
+import 'package:finance_tracker/features/currency_conversion/presentation/bloc/currency_bloc.dart';
 import 'package:finance_tracker/features/finance_blog/data/datasources/blog_local_datasource.dart';
 import 'package:finance_tracker/features/finance_blog/data/datasources/blog_remote_data_source.dart';
 import 'package:finance_tracker/features/finance_blog/data/repositories/blog_repository_impl.dart';
@@ -77,6 +82,7 @@ Future<void> initDependencies() async {
   _initNotifications();
   _initAI();
   _initBlog();
+  _initCurrency();
 
   await NotificationHelper.initialize();
 }
@@ -111,7 +117,7 @@ Future<void> _initCoreDependencies() async {
   // Shared Preferences
   final sharedPreferences = await SharedPreferences.getInstance();
   serviceLocator.registerLazySingleton(() => sharedPreferences);
- serviceLocator.registerLazySingleton(() => SharedPreferencesService());
+  serviceLocator.registerLazySingleton(() => SharedPreferencesService());
 }
 
 void _initAuth() {
@@ -303,4 +309,21 @@ void _initBlog() {
         getAllBlogs: serviceLocator(),
       ),
     );
+}
+
+void _initCurrency() {
+  // Currency Repository
+  serviceLocator.registerFactory<CurrencyRepository>(
+      () => CurrencyRepositoryImpl(serviceLocator()));
+
+  // Currency UseCase
+  serviceLocator.registerFactory(() => GetCurrencyRates(serviceLocator()));
+
+  // Currency Bloc
+  serviceLocator.registerLazySingleton(
+      () => CurrencyBloc(
+         serviceLocator()));
+  // Register CurrencyService
+  serviceLocator.registerLazySingleton<CurrencyService>(() => CurrencyService());
+  
 }

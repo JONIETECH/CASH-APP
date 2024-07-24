@@ -17,4 +17,20 @@ class SharedPreferencesService {
     }
     return [];
   }
+  Future<void> saveCurrencyRates(Map<String, double> rates) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('currencyRates', jsonEncode(rates));
+  }
+
+  Future<Map<String, double>> loadCurrencyRates() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? ratesString = prefs.getString('currencyRates');
+
+    if (ratesString != null) {
+      Map<String, dynamic> jsonData = jsonDecode(ratesString);
+      return jsonData.map((key, value) => MapEntry(key, value.toDouble()));
+    }
+
+    return {};
+  }
 }
