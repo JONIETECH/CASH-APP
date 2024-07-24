@@ -7,7 +7,6 @@ import 'package:finance_tracker/features/account_management/account_management.d
 import 'package:finance_tracker/features/auth/presentation/pages/profile_page.dart';
 import 'package:finance_tracker/features/feedback/presentation/pages/reviews.dart';
 import 'package:finance_tracker/features/finance_blog/presentation/pages/blog_page.dart';
-import 'package:finance_tracker/features/notifications_events/presentation/pages/set_page.dart';
 import 'package:finance_tracker/features/budget_management/presentation/pages/track_budgets.dart';
 import 'package:finance_tracker/features/settings/presentation/pages/settings_page.dart';
 import 'package:finance_tracker/features/ai_automation/presentation/pages/ai_page.dart';
