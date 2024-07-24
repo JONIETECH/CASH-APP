@@ -2,13 +2,9 @@ import 'package:finance_tracker/core/env/dotenv_setup.dart';
 import 'package:finance_tracker/features/ai_automation/presentation/bloc/ai_bloc.dart';
 import 'package:finance_tracker/features/finance/presentation/bloc/finance_transaction_bloc.dart';
 import 'package:finance_tracker/features/finance_blog/presentation/bloc/blog_bloc.dart';
-import 'package:finance_tracker/features/notifications_events/presentation/bloc/balance_bloc.dart';
-import 'package:finance_tracker/features/notifications_events/presentation/bloc/event_bloc.dart';
-
 import 'package:finance_tracker/features/security/presentation/bloc/biometric_bloc.dart';
 import 'package:finance_tracker/features/settings/presentation/bloc/reset_bloc.dart';
 import 'package:finance_tracker/features/settings/presentation/bloc/theme_bloc.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:finance_tracker/app.dart';
@@ -47,12 +43,6 @@ void main() async {
       ),
       BlocProvider(
         create: (_) => serviceLocator<ResetBloc>(),
-      ),
-      BlocProvider(
-        create: (_) => serviceLocator<BalanceBloc>(),
-      ),
-      BlocProvider(
-        create: (_) => serviceLocator<EventBloc>(),
       ),
       BlocProvider(
         create: (_) => serviceLocator<AiBloc>(),

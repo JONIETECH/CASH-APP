@@ -9,12 +9,12 @@ import 'package:finance_tracker/features/finance_blog/domain/repositories/blog_r
 import 'package:finance_tracker/features/finance_blog/domain/usecases/get_all_blogs.dart';
 import 'package:finance_tracker/features/finance_blog/domain/usecases/upload_blog.dart';
 import 'package:finance_tracker/features/finance_blog/presentation/bloc/blog_bloc.dart';
-import 'package:finance_tracker/features/notifications_events/data/datasources/balance_local_data_source.dart';
-import 'package:finance_tracker/features/notifications_events/data/datasources/balance_local_data_source_impl.dart';
-import 'package:finance_tracker/features/notifications_events/data/datasources/event_local_data_source.dart';
-import 'package:finance_tracker/features/notifications_events/data/datasources/event_local_data_source_impl.dart';
-import 'package:finance_tracker/features/notifications_events/data/repositories/balance_repository_impl.dart';
-import 'package:finance_tracker/features/notifications_events/domain/repositories/balance_repository.dart';
+import 'package:finance_tracker/features/notifications_events/data/repositories/financial_repository_impl.dart';
+import 'package:finance_tracker/features/notifications_events/domain/repositories/financial_repository.dart';
+import 'package:finance_tracker/features/notifications_events/domain/usecases/check_spending_trend.dart';
+import 'package:finance_tracker/features/notifications_events/domain/usecases/get_category_total.dart';
+import 'package:finance_tracker/features/notifications_events/presentation/providers/financial_provider.dart';
+import 'package:finance_tracker/features/notifications_events/presentation/services/notification_service.dart';
 import 'package:finance_tracker/features/security/domain/usecases/get_biometric_status.dart';
 import 'package:finance_tracker/features/security/domain/usecases/set_biometric_status.dart';
 import 'package:get_it/get_it.dart';
@@ -31,14 +31,6 @@ import 'package:finance_tracker/features/finance/domain/usecases/delete_finance_
 import 'package:finance_tracker/features/finance/domain/usecases/get_finance_transaction.dart';
 import 'package:finance_tracker/features/finance/domain/usecases/update_finance_transaction.dart';
 import 'package:finance_tracker/features/finance/presentation/bloc/finance_transaction_bloc.dart';
-import 'package:finance_tracker/features/notifications_events/data/repositories/event_repository_impl.dart';
-import 'package:finance_tracker/features/notifications_events/domain/repositories/event_repository.dart';
-import 'package:finance_tracker/features/notifications_events/domain/usecases/add_event.dart';
-import 'package:finance_tracker/features/notifications_events/domain/usecases/get_all_events.dart';
-import 'package:finance_tracker/features/notifications_events/domain/usecases/get_balance.dart';
-import 'package:finance_tracker/features/notifications_events/domain/usecases/update_balance.dart';
-import 'package:finance_tracker/features/notifications_events/presentation/bloc/balance_bloc.dart';
-import 'package:finance_tracker/features/notifications_events/presentation/bloc/event_bloc.dart';
 import 'package:finance_tracker/features/security/data/datasources/biometric_local_datasource.dart';
 import 'package:finance_tracker/features/security/data/repositories/biometric_repository_impl.dart';
 import 'package:finance_tracker/features/security/domain/repositories/biometric_repository.dart';
@@ -218,45 +210,33 @@ void _initReset() {
 }
 
 void _initNotifications() {
-  // Data sources
+  // services
   serviceLocator
-    ..registerLazySingleton<EventLocalDataSource>(
-      () => EventLocalDataSourceImpl(sharedPreferences: serviceLocator()),
-    )
-    ..registerLazySingleton<BalanceLocalDataSource>(
-      () => BalanceLocalDataSourceImpl(sharedPreferences: serviceLocator()),
+    .registerLazySingleton<NotificationService>(
+      () => NotificationService( serviceLocator()),
     );
-
   // Repositories
   serviceLocator
-    ..registerLazySingleton<EventRepository>(
-      () => EventRepositoryImpl(localDataSource: serviceLocator()),
-    )
-    ..registerLazySingleton<BalanceRepository>(
-      () => BalanceRepositoryImpl(localDataSource: serviceLocator()),
+    .registerLazySingleton<FinancialRepository>(
+      () => FinancialRepositoryImpl( serviceLocator()),
     );
+
 
   // Use cases
   serviceLocator
-    ..registerLazySingleton(() => GetAllEvents(serviceLocator()))
-    ..registerLazySingleton(() => AddEvent(serviceLocator()))
-    ..registerLazySingleton(() => GetBalance(serviceLocator()))
-    ..registerLazySingleton(() => UpdateBalance(serviceLocator()));
+    ..registerLazySingleton(() => GetCategoryTotal(serviceLocator()))
+    ..registerLazySingleton(() => CheckSpendingTrend(serviceLocator()));
 
-  // BLoCs
+
+  // Providers
   serviceLocator
-    ..registerFactory(
-      () => EventBloc(
-        getAllEvents: serviceLocator(),
-        addEvent: serviceLocator(),
-      ),
-    )
-    ..registerFactory(
-      () => BalanceBloc(
-        getBalance: serviceLocator(),
-        updateBalance: serviceLocator(),
-      ),
-    );
+    .registerFactory(() => FinancialProvider(
+      checkSpendingTrend:serviceLocator(),
+      getCategoryTotal:serviceLocator(),
+      notificationService:serviceLocator(),
+      financialRepository:serviceLocator(),
+      ));
+   
 }
 
 void _initAI() {
