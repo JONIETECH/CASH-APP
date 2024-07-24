@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 class CharityDonationsPage extends StatelessWidget {
   static route() => MaterialPageRoute(builder: (context) => const CharityDonationsPage());
   const CharityDonationsPage({super.key});
-
+  
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -79,8 +79,9 @@ class CharityDonationsPage extends StatelessWidget {
                       ).animate().scale(),
                       const SizedBox(width: 10),
                       ElevatedButton(
-                        onPressed:(){ 
-                          viewModel.saveDonations(context);},
+                        onPressed: () async {
+                          await viewModel.saveDonations(context);
+                        },
                         child: const Text('Save'),
                       ).animate().scale(),
                     ],
