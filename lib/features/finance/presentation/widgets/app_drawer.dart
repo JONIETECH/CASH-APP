@@ -1,3 +1,4 @@
+import 'package:finance_tracker/features/currency_conversion/presentation/pages/currency_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:finance_tracker/features/auth/presentation/bloc/auth_bloc.dart';
@@ -6,7 +7,6 @@ import 'package:finance_tracker/features/account_management/account_management.d
 import 'package:finance_tracker/features/auth/presentation/pages/profile_page.dart';
 import 'package:finance_tracker/features/feedback/presentation/pages/reviews.dart';
 import 'package:finance_tracker/features/finance_blog/presentation/pages/blog_page.dart';
-import 'package:finance_tracker/features/notifications_events/presentation/pages/set_page.dart';
 import 'package:finance_tracker/features/budget_management/presentation/pages/track_budgets.dart';
 import 'package:finance_tracker/features/settings/presentation/pages/settings_page.dart';
 import 'package:finance_tracker/features/ai_automation/presentation/pages/ai_page.dart';
@@ -88,11 +88,18 @@ class AppDrawer extends StatelessWidget {
                     Navigator.push(context, Aipage.route());
                   },
                 ),
+                // ListTile(
+                //   leading: const Icon(Icons.money_off),
+                //   title: const Text('Future Events'),
+                //   onTap: () {
+                //     Navigator.push(context, FinanceOptionsPage.route());
+                //   },
+                // ),
                 ListTile(
-                  leading: const Icon(Icons.money_off),
-                  title: const Text('Future Events'),
+                  leading: const Icon(Icons.attach_money_rounded),
+                  title: const Text('Check Currency'),
                   onTap: () {
-                    Navigator.push(context, FinanceOptionsPage.route());
+                    Navigator.push(context, CurrencyPage.route());
                   },
                 ),
                 ListTile(

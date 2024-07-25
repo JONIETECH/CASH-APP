@@ -4,15 +4,16 @@ class TransactionList extends StatelessWidget {
   final List<Map<String, String>> transactions;
   final Function(int) onTap;
 
-  // ignore: use_super_parameters
-  const TransactionList({Key? key, required this.transactions, required this.onTap}) : super(key: key);
+  const TransactionList(
+      {super.key, required this.transactions, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
+    final reversedTransactions = transactions.reversed.toList();
     return ListView.builder(
-      itemCount: transactions.length,
+      itemCount: reversedTransactions.length,
       itemBuilder: (context, index) {
-        final transaction = transactions[index];
+        final transaction = reversedTransactions[index];
         final isCashOut = transaction['type'] == 'Cash Out';
         final amountColor = isCashOut ? Colors.red : Colors.green;
 
@@ -32,7 +33,8 @@ class TransactionList extends StatelessWidget {
                 transaction['amount']!,
                 style: TextStyle(color: amountColor),
               ),
-              onTap: () => onTap(index), // Call the onTap callback with the index
+              onTap: () =>
+                  onTap(index), // Call the onTap callback with the index
             ),
             const Divider(
               height: 0,

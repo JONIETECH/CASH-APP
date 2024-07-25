@@ -163,6 +163,29 @@ class _DashboardPageState extends State<DashboardPage> {
                   foregroundColor:
                       Theme.of(context).colorScheme.inverseSurface),
               onPressed: () {
+                double amount = double.tryParse(amountController.text) ?? 0;
+                if (type == 'Cash Out' && (amount > totalCashIn || (totalCashOut + amount) > totalCashIn)) {
+                  // Show error dialog
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Error'),
+                        content: const Text('Insufficient funds for this transaction.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                  return;
+                }
+
                 setState(() {
                   if (index == null) {
                     transactions.add({
@@ -270,6 +293,18 @@ class _DashboardPageState extends State<DashboardPage> {
         return _isAscending ? dateA.compareTo(dateB) : dateB.compareTo(dateA);
       });
     });
+  }
+
+  double get totalCashIn {
+    return transactions
+        .where((transaction) => transaction['type'] == 'Cash In')
+        .fold(0, (sum, transaction) => sum + double.parse(transaction['amount']!));
+  }
+
+  double get totalCashOut {
+    return transactions
+        .where((transaction) => transaction['type'] == 'Cash Out')
+        .fold(0, (sum, transaction) => sum + double.parse(transaction['amount']!));
   }
 
   @override
