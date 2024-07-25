@@ -88,13 +88,13 @@ class AppDrawer extends StatelessWidget {
                     Navigator.push(context, Aipage.route());
                   },
                 ),
-                ListTile(
-                  leading: const Icon(Icons.money_off),
-                  title: const Text('Future Events'),
-                  onTap: () {
-                    Navigator.push(context, FinanceOptionsPage.route());
-                  },
-                ),
+                // ListTile(
+                //   leading: const Icon(Icons.money_off),
+                //   title: const Text('Future Events'),
+                //   onTap: () {
+                //     Navigator.push(context, FinanceOptionsPage.route());
+                //   },
+                // ),
                 ListTile(
                   leading: const Icon(Icons.attach_money_rounded),
                   title: const Text('Check Currency'),
