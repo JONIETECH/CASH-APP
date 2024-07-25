@@ -4,6 +4,7 @@ import 'package:finance_tracker/features/finance/presentation/bloc/finance_trans
 import 'package:finance_tracker/features/finance_blog/presentation/bloc/blog_bloc.dart';
 import 'package:finance_tracker/features/notifications_events/presentation/bloc/balance_bloc.dart';
 import 'package:finance_tracker/features/notifications_events/presentation/bloc/event_bloc.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:finance_tracker/features/security/presentation/bloc/biometric_bloc.dart';
 import 'package:finance_tracker/features/settings/presentation/bloc/reset_bloc.dart';
@@ -16,6 +17,8 @@ import 'package:finance_tracker/core/common/cubits/app_user/app_user_cubit.dart'
 import 'package:finance_tracker/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:finance_tracker/init_dependecies.dart';
 import 'package:hive/hive.dart';
+
+
 
 
 

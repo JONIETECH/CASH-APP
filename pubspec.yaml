@@ -56,3 +56,6 @@ flutter:
     - assets/images/logos/
     - .env
     - assets/images/
+
+dependencies:
+  supabase_flutter: ^0.2.8
