@@ -1,12 +1,12 @@
 import 'package:finance_tracker/core/error/failure.dart';
 import 'package:finance_tracker/features/settings/domain/repositories/app_repository.dart';
-import 'package:finance_tracker/features/finance/data/datasources/finance_local_data_source.dart';
+import 'package:finance_tracker/features/finance/data/datasources/transaction_local_data_source.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ResetAppRepositoryImpl implements ResetAppRepository {
   final SharedPreferences sharedPreferences;
-  final FinanceLocalDataSource financeLocalDataSource;
+  final TransactionLocalDataSource financeLocalDataSource;
 
   ResetAppRepositoryImpl(this.sharedPreferences, this.financeLocalDataSource);
 

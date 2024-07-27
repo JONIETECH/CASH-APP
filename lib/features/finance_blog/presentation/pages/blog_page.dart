@@ -1,5 +1,4 @@
 import 'package:finance_tracker/core/common/widgets/loader.dart';
-import 'package:finance_tracker/core/theme/app_pallete.dart';
 import 'package:finance_tracker/core/utils/show_snackbar.dart';
 import 'package:finance_tracker/features/finance/presentation/pages/dashboardpage.dart';
 import 'package:finance_tracker/features/finance_blog/presentation/bloc/blog_bloc.dart';
@@ -59,14 +58,22 @@ class _BlogPageState extends State<BlogPage> {
             return const Loader();
           }
           if (state is BlogsDisplaySuccess) {
-            return ListView.builder(
-                itemCount: state.blogs.length,
-                itemBuilder: (context, index) {
-                  final blog = state.blogs[index];
-                  return BlogCard(
-                    blog: blog,
-                  );
-                });
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.only(bottom: 16.0), // Ensure padding at the bottom
+                    itemCount: state.blogs.length,
+                    itemBuilder: (context, index) {
+                      final blog = state.blogs[index];
+                      return BlogCard(
+                        blog: blog,
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
           }
           return const SizedBox();
         },

@@ -1,16 +1,17 @@
+import 'package:finance_tracker/features/finance/domain/entities/transaction.dart';
+import 'package:finance_tracker/features/finance/presentation/bloc/transaction_bloc.dart';
+import 'package:finance_tracker/features/finance/presentation/bloc/transaction_event.dart';
+import 'package:finance_tracker/features/finance/presentation/bloc/transaction_state.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/options_menu.dart';
 import '../widgets/transaction_list.dart';
 import '../widgets/summary.dart';
-import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 
 class DashboardPage extends StatefulWidget {
-  static route() =>
-      MaterialPageRoute(builder: (context) => const DashboardPage());
+  static route() => MaterialPageRoute(builder: (context) => const DashboardPage());
   const DashboardPage({super.key});
 
   @override
@@ -20,29 +21,12 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   String _filter = 'All';
   String _searchQuery = '';
-  List<Map<String, String>> transactions = [];
   bool _isAscending = true;
 
   @override
   void initState() {
     super.initState();
-    _loadTransactions();
-  }
-
-  Future<void> _saveTransactions() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('transactions', jsonEncode(transactions));
-  }
-
-  Future<void> _loadTransactions() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? transactionsString = prefs.getString('transactions');
-    if (transactionsString != null) {
-      setState(() {
-        transactions = List<Map<String, String>>.from(
-            jsonDecode(transactionsString) as List);
-      });
-    }
+    BlocProvider.of<TransactionBloc>(context).add(GetTransactionsEvent());
   }
 
   void _showOptionsMenu(BuildContext context) {
@@ -55,30 +39,24 @@ class _DashboardPageState extends State<DashboardPage> {
             setState(() {
               _isAscending = value;
             });
-            _sortTransactions();
+            // Sort logic will be added here
           },
         );
       },
     );
   }
 
-  void _showAddTransactionDialog(String type, [int? index]) {
+  void _showAddTransactionDialog(BuildContext context, String type, [Transaction? transaction]) {
     TextEditingController amountController = TextEditingController();
     TextEditingController nameController = TextEditingController();
-    DateTime selectedDate = DateTime.now(); // Initialize with current date
-    TimeOfDay? selectedTime;
+    DateTime selectedDate = DateTime.now();
+    TimeOfDay? selectedTime = TimeOfDay.now();
 
-    if (index != null) {
-      amountController.text = transactions[index]['amount']!;
-      nameController.text = transactions[index]['name']!;
-      selectedDate = DateTime.parse(transactions[index]['date']!);
-      selectedTime = TimeOfDay(
-        hour: int.parse(transactions[index]['time']!.split(':')[0]),
-        minute:
-            int.parse(transactions[index]['time']!.split(':')[1].split(' ')[0]),
-      );
-    } else {
-      selectedTime = TimeOfDay.now();
+    if (transaction != null) {
+      amountController.text = transaction.amount.toString();
+      nameController.text = transaction.name;
+      selectedDate = transaction.date;
+      selectedTime = TimeOfDay.fromDateTime(transaction.date);
     }
 
     showDialog(
@@ -86,13 +64,12 @@ class _DashboardPageState extends State<DashboardPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Theme.of(context).cardColor.withOpacity(0.9),
-          title: Text(index == null ? 'Add $type' : 'Update $type'),
+          title: Text(transaction == null ? 'Add $type' : 'Update $type'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(
-                    20.0, 0.0, 20.0, 8.0), // Add space between the input fields
+                padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 8.0),
                 child: TextField(
                   controller: nameController,
                   decoration: const InputDecoration(
@@ -102,23 +79,21 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(
-                    20.0, 8.0, 20.0, 0.0), // Add space between the input fields
+                padding: const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 0.0),
                 child: TextField(
                   controller: amountController,
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
                     labelText: 'Amount',
-                    contentPadding: EdgeInsets.only(
-                        left: 15.0), // Control the height of the input field
+                    contentPadding: EdgeInsets.only(left: 15.0),
                   ),
                 ),
               ),
               TextButton(
                 style: TextButton.styleFrom(
-                    foregroundColor: Theme.of(context).colorScheme.surface,
-                    backgroundColor:
-                        Theme.of(context).colorScheme.inverseSurface),
+                  foregroundColor: Theme.of(context).colorScheme.surface,
+                  backgroundColor: Theme.of(context).colorScheme.inverseSurface,
+                ),
                 onPressed: () async {
                   final DateTime? picked = await showDatePicker(
                     context: context,
@@ -136,9 +111,9 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
               TextButton(
                 style: TextButton.styleFrom(
-                    foregroundColor: Theme.of(context).colorScheme.surface,
-                    backgroundColor:
-                        Theme.of(context).colorScheme.inverseSurface),
+                  foregroundColor: Theme.of(context).colorScheme.surface,
+                  backgroundColor: Theme.of(context).colorScheme.inverseSurface,
+                ),
                 onPressed: () async {
                   final TimeOfDay? picked = await showTimePicker(
                     context: context,
@@ -157,8 +132,8 @@ class _DashboardPageState extends State<DashboardPage> {
           actions: [
             TextButton(
               style: TextButton.styleFrom(
-                  foregroundColor:
-                      Theme.of(context).colorScheme.inverseSurface),
+                foregroundColor: Theme.of(context).colorScheme.inverseSurface,
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -166,33 +141,31 @@ class _DashboardPageState extends State<DashboardPage> {
             ),
             TextButton(
               style: TextButton.styleFrom(
-                  foregroundColor:
-                      Theme.of(context).colorScheme.inverseSurface),
+                foregroundColor: Theme.of(context).colorScheme.inverseSurface,
+              ),
               onPressed: () {
-                setState(() {
-                  if (index == null) {
-                    transactions.add({
-                      'type': type,
-                      'name': nameController.text,
-                      'amount': amountController.text,
-                      'date': DateFormat('yyyy-MM-dd').format(selectedDate),
-                      'time': selectedTime!.format(context),
-                    });
-                  } else {
-                    transactions[index] = {
-                      'type': type,
-                      'name': nameController.text,
-                      'amount': amountController.text,
-                      'date': DateFormat('yyyy-MM-dd').format(selectedDate),
-                      'time': selectedTime!.format(context),
-                    };
-                  }
-                  _sortTransactions();
-                });
-                _saveTransactions();
+                final newTransaction = Transaction(
+                  id: transaction?.id ?? UniqueKey().toString(),
+                  type: type,
+                  name: nameController.text,
+                  amount: double.parse(amountController.text),
+                  date: DateTime(
+                    selectedDate.year,
+                    selectedDate.month,
+                    selectedDate.day,
+                    selectedTime!.hour,
+                    selectedTime!.minute,
+                  ),
+                  time: selectedTime!.format(context), // Pass the time here
+                );
+                if (transaction == null) {
+                  BlocProvider.of<TransactionBloc>(context).add(AddTransactionEvent(transaction: newTransaction));
+                } else {
+                  BlocProvider.of<TransactionBloc>(context).add(UpdateTransactionEvent(transaction: newTransaction));
+                }
                 Navigator.of(context).pop();
               },
-              child: Text(index == null ? 'Add' : 'Update'),
+              child: Text(transaction == null ? 'Add' : 'Update'),
             ),
           ],
         );
@@ -200,39 +173,33 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  void _showTransactionOptionsDialog(int index) {
+  void _showTransactionOptionsDialog(BuildContext context, Transaction transaction) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Theme.of(context).cardColor,
           title: const Text('Transaction Options'),
-          content: const Text(
-              'Would you like to update or delete this transaction?'),
+          content: const Text('Would you like to update or delete this transaction?'),
           actions: [
             TextButton(
               style: TextButton.styleFrom(
-                  foregroundColor:
-                      Theme.of(context).colorScheme.inverseSurface),
+                foregroundColor: Theme.of(context).colorScheme.inverseSurface,
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
-                _showAddTransactionDialog(transactions[index]['type']!, index);
+                _showAddTransactionDialog(context, transaction.type, transaction);
               },
-              child: const Text(
-                'Update',
-              ),
+              child: const Text('Update'),
             ),
             TextButton(
               style: TextButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.red,
-                  side: BorderSide(
-                      color: Theme.of(context).colorScheme.inverseSurface)),
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.red,
+                side: BorderSide(color: Theme.of(context).colorScheme.inverseSurface),
+              ),
               onPressed: () {
-                setState(() {
-                  transactions.removeAt(index);
-                });
-                _saveTransactions();
+                BlocProvider.of<TransactionBloc>(context).add(DeleteTransactionEvent(transaction: transaction));
                 Navigator.of(context).pop();
               },
               child: const Text('Delete'),
@@ -243,58 +210,30 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  List<Map<String, String>> _filteredTransactions() {
+  List<Transaction> _filteredTransactions(List<Transaction> transactions) {
     DateTime now = DateTime.now();
     return transactions.where((transaction) {
-      DateTime date = DateTime.parse(transaction['date']!);
       bool matchesFilter = true;
 
       if (_filter == 'Daily') {
-        matchesFilter = date.difference(now).inDays == 0;
+        matchesFilter = transaction.date.difference(now).inDays == 0;
       } else if (_filter == 'Weekly') {
-        matchesFilter = date.isAfter(now.subtract(const Duration(days: 7)));
+        matchesFilter = transaction.date.isAfter(now.subtract(const Duration(days: 7)));
       } else if (_filter == 'Monthly') {
-        matchesFilter = date.isAfter(now.subtract(const Duration(days: 30)));
+        matchesFilter = transaction.date.isAfter(now.subtract(const Duration(days: 30)));
       } else if (_filter == 'Yearly') {
-        matchesFilter = date.isAfter(now.subtract(const Duration(days: 365)));
+        matchesFilter = transaction.date.isAfter(now.subtract(const Duration(days: 365)));
       }
       if (_searchQuery.isNotEmpty) {
         matchesFilter = matchesFilter &&
-            transaction['name']!
-                .toLowerCase()
-                .contains(_searchQuery.toLowerCase());
+            transaction.name.toLowerCase().contains(_searchQuery.toLowerCase());
       }
       return matchesFilter;
     }).toList();
   }
 
-  void _sortTransactions() {
-    setState(() {
-      transactions.sort((a, b) {
-        DateTime dateA = DateTime.parse(a['date']!);
-        DateTime dateB = DateTime.parse(b['date']!);
-        return _isAscending ? dateA.compareTo(dateB) : dateB.compareTo(dateA);
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    double totalCashIn = _filteredTransactions()
-        .where((transaction) => transaction['type'] == 'Cash In')
-        .map((transaction) => double.parse(transaction['amount']!))
-        .fold(0, (prev, amount) => prev + amount);
-    double totalCashOut = _filteredTransactions()
-        .where((transaction) => transaction['type'] == 'Cash Out')
-        .map((transaction) => double.parse(transaction['amount']!))
-        .fold(0, (prev, amount) => prev + amount);
-    double balance = totalCashIn - totalCashOut;
-
-    // Determine text color for balance based on its value
-    Color balanceColor = balance >= 0
-        ? Theme.of(context).colorScheme.inverseSurface
-        : Colors.red;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Finance Tracker'),
@@ -306,8 +245,7 @@ class _DashboardPageState extends State<DashboardPage> {
               });
             },
             itemBuilder: (BuildContext context) {
-              return {'All', 'Daily', 'Weekly', 'Monthly', 'Yearly'}
-                  .map((String choice) {
+              return {'All', 'Daily', 'Weekly', 'Monthly', 'Yearly'}.map((String choice) {
                 return PopupMenuItem<String>(
                   value: choice,
                   child: Text(choice),
@@ -317,7 +255,7 @@ class _DashboardPageState extends State<DashboardPage> {
             icon: const Icon(Icons.filter_list),
           ),
           IconButton(
-            icon: const Icon(FontAwesomeIcons.ellipsisVertical),
+            icon: const Icon(Icons.more_vert),
             onPressed: () {
               _showOptionsMenu(context);
             },
@@ -325,72 +263,99 @@ class _DashboardPageState extends State<DashboardPage> {
         ],
       ),
       drawer: const AppDrawer(),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 6.0),
-            child: TextField(
-              onChanged: (value) {
-                setState(() {
-                  _searchQuery = value;
-                });
-              },
-              decoration: InputDecoration(
-                hintText: 'Search transactions...',
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: () {
-                    setState(() {
-                      //_searchQuery = '';
-                    });
-                  },
+      body: BlocBuilder<TransactionBloc, TransactionState>(
+        builder: (context, state) {
+          if (state is TransactionLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is TransactionLoaded) {
+            final transactions = _filteredTransactions(state.transactions);
+
+            double totalCashIn = transactions
+                .where((transaction) => transaction.type == 'Cash In')
+                .map((transaction) => transaction.amount)
+                .fold(0, (prev, amount) => prev + amount);
+            double totalCashOut = transactions
+                .where((transaction) => transaction.type == 'Cash Out')
+                .map((transaction) => transaction.amount)
+                .fold(0, (prev, amount) => prev + amount);
+            double balance = totalCashIn - totalCashOut;
+
+            Color balanceColor = balance >= 0
+                ? Theme.of(context).colorScheme.inverseSurface
+                : Colors.red;
+
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 6.0),
+                  child: TextField(
+                    onChanged: (value) {
+                      setState(() {
+                        _searchQuery = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Search transactions...',
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.search),
+                        onPressed: () {
+                          setState(() {
+                            //_searchQuery = '';
+                          });
+                        },
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: TransactionList(
-              transactions: _filteredTransactions(),
-              onTap: (index) {
-                _showTransactionOptionsDialog(index);
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SummaryWidget(
-              totalCashIn: totalCashIn,
-              totalCashOut: totalCashOut,
-              balance: balance,
-              balanceColor:
-                  balanceColor, // Pass the determined color to SummaryWidget
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () => _showAddTransactionDialog('Cash In'),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(150, 40),
-                  side: const BorderSide(width: 0),
-                  backgroundColor: Colors.green, // Set button color to green
+                Expanded(
+                  child: TransactionList(
+                    transactions: transactions,
+                    onTap: (index) {
+                      _showTransactionOptionsDialog(context, transactions[index]);
+                    },
+                  ),
                 ),
-                child: const Text('Cash In'),
-              ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                onPressed: () => _showAddTransactionDialog('Cash Out'),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(150, 40),
-                  side: const BorderSide(width: 0),
-                  backgroundColor: Colors.red, // Set button color to red
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SummaryWidget(
+                    totalCashIn: totalCashIn,
+                    totalCashOut: totalCashOut,
+                    balance: balance,
+                    balanceColor: balanceColor,
+                  ),
                 ),
-                child: const Text('Cash Out'),
-              ),
-            ],
-          ),
-        ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => _showAddTransactionDialog(context, 'Cash In'),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(150, 40),
+                        side: const BorderSide(width: 0),
+                        backgroundColor: Colors.green,
+                      ),
+                      child: const Text('Cash In'),
+                    ),
+                    const SizedBox(width: 16),
+                    ElevatedButton(
+                      onPressed: () => _showAddTransactionDialog(context, 'Cash Out'),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(150, 40),
+                        side: const BorderSide(width: 0),
+                        backgroundColor: Colors.red,
+                      ),
+                      child: const Text('Cash Out'),
+                    ),
+                  ],
+                ),
+              ],
+            );
+          } else if (state is TransactionError) {
+            return Center(child: Text(state.message));
+          } else {
+            return const Center(child: Text('Failed to load transactions'));
+          }
+        },
       ),
     );
   }

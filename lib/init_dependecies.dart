@@ -1,6 +1,8 @@
 import 'package:finance_tracker/features/ai_automation/data/api_service.dart';
 import 'package:finance_tracker/features/ai_automation/presentation/bloc/ai_bloc.dart';
 import 'package:finance_tracker/features/auth/domain/usecases/user_sign_up.dart';
+import 'package:finance_tracker/features/finance/domain/usecases/manage_transactions.dart';
+import 'package:finance_tracker/features/finance/presentation/bloc/transaction_bloc.dart';
 import 'package:finance_tracker/features/finance_blog/data/datasources/blog_local_datasource.dart';
 import 'package:finance_tracker/features/finance_blog/data/datasources/blog_remote_data_source.dart';
 import 'package:finance_tracker/features/finance_blog/data/repositories/blog_repository_impl.dart';
@@ -22,14 +24,9 @@ import 'package:finance_tracker/core/utils/notification_helper.dart';
 import 'package:finance_tracker/features/auth/domain/usecases/sign_in_with_google.dart';
 import 'package:finance_tracker/features/auth/domain/usecases/sign_up_with_google.dart';
 import 'package:finance_tracker/features/auth/domain/usecases/user_sign_out.dart';
-import 'package:finance_tracker/features/finance/data/datasources/finance_local_data_source.dart';
-import 'package:finance_tracker/features/finance/data/repositories/finance_transaction_repository_impl.dart';
+import 'package:finance_tracker/features/finance/data/datasources/transaction_local_data_source.dart';
+import 'package:finance_tracker/features/finance/data/repositories/transaction_repository_impl.dart';
 import 'package:finance_tracker/features/finance/domain/repositories/finance_transaction_repository.dart';
-import 'package:finance_tracker/features/finance/domain/usecases/add_finance_transaction.dart';
-import 'package:finance_tracker/features/finance/domain/usecases/delete_finance_transaction.dart';
-import 'package:finance_tracker/features/finance/domain/usecases/get_finance_transaction.dart';
-import 'package:finance_tracker/features/finance/domain/usecases/update_finance_transaction.dart';
-import 'package:finance_tracker/features/finance/presentation/bloc/finance_transaction_bloc.dart';
 import 'package:finance_tracker/features/notifications_events/data/repositories/event_repository_impl.dart';
 import 'package:finance_tracker/features/notifications_events/domain/repositories/event_repository.dart';
 import 'package:finance_tracker/features/notifications_events/domain/usecases/add_event.dart';
@@ -175,24 +172,31 @@ void _initTheme() {
 
 void _initFinanceTransactions() {
   serviceLocator
-    ..registerFactory<FinanceLocalDataSource>(
-      () => FinanceLocalDataSourceImpl(serviceLocator()),
-    )
-    ..registerFactory<FinanceTransactionRepository>(
-      () => FinanceTransactionRepositoryImpl(
-        financeLocalDataSource: serviceLocator(),
+  //datasource
+    ..registerFactory<TransactionLocalDataSource>(
+      () => TransactionLocalDataSourceImpl(
+        
+        sharedPreferences:  serviceLocator(),
+      ))
+         
+        
+    
+    ..registerFactory<TransactionRepository>(
+      () =>TransactionRepositoryImpl(
+       localDataSource: serviceLocator(),
       ),
     )
-    ..registerFactory(() => AddFinanceTransaction(serviceLocator()))
-    ..registerFactory(() => DeleteFinanceTransaction(serviceLocator()))
-    ..registerFactory(() => GetFinanceTransactions(serviceLocator()))
-    ..registerFactory(() => UpdateFinanceTransaction(serviceLocator()))
+    //usecases
+    ..registerFactory(() => AddTransaction(serviceLocator()))
+    ..registerFactory(() => DeleteTransaction(serviceLocator()))
+    ..registerFactory(() => GetTransactions(serviceLocator()))
+    ..registerFactory(() => UpdateTransaction(serviceLocator()))
     ..registerFactory(
-      () => FinanceTransactionBloc(
-        getFinanceTransactions: serviceLocator(),
-        addFinanceTransaction: serviceLocator(),
-        updateFinanceTransaction: serviceLocator(),
-        deleteFinanceTransaction: serviceLocator(),
+      () => TransactionBloc(
+        getTransactions: serviceLocator(),
+        addTransaction: serviceLocator(),
+        updateTransaction: serviceLocator(),
+        deleteTransaction: serviceLocator(),
       ),
     );
 }
