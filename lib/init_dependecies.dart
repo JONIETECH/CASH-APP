@@ -1,6 +1,12 @@
 import 'package:finance_tracker/features/ai_automation/data/api_service.dart';
 import 'package:finance_tracker/features/ai_automation/presentation/bloc/ai_bloc.dart';
 import 'package:finance_tracker/features/auth/domain/usecases/user_sign_up.dart';
+import 'package:finance_tracker/features/bill_payment/data/repositories/bill_repository_impl.dart';
+import 'package:finance_tracker/features/bill_payment/domain/usecases/get_all_bills.dart';
+import 'package:finance_tracker/features/bill_payment/domain/usecases/set_bill_reminder.dart';
+import 'package:finance_tracker/features/bill_payment/presentation/blocs/bill_bloc.dart';
+import 'package:finance_tracker/features/bill_payment/presentation/blocs/bill_state.dart';
+import 'package:finance_tracker/features/bill_payment/presentation/pages/bill_main.dart';
 import 'package:finance_tracker/features/finance/domain/usecases/manage_transactions.dart';
 import 'package:finance_tracker/features/finance/presentation/bloc/transaction_bloc.dart';
 import 'package:finance_tracker/features/finance_blog/data/datasources/blog_local_datasource.dart';
@@ -18,6 +24,7 @@ import 'package:finance_tracker/features/notifications_events/data/repositories/
 import 'package:finance_tracker/features/notifications_events/domain/repositories/balance_repository.dart';
 import 'package:finance_tracker/features/security/domain/usecases/get_biometric_status.dart';
 import 'package:finance_tracker/features/security/domain/usecases/set_biometric_status.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';
 import 'package:finance_tracker/core/network/network_connection_checker.dart';
 import 'package:finance_tracker/core/utils/notification_helper.dart';
@@ -73,6 +80,7 @@ Future<void> initDependencies() async {
   _initNotifications();
   _initAI();
   _initBlog();
+  _initBill();
 
   await NotificationHelper.initialize();
 }
@@ -305,4 +313,22 @@ void _initBlog() {
         getAllBlogs: serviceLocator(),
       ),
     );
+}
+
+void _initBill() {
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  // Register the BillRepository
+  serviceLocator.registerLazySingleton(() => BillRepositoryImpl(flutterLocalNotificationsPlugin));
+
+  // Register use cases
+  serviceLocator.registerLazySingleton(() => GetAllBills(serviceLocator<BillRepositoryImpl>()));
+  serviceLocator.registerLazySingleton(() => SetBillReminder(serviceLocator<BillRepositoryImpl>()));
+
+  // Register the BillBloc
+  serviceLocator.registerFactory(() => BillBloc(
+    initialState: BillLoading(),
+    getAllBills: serviceLocator<GetAllBills>(),
+    setBillReminder: serviceLocator<SetBillReminder>(),
+  ));
 }

@@ -1,3 +1,4 @@
+import 'package:finance_tracker/features/bill_payment/presentation/pages/bill_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:finance_tracker/features/auth/presentation/bloc/auth_bloc.dart';
@@ -122,6 +123,13 @@ class AppDrawer extends StatelessWidget {
                   title: const Text('Budget'),
                   onTap: () {
                     Navigator.push(context, TrackBudgets.route());
+                  },
+                ),
+                 ListTile(
+                  leading: const Icon(Icons.schedule),
+                  title: const Text('Bill reminders'),
+                  onTap: () {
+                    Navigator.push(context, BillPage.route());
                   },
                 ),
                 ListTile(

@@ -1,5 +1,6 @@
 import 'package:finance_tracker/core/env/dotenv_setup.dart';
 import 'package:finance_tracker/features/ai_automation/presentation/bloc/ai_bloc.dart';
+import 'package:finance_tracker/features/bill_payment/presentation/blocs/bill_bloc.dart';
 import 'package:finance_tracker/features/finance/presentation/bloc/transaction_bloc.dart';
 import 'package:finance_tracker/features/finance_blog/presentation/bloc/blog_bloc.dart';
 import 'package:finance_tracker/features/notifications_events/presentation/bloc/balance_bloc.dart';
@@ -53,6 +54,9 @@ void main() async {
       ),
       BlocProvider(
         create: (_) => serviceLocator<EventBloc>(),
+      ),
+      BlocProvider(
+        create: (_) => serviceLocator<BillBloc>(),
       ),
       BlocProvider(
         create: (_) => serviceLocator<AiBloc>(),
