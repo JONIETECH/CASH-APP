@@ -40,6 +40,7 @@ dependencies:
   path: ^1.9.0
   hive: ^4.0.0-dev.2
   isar_flutter_libs: ^4.0.0-dev.13
+  onesignal_flutter: ^3.0.0
   #isar: ^4.0.0-dev.14
 
 dev_dependencies:

@@ -1,3 +1,4 @@
+import 'package:finance_tracker/core/services/one_signal.dart';
 import 'package:finance_tracker/features/ai_automation/data/api_service.dart';
 import 'package:finance_tracker/features/ai_automation/presentation/bloc/ai_bloc.dart';
 import 'package:finance_tracker/features/auth/domain/usecases/user_sign_up.dart';
@@ -6,7 +7,6 @@ import 'package:finance_tracker/features/bill_payment/domain/usecases/get_all_bi
 import 'package:finance_tracker/features/bill_payment/domain/usecases/set_bill_reminder.dart';
 import 'package:finance_tracker/features/bill_payment/presentation/blocs/bill_bloc.dart';
 import 'package:finance_tracker/features/bill_payment/presentation/blocs/bill_state.dart';
-import 'package:finance_tracker/features/bill_payment/presentation/pages/bill_main.dart';
 import 'package:finance_tracker/features/finance/domain/usecases/manage_transactions.dart';
 import 'package:finance_tracker/features/finance/presentation/bloc/transaction_bloc.dart';
 import 'package:finance_tracker/features/finance_blog/data/datasources/blog_local_datasource.dart';
@@ -24,6 +24,7 @@ import 'package:finance_tracker/features/notifications_events/data/repositories/
 import 'package:finance_tracker/features/notifications_events/domain/repositories/balance_repository.dart';
 import 'package:finance_tracker/features/security/domain/usecases/get_biometric_status.dart';
 import 'package:finance_tracker/features/security/domain/usecases/set_biometric_status.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';
 import 'package:finance_tracker/core/network/network_connection_checker.dart';
@@ -81,6 +82,7 @@ Future<void> initDependencies() async {
   _initAI();
   _initBlog();
   _initBill();
+  // _initOneSignal();
 
   await NotificationHelper.initialize();
 }
@@ -92,6 +94,12 @@ Future<void> _initCoreDependencies() async {
     anonKey: AppSecrets.supabaseAnonyKey,
   );
   serviceLocator.registerLazySingleton(() => supabase.client);
+  // init onesignal
+  final oneSignalService = OneSignalService();
+  oneSignalService.initialize(dotenv.env['ONESIGNALID']!);
+
+  serviceLocator.registerLazySingleton<OneSignalService>(() => oneSignalService);
+
 
   //hive
   Hive.defaultDirectory = (await getApplicationDocumentsDirectory()).path;
@@ -332,3 +340,17 @@ void _initBill() {
     setBillReminder: serviceLocator<SetBillReminder>(),
   ));
 }
+
+
+
+  // void _initOneSignal() {
+  //   OneSignal.shared.setNotificationReceivedHandler((OSNotification notification) {
+  //     // Handle notification received
+  //     print('Notification received: ${notification.jsonRepresentation()}');
+  //   });
+
+  //   OneSignal.shared.setNotificationOpenedHandler((OSNotificationOpenedResult result) {
+  //     // Handle notification opened
+  //     print('Notification opened: ${result.notification.jsonRepresentation()}');
+  //   });
+  // }

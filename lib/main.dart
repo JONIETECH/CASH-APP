@@ -23,7 +23,10 @@ import 'package:finance_tracker/init_dependecies.dart';
 void main() async {
   await loadEnv();
 
-  WidgetsFlutterBinding.ensureInitialized();
+  
+
+
+  
   
   await initDependencies();
   runApp(MultiBlocProvider(
@@ -68,3 +71,6 @@ void main() async {
     child: const MainApp(),
   ));
 }
+
+  
+
