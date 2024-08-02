@@ -25,7 +25,7 @@ dependencies:
   local_auth: ^2.2.0
   equatable: ^2.0.5
   uuid: ^4.4.2
-  flutter_local_notifications: ^17.2.1+1
+  flutter_local_notifications: ^14.1.5
   timezone: ^0.9.4
   dotenv: ^4.2.0
   flutter_dotenv: ^5.1.0
@@ -40,9 +40,13 @@ dependencies:
   path: ^1.9.0
   hive: ^4.0.0-dev.2
   isar_flutter_libs: ^4.0.0-dev.13
+<<<<<<< HEAD
   flutter_animate: ^4.5.0
   fl_chart: ^0.68.0
   flutter_file_dialog: ^3.0.2
+=======
+  onesignal_flutter: ^3.0.0
+>>>>>>> fbee0da67ae653b074ed14e485041eee1498bcc0
   #isar: ^4.0.0-dev.14
 
 dev_dependencies:

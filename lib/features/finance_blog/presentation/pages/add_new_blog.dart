@@ -144,7 +144,11 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                         "Techology",
                         "Finances",
                         "Savings",
+<<<<<<< HEAD
                         "life"
+=======
+                        "Life",
+>>>>>>> fbee0da67ae653b074ed14e485041eee1498bcc0
                       ]
                               .map(
                                 (e) => Padding(

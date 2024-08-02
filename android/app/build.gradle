@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace = "com.example.finance_tracker"
-    compileSdk = localProperties.getProperty("flutter.compileSdkVersion").toInteger()
+    compileSdk 33
     ndkVersion = localProperties.getProperty("flutter.ndkVersion")
 
     compileOptions {
@@ -50,3 +50,9 @@ android {
 flutter {
     source = "../.."
 }
+
+dependencies {
+    implementation 'com.google.firebase:firebase-messaging:23.0.0'  
+    }
+
+apply plugin: 'com.google.gms.google-services'

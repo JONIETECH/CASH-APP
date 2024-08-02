@@ -1,7 +1,9 @@
+import 'package:finance_tracker/features/finance/domain/entities/transaction.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TransactionList extends StatelessWidget {
-  final List<Map<String, String>> transactions;
+  final List<Transaction> transactions;
   final Function(int) onTap;
 
   const TransactionList(
@@ -13,6 +15,7 @@ class TransactionList extends StatelessWidget {
     return ListView.builder(
       itemCount: reversedTransactions.length,
       itemBuilder: (context, index) {
+<<<<<<< HEAD
         final transaction = reversedTransactions[index];
         final isCashOut = transaction['type'] == 'Cash Out';
         final amountColor = isCashOut ? Colors.red : Colors.green;
@@ -43,6 +46,14 @@ class TransactionList extends StatelessWidget {
               endIndent: 5,
             ),
           ],
+=======
+        final transaction = transactions[index];
+        return ListTile(
+          title: Text(transaction.name),
+          subtitle: Text('${transaction.type} - ${transaction.amount}'),
+          trailing: Text(DateFormat('yyyy-MM-dd').format(transaction.date)),
+          onTap: () => onTap(index),
+>>>>>>> fbee0da67ae653b074ed14e485041eee1498bcc0
         );
       },
     );
