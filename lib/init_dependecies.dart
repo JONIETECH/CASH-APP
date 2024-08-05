@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-import 'package:finance_tracker/core/services/currency_service.dart';
-import 'package:finance_tracker/core/services/shared_preferences_service.dart';
-import 'package:finance_tracker/features/ai_automation/data/api_service.dart';
-import 'package:finance_tracker/features/ai_automation/presentation/bloc/ai_bloc.dart';
-import 'package:finance_tracker/features/auth/domain/usecases/user_sign_up.dart';
-import 'package:finance_tracker/features/currency_conversion/data/repositories/currency_repository_impl.dart';
-import 'package:finance_tracker/features/currency_conversion/domain/repositories/currency_repository.dart';
-import 'package:finance_tracker/features/currency_conversion/domain/usecases/get_currency_rates.dart';
-import 'package:finance_tracker/features/currency_conversion/presentation/bloc/currency_bloc.dart';
-=======
 import 'package:finance_tracker/core/services/one_signal.dart';
 import 'package:finance_tracker/features/ai_automation/data/api_service.dart';
 import 'package:finance_tracker/features/ai_automation/presentation/bloc/ai_bloc.dart';
@@ -20,7 +9,6 @@ import 'package:finance_tracker/features/bill_payment/presentation/blocs/bill_bl
 import 'package:finance_tracker/features/bill_payment/presentation/blocs/bill_state.dart';
 import 'package:finance_tracker/features/finance/domain/usecases/manage_transactions.dart';
 import 'package:finance_tracker/features/finance/presentation/bloc/transaction_bloc.dart';
->>>>>>> fbee0da67ae653b074ed14e485041eee1498bcc0
 import 'package:finance_tracker/features/finance_blog/data/datasources/blog_local_datasource.dart';
 import 'package:finance_tracker/features/finance_blog/data/datasources/blog_remote_data_source.dart';
 import 'package:finance_tracker/features/finance_blog/data/repositories/blog_repository_impl.dart';
@@ -28,12 +16,7 @@ import 'package:finance_tracker/features/finance_blog/domain/repositories/blog_r
 import 'package:finance_tracker/features/finance_blog/domain/usecases/get_all_blogs.dart';
 import 'package:finance_tracker/features/finance_blog/domain/usecases/upload_blog.dart';
 import 'package:finance_tracker/features/finance_blog/presentation/bloc/blog_bloc.dart';
-import 'package:finance_tracker/features/notifications_events/data/repositories/financial_repository_impl.dart';
-import 'package:finance_tracker/features/notifications_events/domain/repositories/financial_repository.dart';
-import 'package:finance_tracker/features/notifications_events/domain/usecases/check_spending_trend.dart';
-import 'package:finance_tracker/features/notifications_events/domain/usecases/get_category_total.dart';
-import 'package:finance_tracker/features/notifications_events/presentation/providers/financial_provider.dart';
-import 'package:finance_tracker/features/notifications_events/presentation/services/notification_service.dart';
+
 import 'package:finance_tracker/features/security/domain/usecases/get_biometric_status.dart';
 import 'package:finance_tracker/features/security/domain/usecases/set_biometric_status.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -47,22 +30,8 @@ import 'package:finance_tracker/features/auth/domain/usecases/user_sign_out.dart
 import 'package:finance_tracker/features/finance/data/datasources/transaction_local_data_source.dart';
 import 'package:finance_tracker/features/finance/data/repositories/transaction_repository_impl.dart';
 import 'package:finance_tracker/features/finance/domain/repositories/finance_transaction_repository.dart';
-<<<<<<< HEAD
-import 'package:finance_tracker/features/finance/domain/usecases/add_finance_transaction.dart';
-import 'package:finance_tracker/features/finance/domain/usecases/delete_finance_transaction.dart';
-import 'package:finance_tracker/features/finance/domain/usecases/get_finance_transaction.dart';
-import 'package:finance_tracker/features/finance/domain/usecases/update_finance_transaction.dart';
-import 'package:finance_tracker/features/finance/presentation/bloc/finance_transaction_bloc.dart';
-=======
-import 'package:finance_tracker/features/notifications_events/data/repositories/event_repository_impl.dart';
-import 'package:finance_tracker/features/notifications_events/domain/repositories/event_repository.dart';
-import 'package:finance_tracker/features/notifications_events/domain/usecases/add_event.dart';
-import 'package:finance_tracker/features/notifications_events/domain/usecases/get_all_events.dart';
-import 'package:finance_tracker/features/notifications_events/domain/usecases/get_balance.dart';
-import 'package:finance_tracker/features/notifications_events/domain/usecases/update_balance.dart';
-import 'package:finance_tracker/features/notifications_events/presentation/bloc/balance_bloc.dart';
-import 'package:finance_tracker/features/notifications_events/presentation/bloc/event_bloc.dart';
->>>>>>> fbee0da67ae653b074ed14e485041eee1498bcc0
+
+
 import 'package:finance_tracker/features/security/data/datasources/biometric_local_datasource.dart';
 import 'package:finance_tracker/features/security/data/repositories/biometric_repository_impl.dart';
 import 'package:finance_tracker/features/security/domain/repositories/biometric_repository.dart';
@@ -98,15 +67,11 @@ Future<void> initDependencies() async {
   _initTheme();
   _initFinanceTransactions();
   _initReset();
-  _initNotifications();
+  // _initNotifications();
   _initAI();
   _initBlog();
-<<<<<<< HEAD
-  _initCurrency();
-=======
   _initBill();
   // _initOneSignal();
->>>>>>> fbee0da67ae653b074ed14e485041eee1498bcc0
 
   await NotificationHelper.initialize();
 }
@@ -147,7 +112,6 @@ Future<void> _initCoreDependencies() async {
   // Shared Preferences
   final sharedPreferences = await SharedPreferences.getInstance();
   serviceLocator.registerLazySingleton(() => sharedPreferences);
-  serviceLocator.registerLazySingleton(() => SharedPreferencesService());
 }
 
 void _initAuth() {
@@ -260,35 +224,47 @@ void _initReset() {
     );
 }
 
-void _initNotifications() {
-  // services
-  serviceLocator
-    .registerLazySingleton<NotificationService>(
-      () => NotificationService( serviceLocator()),
-    );
-  // Repositories
-  serviceLocator
-    .registerLazySingleton<FinancialRepository>(
-      () => FinancialRepositoryImpl( serviceLocator()),
-    );
+// void _initNotifications() {
+//   // Data sources
+//   serviceLocator
+//     ..registerLazySingleton<EventLocalDataSource>(
+//       () => EventLocalDataSourceImpl(sharedPreferences: serviceLocator()),
+//     )
+//     ..registerLazySingleton<BalanceLocalDataSource>(
+//       () => BalanceLocalDataSourceImpl(sharedPreferences: serviceLocator()),
+//     );
 
+//   // Repositories
+//   serviceLocator
+//     ..registerLazySingleton<EventRepository>(
+//       () => EventRepositoryImpl(localDataSource: serviceLocator()),
+//     )
+//     ..registerLazySingleton<BalanceRepository>(
+//       () => BalanceRepositoryImpl(localDataSource: serviceLocator()),
+//     );
 
-  // Use cases
-  serviceLocator
-    ..registerLazySingleton(() => GetCategoryTotal(serviceLocator()))
-    ..registerLazySingleton(() => CheckSpendingTrend(serviceLocator()));
+//   // Use cases
+//   serviceLocator
+//     ..registerLazySingleton(() => GetAllEvents(serviceLocator()))
+//     ..registerLazySingleton(() => AddEvent(serviceLocator()))
+//     ..registerLazySingleton(() => GetBalance(serviceLocator()))
+//     ..registerLazySingleton(() => UpdateBalance(serviceLocator()));
 
-
-  // Providers
-  serviceLocator
-    .registerFactory(() => FinancialProvider(
-      checkSpendingTrend:serviceLocator(),
-      getCategoryTotal:serviceLocator(),
-      notificationService:serviceLocator(),
-      financialRepository:serviceLocator(),
-      ));
-   
-}
+//   // BLoCs
+//   serviceLocator
+//     ..registerFactory(
+//       () => EventBloc(
+//         getAllEvents: serviceLocator(),
+//         addEvent: serviceLocator(),
+//       ),
+//     )
+//     ..registerFactory(
+//       () => BalanceBloc(
+//         getBalance: serviceLocator(),
+//         updateBalance: serviceLocator(),
+//       ),
+//     );
+// }
 
 void _initAI() {
   serviceLocator
@@ -336,24 +312,6 @@ void _initBlog() {
     );
 }
 
-<<<<<<< HEAD
-void _initCurrency() {
-  // Currency Repository
-  serviceLocator.registerFactory<CurrencyRepository>(
-      () => CurrencyRepositoryImpl(serviceLocator()));
-
-  // Currency UseCase
-  serviceLocator.registerFactory(() => GetCurrencyRates(serviceLocator()));
-
-  // Currency Bloc
-  serviceLocator.registerLazySingleton(
-      () => CurrencyBloc(
-         serviceLocator()));
-  // Register CurrencyService
-  serviceLocator.registerLazySingleton<CurrencyService>(() => CurrencyService());
-  
-}
-=======
 void _initBill() {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
@@ -373,16 +331,3 @@ void _initBill() {
 }
 
 
-
-  // void _initOneSignal() {
-  //   OneSignal.shared.setNotificationReceivedHandler((OSNotification notification) {
-  //     // Handle notification received
-  //     print('Notification received: ${notification.jsonRepresentation()}');
-  //   });
-
-  //   OneSignal.shared.setNotificationOpenedHandler((OSNotificationOpenedResult result) {
-  //     // Handle notification opened
-  //     print('Notification opened: ${result.notification.jsonRepresentation()}');
-  //   });
-  // }
->>>>>>> fbee0da67ae653b074ed14e485041eee1498bcc0

@@ -6,38 +6,40 @@ class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
   final Function(int) onTap;
 
-  const TransactionList(
-      {super.key, required this.transactions, required this.onTap});
+  const TransactionList({
+    Key? key,
+    required this.transactions,
+    required this.onTap, required Null Function(dynamic transaction) onTransactionTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final reversedTransactions = transactions.reversed.toList();
+
     return ListView.builder(
       itemCount: reversedTransactions.length,
       itemBuilder: (context, index) {
-<<<<<<< HEAD
         final transaction = reversedTransactions[index];
-        final isCashOut = transaction['type'] == 'Cash Out';
+        final isCashOut = transaction.type == 'Cash Out';
         final amountColor = isCashOut ? Colors.red : Colors.green;
 
         return Column(
           children: [
             ListTile(
-              title: Text(transaction['name']!),
+              title: Text(transaction.name),
               subtitle: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(transaction['date']!),
+                  Text(DateFormat('yyyy-MM-dd').format(transaction.date)),
                   const SizedBox(width: 10),
-                  Text(transaction['time']!),
+                  Text(transaction.time), // Ensure `time` is a String in your Transaction model
                 ],
               ),
               trailing: Text(
-                transaction['amount']!,
+                '\$${transaction.amount.toStringAsFixed(2)}', // Format amount
                 style: TextStyle(color: amountColor),
               ),
-              onTap: () =>
-                  onTap(index), // Call the onTap callback with the index
+              onTap: () => onTap(index), // Call the onTap callback with the index
             ),
             const Divider(
               height: 0,
@@ -46,14 +48,6 @@ class TransactionList extends StatelessWidget {
               endIndent: 5,
             ),
           ],
-=======
-        final transaction = transactions[index];
-        return ListTile(
-          title: Text(transaction.name),
-          subtitle: Text('${transaction.type} - ${transaction.amount}'),
-          trailing: Text(DateFormat('yyyy-MM-dd').format(transaction.date)),
-          onTap: () => onTap(index),
->>>>>>> fbee0da67ae653b074ed14e485041eee1498bcc0
         );
       },
     );

@@ -1,22 +1,14 @@
-<<<<<<< HEAD
-import 'package:finance_tracker/core/services/shared_preferences_service.dart';
-=======
 import 'package:finance_tracker/features/finance/domain/entities/transaction.dart';
 import 'package:finance_tracker/features/finance/presentation/bloc/transaction_bloc.dart';
 import 'package:finance_tracker/features/finance/presentation/bloc/transaction_event.dart';
 import 'package:finance_tracker/features/finance/presentation/bloc/transaction_state.dart';
->>>>>>> fbee0da67ae653b074ed14e485041eee1498bcc0
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/options_menu.dart';
 import '../widgets/transaction_list.dart';
-import '../widgets/summary.dart';
-<<<<<<< HEAD
-import 'package:intl/intl.dart';
-=======
->>>>>>> fbee0da67ae653b074ed14e485041eee1498bcc0
+import '../widgets/summary.dart'; // Make sure this is correct
 
 class DashboardPage extends StatefulWidget {
   static route() => MaterialPageRoute(builder: (context) => const DashboardPage());
@@ -30,26 +22,11 @@ class _DashboardPageState extends State<DashboardPage> {
   String _filter = 'All';
   String _searchQuery = '';
   bool _isAscending = true;
-  final SharedPreferencesService _sharedPreferencesService =
-      SharedPreferencesService();
 
   @override
   void initState() {
     super.initState();
-<<<<<<< HEAD
-    _loadTransactions();
-  }
-
-  Future<void> _saveTransactions() async {
-    await _sharedPreferencesService.saveTransactions(transactions);
-  }
-
-  Future<void> _loadTransactions() async {
-    transactions = await _sharedPreferencesService.loadTransactions();
-    setState(() {});
-=======
     BlocProvider.of<TransactionBloc>(context).add(GetTransactionsEvent());
->>>>>>> fbee0da67ae653b074ed14e485041eee1498bcc0
   }
 
   void _showOptionsMenu(BuildContext context) {
@@ -167,52 +144,6 @@ class _DashboardPageState extends State<DashboardPage> {
                 foregroundColor: Theme.of(context).colorScheme.inverseSurface,
               ),
               onPressed: () {
-<<<<<<< HEAD
-                double amount = double.tryParse(amountController.text) ?? 0;
-                if (type == 'Cash Out' && (amount > totalCashIn || (totalCashOut + amount) > totalCashIn)) {
-                  // Show error dialog
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Error'),
-                        content: const Text('Insufficient funds for this transaction.'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text('OK'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                  return;
-                }
-
-                setState(() {
-                  if (index == null) {
-                    transactions.add({
-                      'type': type,
-                      'name': nameController.text,
-                      'amount': amountController.text,
-                      'date': DateFormat('yyyy-MM-dd').format(selectedDate),
-                      'time': selectedTime!.format(context),
-                    });
-                  } else {
-                    transactions[index] = {
-                      'type': type,
-                      'name': nameController.text,
-                      'amount': amountController.text,
-                      'date': DateFormat('yyyy-MM-dd').format(selectedDate),
-                      'time': selectedTime!.format(context),
-                    };
-                  }
-                  _sortTransactions();
-                });
-                _saveTransactions();
-=======
                 final newTransaction = Transaction(
                   id: transaction?.id ?? UniqueKey().toString(),
                   type: type,
@@ -232,7 +163,6 @@ class _DashboardPageState extends State<DashboardPage> {
                 } else {
                   BlocProvider.of<TransactionBloc>(context).add(UpdateTransactionEvent(transaction: newTransaction));
                 }
->>>>>>> fbee0da67ae653b074ed14e485041eee1498bcc0
                 Navigator.of(context).pop();
               },
               child: Text(transaction == null ? 'Add' : 'Update'),
@@ -302,50 +232,8 @@ class _DashboardPageState extends State<DashboardPage> {
     }).toList();
   }
 
-<<<<<<< HEAD
-  void _sortTransactions() {
-    setState(() {
-      transactions.sort((a, b) {
-        DateTime dateA = DateTime.parse(a['date']!);
-        DateTime dateB = DateTime.parse(b['date']!);
-        return _isAscending ? dateA.compareTo(dateB) : dateB.compareTo(dateA);
-      });
-    });
-  }
-
-  double get totalCashIn {
-    return transactions
-        .where((transaction) => transaction['type'] == 'Cash In')
-        .fold(0, (sum, transaction) => sum + double.parse(transaction['amount']!));
-  }
-
-  double get totalCashOut {
-    return transactions
-        .where((transaction) => transaction['type'] == 'Cash Out')
-        .fold(0, (sum, transaction) => sum + double.parse(transaction['amount']!));
-  }
-
   @override
   Widget build(BuildContext context) {
-    double totalCashIn = _filteredTransactions()
-        .where((transaction) => transaction['type'] == 'Cash In')
-        .map((transaction) => double.parse(transaction['amount']!))
-        .fold(0, (prev, amount) => prev + amount);
-    double totalCashOut = _filteredTransactions()
-        .where((transaction) => transaction['type'] == 'Cash Out')
-        .map((transaction) => double.parse(transaction['amount']!))
-        .fold(0, (prev, amount) => prev + amount);
-    double balance = totalCashIn - totalCashOut;
-
-    // Determine text color for balance based on its value
-    Color balanceColor = balance >= 0 ? Colors.green : Colors.red;
-    Color totalCashOutColor = Colors.red;
-    Color totalCashInColor = Colors.green;
-
-=======
-  @override
-  Widget build(BuildContext context) {
->>>>>>> fbee0da67ae653b074ed14e485041eee1498bcc0
     return Scaffold(
       appBar: AppBar(
         title: const Text('Finance Tracker'),
@@ -399,110 +287,65 @@ class _DashboardPageState extends State<DashboardPage> {
             return Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 6.0),
-                  child: TextField(
-                    onChanged: (value) {
-                      setState(() {
-                        _searchQuery = value;
-                      });
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Search transactions...',
-                      suffixIcon: IconButton(
-                        icon: const Icon(Icons.search),
-                        onPressed: () {
-                          setState(() {
-                            //_searchQuery = '';
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-<<<<<<< HEAD
-              ),
-            ),
-          ),
-          Expanded(
-            child: TransactionList(
-              transactions: _filteredTransactions(),
-              onTap: (index) {
-                _showTransactionOptionsDialog(index);
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SummaryWidget(
-              totalCashIn: totalCashIn,
-              totalCashOut: totalCashOut,
-              balance: balance,
-              balanceColor: balanceColor,
-              totalCashInColor: totalCashInColor,
-              totalCashOutColor: totalCashOutColor,
-              // Pass the determined color to SummaryWidget
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () => _showAddTransactionDialog('Cash In'),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(150, 40),
-                  side: const BorderSide(width: 0),
-                  backgroundColor: Colors.green, // Set button color to green
-=======
-                Expanded(
-                  child: TransactionList(
-                    transactions: transactions,
-                    onTap: (index) {
-                      _showTransactionOptionsDialog(context, transactions[index]);
-                    },
-                  ),
->>>>>>> fbee0da67ae653b074ed14e485041eee1498bcc0
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: SummaryWidget(
                     totalCashIn: totalCashIn,
                     totalCashOut: totalCashOut,
                     balance: balance,
                     balanceColor: balanceColor,
+                    totalCashInColor: Colors.green, // Add this
+                    totalCashOutColor: Colors.red, // Add this
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () => _showAddTransactionDialog(context, 'Cash In'),
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(150, 40),
-                        side: const BorderSide(width: 0),
-                        backgroundColor: Colors.green,
-                      ),
-                      child: const Text('Cash In'),
-                    ),
-                    const SizedBox(width: 16),
-                    ElevatedButton(
-                      onPressed: () => _showAddTransactionDialog(context, 'Cash Out'),
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(150, 40),
-                        side: const BorderSide(width: 0),
-                        backgroundColor: Colors.red,
-                      ),
-                      child: const Text('Cash Out'),
-                    ),
-                  ],
+                Expanded(
+                  child: TransactionList(
+                    transactions: transactions,
+                    onTransactionTap: (transaction) {
+                      _showTransactionOptionsDialog(context, transaction);
+                    }, onTap: (int ) {  },
+                  ),
                 ),
               ],
             );
-          } else if (state is TransactionError) {
-            return Center(child: Text(state.message));
           } else {
             return const Center(child: Text('Failed to load transactions'));
           }
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).colorScheme.inverseSurface,
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (BuildContext context) {
+              return Container(
+                height: 150,
+                color: Theme.of(context).colorScheme.background,
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.arrow_circle_up, color: Colors.green),
+                      title: const Text('Cash In'),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        _showAddTransactionDialog(context, 'Cash In');
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.arrow_circle_down, color: Colors.red),
+                      title: const Text('Cash Out'),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        _showAddTransactionDialog(context, 'Cash Out');
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }

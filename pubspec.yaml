@@ -14,7 +14,7 @@ dependencies:
   fpdart: ^1.1.0
   get_it: ^7.7.0
   google_sign_in: ^6.2.1
-  supabase_flutter: ^2.5.6
+  supabase_flutter: ^2.5.11  # Keep the latest version
   font_awesome_flutter: ^10.1.0
   shared_preferences: ^2.2.3
   intl: ^0.17.0
@@ -40,13 +40,11 @@ dependencies:
   path: ^1.9.0
   hive: ^4.0.0-dev.2
   isar_flutter_libs: ^4.0.0-dev.13
-<<<<<<< HEAD
   flutter_animate: ^4.5.0
   fl_chart: ^0.68.0
   flutter_file_dialog: ^3.0.2
-=======
   onesignal_flutter: ^3.0.0
->>>>>>> fbee0da67ae653b074ed14e485041eee1498bcc0
+
   #isar: ^4.0.0-dev.14
 
 dev_dependencies:
@@ -60,6 +58,3 @@ flutter:
     - assets/images/logos/
     - .env
     - assets/images/
-
-dependencies:
-  supabase_flutter: ^0.2.8

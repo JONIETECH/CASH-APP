@@ -14,6 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddNewBlogPage extends StatefulWidget {
   static route() => MaterialPageRoute(builder: (context) => AddNewBlogPage());
+
   AddNewBlogPage({super.key});
 
   @override
@@ -26,6 +27,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
   final formKey = GlobalKey<FormState>();
   List<String> selectedTopics = [];
   File? image;
+
   void selectImage() async {
     final pickedImage = await pickImage();
     if (pickedImage != null) {
@@ -55,9 +57,9 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
 
   @override
   void dispose() {
-    super.dispose();
     titleController.dispose();
     contentController.dispose();
+    super.dispose();
   }
 
   @override
@@ -88,32 +90,28 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                             borderRadius: BorderRadius.circular(10),
                             child: Image.file(image!),
                           )
-                        : GestureDetector(
-                            onTap: selectImage,
-                            child: DottedBorder(
-                              color: AppPallete.borderColor,
-                              dashPattern: const [10, 4],
-                              radius: const Radius.circular(10),
-                              borderType: BorderType.RRect,
-                              strokeCap: StrokeCap.round,
-                              child: Container(
-                                height: 150,
-                                width: double.infinity,
-                                child: const Column(
-                                  children: [
-                                    Icon(
-                                      Icons.folder_open,
-                                      size: 40,
-                                    ),
-                                    SizedBox(height: 15),
-                                    Text(
-                                      "Select your image",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                        : DottedBorder(
+                            color: AppPallete.borderColor,
+                            dashPattern: const [10, 4],
+                            radius: const Radius.circular(10),
+                            borderType: BorderType.RRect,
+                            strokeCap: StrokeCap.round,
+                            child: Container(
+                              height: 150,
+                              width: double.infinity,
+                              child: const Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.folder_open,
+                                    size: 40,
+                                  ),
+                                  SizedBox(height: 15),
+                                  Text(
+                                    "Select your image",
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -139,46 +137,40 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                     return SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                          children: [
-                        "Business",
-                        "Techology",
-                        "Finances",
-                        "Savings",
-<<<<<<< HEAD
-                        "life"
-=======
-                        "Life",
->>>>>>> fbee0da67ae653b074ed14e485041eee1498bcc0
-                      ]
-                              .map(
-                                (e) => Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        if (selectedTopics.contains(e)) {
-                                          selectedTopics.remove(e);
-                                        } else {
-                                          selectedTopics.add(e);
-                                        }
-                                      });
-                                    },
-                                    child: Chip(
-                                      label: Text(e),
-                                      color: selectedTopics.contains(e)
-                                          ? const WidgetStatePropertyAll(
-                                              AppPallete.gradient3)
-                                          : null,
-                                      side: selectedTopics.contains(e)
-                                          ? null
-                                          : const BorderSide(
-                                              color: AppPallete.borderColor,
-                                            ),
-                                    ),
-                                  ),
-                                ),
-                              )
-                              .toList()),
+                        children: [
+                          "Business",
+                          "Technology",
+                          "Finances",
+                          "Savings",
+                          "Life",
+                        ].map(
+                          (e) => Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (selectedTopics.contains(e)) {
+                                    selectedTopics.remove(e);
+                                  } else {
+                                    selectedTopics.add(e);
+                                  }
+                                });
+                              },
+                              child: Chip(
+                                label: Text(e),
+                                backgroundColor: selectedTopics.contains(e)
+                                    ? AppPallete.gradient3
+                                    : null,
+                                side: selectedTopics.contains(e)
+                                    ? null
+                                    : BorderSide(
+                                        color: AppPallete.borderColor,
+                                      ),
+                              ),
+                            ),
+                          ),
+                        ).toList(),
+                      ),
                     );
                   },
                 ),
@@ -190,7 +182,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                 BlogEditor(
                   controller: contentController,
                   hintText: "Content Description",
-                )
+                ),
               ],
             ),
           ),

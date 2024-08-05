@@ -1,8 +1,8 @@
-<<<<<<< HEAD
+
 import 'package:finance_tracker/features/currency_conversion/presentation/pages/currency_page.dart';
-=======
+
 import 'package:finance_tracker/features/bill_payment/presentation/pages/bill_page.dart';
->>>>>>> fbee0da67ae653b074ed14e485041eee1498bcc0
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:finance_tracker/features/auth/presentation/bloc/auth_bloc.dart';
