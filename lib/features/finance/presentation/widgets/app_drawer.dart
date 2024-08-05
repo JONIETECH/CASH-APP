@@ -1,8 +1,5 @@
-
+// lib/features/bill_reminder/presentation/pages/bill_reminder_page.dart
 import 'package:finance_tracker/features/currency_conversion/presentation/pages/currency_page.dart';
-
-import 'package:finance_tracker/features/bill_payment/presentation/pages/bill_page.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:finance_tracker/features/auth/presentation/bloc/auth_bloc.dart';
@@ -16,6 +13,7 @@ import 'package:finance_tracker/features/settings/presentation/pages/settings_pa
 import 'package:finance_tracker/features/ai_automation/presentation/pages/ai_page.dart';
 import '../pages/about/main_about.dart';
 import 'package:finance_tracker/features/auth/presentation/widgets/logout_confirmation_dialog.dart';
+import 'package:finance_tracker/features/bill_payment/presentation/widgets/bill_reminder_form.dart'; // Add this import
 
 class AppDrawer extends StatelessWidget {
   static route() => MaterialPageRoute(
@@ -92,13 +90,6 @@ class AppDrawer extends StatelessWidget {
                     Navigator.push(context, Aipage.route());
                   },
                 ),
-                // ListTile(
-                //   leading: const Icon(Icons.money_off),
-                //   title: const Text('Future Events'),
-                //   onTap: () {
-                //     Navigator.push(context, FinanceOptionsPage.route());
-                //   },
-                // ),
                 ListTile(
                   leading: const Icon(Icons.attach_money_rounded),
                   title: const Text('Check Currency'),
@@ -118,7 +109,6 @@ class AppDrawer extends StatelessWidget {
                   title: const Text('Accounts'),
                   onTap: () {
                     Navigator.push(context, AccountManagementPage.route());
-                    // Implement accounts
                   },
                 ),
                 ListTile(
@@ -135,13 +125,13 @@ class AppDrawer extends StatelessWidget {
                     Navigator.push(context, TrackBudgets.route());
                   },
                 ),
-                 ListTile(
-                  leading: const Icon(Icons.schedule),
-                  title: const Text('Bill reminders'),
-                  onTap: () {
-                    Navigator.push(context, BillPage.route());
-                  },
-                ),
+               ListTile(
+                leading: const Icon(Icons.schedule),
+                title: const Text('Bill reminders'),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => BillReminderForm()));
+                },
+              ),
                 ListTile(
                   leading: const Icon(Icons.settings),
                   title: const Text('Settings'),

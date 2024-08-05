@@ -1118,7 +1118,7 @@ packages:
     source: hosted
     version: "1.2.0"
   supabase:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: supabase
       sha256: f6d21d0b555aa997d8170afd112407df0aaf44820cbe93b3520e2f7ea3ec0904

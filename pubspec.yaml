@@ -45,6 +45,7 @@ dependencies:
   fl_chart: ^0.68.0
   flutter_file_dialog: ^3.0.2
   onesignal_flutter: ^3.0.0
+  supabase: ^2.2.7
 
   #isar: ^4.0.0-dev.14
 
